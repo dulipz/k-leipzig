@@ -1,0 +1,13 @@
+/* ============================================================
+   Komödie Leipzig — DESIGN SYSTEM ENTRY POINT
+   ------------------------------------------------------------
+   Consumers link THIS one file. It is an import manifest only;
+   every rule lives in a token file below.
+   ============================================================ */
+
+@import "tokens/fonts.css";
+@import "tokens/colors.css";
+@import "tokens/typography.css";
+@import "tokens/spacing.css";
+@import "tokens/effects.css";
+@import "tokens/base.css";

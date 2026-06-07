@@ -1,0 +1,39 @@
+---
+import { dateParts, typLabel, zusatz, type Typ } from '../lib/format';
+
+interface Props {
+  datum: string;
+  uhrzeit: string;
+  status: 'verfuegbar' | 'ausverkauft';
+  ticketUrl?: string;
+  titel: string;
+  untertitel: string;
+  typ: Typ;
+}
+const { datum, uhrzeit, status, ticketUrl, titel, untertitel, typ } = Astro.props;
+const dp = dateParts(datum);
+const badge = typLabel(typ);
+const ausverkauft = status === 'ausverkauft';
+---
+
+<div class="stub">
+  <div class="date">
+    <div class="wd">{dp.wd}</div>
+    <div class="d">{dp.day}</div>
+    <div class="m">{dp.month}</div>
+  </div>
+  <div class="info">
+    <div class="t">{titel} — {untertitel}</div>
+    <div class="meta">
+      <span class={`badge ${ausverkauft ? 'sold' : badge.cls}`}>{ausverkauft ? 'Ausverkauft' : badge.label}</span>
+      <span>{uhrzeit} Uhr · {zusatz(typ)}</span>
+    </div>
+  </div>
+  <div class="stub-cta">
+    {ausverkauft ? (
+      <span class="soldout">Ausverkauft</span>
+    ) : (
+      <a href={ticketUrl ?? '#'} class="btn btn-amber">Tickets</a>
+    )}
+  </div>
+</div>

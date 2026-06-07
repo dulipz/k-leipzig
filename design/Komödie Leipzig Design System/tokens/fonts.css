@@ -1,0 +1,25 @@
+/* ============================================================
+   Komödie Leipzig — Webfonts
+   ------------------------------------------------------------
+   Display : Lo-Type (Louis Oppenheim, 1914) — a warm, characterful
+             German display serif with genuine period heritage. The
+             "playbill" voice: wordmark, show titles, big numerals.
+             SELF-HOSTED from the brand file the client provided.
+             Single weight (Regular 400) — let size, not weight,
+             carry hierarchy; never faux-bold it.
+   Sans    : Bricolage Grotesque — warm functional grotesque for UI,
+             body, labels, buttons. Loaded from Google Fonts (CDN);
+             no brand file was provided for it, CDN delivery is fine.
+   ============================================================ */
+
+/* ---- Display · self-hosted brand font --------------------- */
+@font-face {
+  font-family: "Lo-Type";
+  src: url("../fonts/Lo-Type_Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Sans · CDN ------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12,200;12,300;12,400;12,500;12,600;12,700;12,800;48,400;48,600;48,700;48,800&display=swap');

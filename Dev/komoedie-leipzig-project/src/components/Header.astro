@@ -1,0 +1,62 @@
+---
+interface Props {
+  active?: string;
+}
+const { active } = Astro.props;
+
+const links = [
+  { href: '/#programm', label: 'Programm', key: 'programm' },
+  { href: '/#termine', label: 'Termine & Tickets', key: 'termine' },
+  { href: '/spielplan', label: 'Spielplan', key: 'spielplan' },
+  { href: '/#news', label: 'Aktuelles', key: 'aktuelles' },
+  { href: '/ensemble', label: 'Ensemble', key: 'ensemble' },
+  { href: '/kleine-komoedie', label: 'Kleine Komödie', key: 'venue' },
+];
+---
+
+<div class="util">
+  <div class="container">
+    <a href="#"><span class="tag">☎ Tickets:</span> [Telefon folgt]</a>
+    <a href="/gutscheine">Gutscheine</a>
+    <a href="/newsletter">Newsletter</a>
+  </div>
+</div>
+
+<header class="site">
+  <div class="container bar">
+    <a class="logo" href="/" aria-label="Komödie Leipzig – Startseite">
+      <span class="mark">KOMÖDIE <b>LEIPZIG</b></span>
+      <span class="sub">Kleine Komödie Reuden</span>
+    </a>
+    <nav class="main">
+      {links.map((l) => (
+        <a href={l.href} class={active === l.key ? 'active' : undefined}>{l.label}</a>
+      ))}
+    </nav>
+    <a href="/#termine" class="btn btn-amber" style="flex-shrink:0">Tickets</a>
+    <button class="burger" id="burger" aria-label="Menü" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div id="mnav" class="container">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    var b = document.getElementById('burger');
+    var m = document.getElementById('mnav');
+    if (!b || !m) return;
+    b.addEventListener('click', function () {
+      var open = m.classList.toggle('open');
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    m.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        m.classList.remove('open');
+        b.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>

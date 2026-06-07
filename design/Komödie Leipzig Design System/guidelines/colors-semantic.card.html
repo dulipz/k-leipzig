@@ -1,0 +1,20 @@
+<!-- @dsCard group="Colors" viewport="700x170" name="Semantic Hues" subtitle="Kept warm — applause green, rouge, spotlight, dusk info" -->
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin:0; font-family:var(--font-sans); background:var(--surface-page); padding:var(--space-5); }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-4); }
+  .grp { }
+  .name { font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--text-strong); margin-bottom:6px; }
+  .swrow { display:flex; gap:5px; }
+  .sw { flex:1; height:44px; border-radius:var(--radius-sm); box-shadow:var(--shadow-xs); }
+  .meta { margin-top:5px; font-size:9px; color:var(--ink-500); }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="grp"><div class="name">Applaus · success</div><div class="swrow"><div class="sw" style="background:var(--applause-50)"></div><div class="sw" style="background:var(--applause-500)"></div><div class="sw" style="background:var(--applause-700)"></div></div><div class="meta">50 · 500 #4A7C59 · 700</div></div>
+    <div class="grp"><div class="name">Spotlight · warning</div><div class="swrow"><div class="sw" style="background:var(--spotlight-50)"></div><div class="sw" style="background:var(--spotlight-500)"></div><div class="sw" style="background:var(--spotlight-700)"></div></div><div class="meta">50 · 500 #C98A14 · 700</div></div>
+    <div class="grp"><div class="name">Rouge · danger</div><div class="swrow"><div class="sw" style="background:var(--rouge-50)"></div><div class="sw" style="background:var(--rouge-500)"></div><div class="sw" style="background:var(--rouge-700)"></div></div><div class="meta">50 · 500 #C2412D · 700</div></div>
+    <div class="grp"><div class="name">Dusk · info</div><div class="swrow"><div class="sw" style="background:var(--info-50)"></div><div class="sw" style="background:var(--info-500)"></div><div class="sw" style="background:var(--info-700)"></div></div><div class="meta">50 · 500 #4F648C · 700</div></div>
+  </div>
+</body></html>

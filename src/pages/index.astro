@@ -1,0 +1,237 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProduktionCard from '../components/ProduktionCard.astro';
+import TerminRow from '../components/TerminRow.astro';
+import type { Typ } from '../lib/format';
+
+// --- Programm (Produktionen) ---
+const produktionen = (await getCollection('produktionen')).sort(
+  (a, b) => a.data.reihenfolge - b.data.reihenfolge
+);
+
+// --- Nächste Vorstellungen (Termine + zugehörige Produktion) ---
+const alleTermine = await getCollection('termine');
+
+const aufbereitet = await Promise.all(
+  alleTermine.map(async (t) => {
+    const prod = await getEntry(t.data.produktion);
+    return {
+      id: t.id,
+      datum: t.data.datum,
+      uhrzeit: t.data.uhrzeit,
+      status: t.data.status,
+      ticketUrl: t.data.ticketUrl,
+      titel: prod?.data.titel ?? '',
+      untertitel: prod?.data.untertitel ?? '',
+      typ: (prod?.data.typ ?? 'theater') as Typ,
+      time: new Date(t.data.datum + 'T00:00:00').getTime(),
+    };
+  })
+);
+
+const heute = new Date();
+heute.setHours(0, 0, 0, 0);
+const heuteTime = heute.getTime();
+
+const kommende = aufbereitet
+  .filter((t) => t.time >= heuteTime)
+  .sort((a, b) => a.time - b.time);
+
+// Fallback: falls alle Beispieltermine in der Vergangenheit liegen,
+// zeige die jüngsten – so ist der Block nie leer.
+const naechste = (kommende.length ? kommende : aufbereitet.sort((a, b) => b.time - a.time)).slice(0, 4);
+---
+
+<BaseLayout>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="bulbs reveal d1" style="margin-bottom:28px">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <span class="eyebrow reveal d1">Kleine Komödie Reuden · Eröffnung 13.03.2026</span>
+      <h1 class="reveal d2">Bei uns lachen<br />Sie <em>besser.</em></h1>
+      <p class="lead reveal d3">
+        Aus einer alten Scheune wird ein Theatersaal: komödiantisches Boulevard-Theater,
+        eine gemütliche Theater-Bar und stimmungsvolle Dinnerveranstaltungen —
+        unsere erste feste Spielstätte vor den Toren von Bitterfeld-Wolfen.
+      </p>
+      <div class="cta reveal d3">
+        <a href="/spielplan" class="btn btn-amber">Spielplan ansehen →</a>
+        <a href="/kleine-komoedie" class="btn btn-ghost">Die neue Spielstätte</a>
+      </div>
+      <div class="opening reveal d4">
+        <span>🎭 <b>Eröffnung:</b> Freitag, 13.03.2026</span>
+        <span>📍 <b>Reuden an der Fuhne</b> bei Bitterfeld-Wolfen</span>
+        <span>💺 <b>80–90 Plätze</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÄCHSTE VORSTELLUNGEN -->
+  <section class="block band" id="termine">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Termine &amp; Tickets</div>
+          <h2>Die nächsten Vorstellungen</h2>
+        </div>
+        <a class="more" href="/spielplan">Zum vollständigen Spielplan →</a>
+      </div>
+      <div class="termine">
+        {naechste.map((t) => (
+          <TerminRow
+            datum={t.datum}
+            uhrzeit={t.uhrzeit}
+            status={t.status}
+            ticketUrl={t.ticketUrl}
+            titel={t.titel}
+            untertitel={t.untertitel}
+            typ={t.typ}
+          />
+        ))}
+      </div>
+      <p class="caption">Beispielhafte Darstellung — die echten Termine pflegen Sie später bequem im Backend.</p>
+    </div>
+  </section>
+
+  <!-- PROGRAMM -->
+  <section class="block" id="programm">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Unser Programm</div>
+          <h2>Was bei uns gespielt wird</h2>
+        </div>
+        <a class="more" href="/#programm">Alle Produktionen →</a>
+      </div>
+      <div class="grid">
+        {produktionen.map((p) => (
+          <ProduktionCard
+            id={p.id}
+            titel={p.data.titel}
+            untertitel={p.data.untertitel}
+            typ={p.data.typ}
+            preisAb={p.data.preisAb}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- THEATER VS DINNER -->
+  <section class="block band">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Zwei Arten zu lachen</div>
+          <h2>Theaterabend oder Dinner-Show?</h2>
+        </div>
+      </div>
+      <div class="two">
+        <div class="prod">
+          <span class="pill">Theaterabend</span>
+          <h3>Theater &amp; Theater-Bar</h3>
+          <p>
+            Der klassische Komödienabend in unserem neuen Saal. Vor und nach der Vorstellung
+            sorgt die Theater-Bar der „Kleinen Komödie“ für Ihr leibliches Wohl — von der
+            Bockwurst bis zur Brezel. Einfach Karte sichern und einen vergnügten Abend genießen.
+          </p>
+        </div>
+        <div class="prod">
+          <span class="pill">Dinner-Show</span>
+          <h3>Komödie &amp; 4-Gänge-Menü</h3>
+          <p>
+            Unsere beliebten Dinnerveranstaltungen verbinden Theater mit einem mehrgängigen Menü —
+            ein kompletter Abend aus Genuss und guter Laune. Plätze sind begrenzt; eine frühzeitige
+            Reservierung lohnt sich besonders.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENUE -->
+  <section class="block" id="venue">
+    <div class="container">
+      <div class="venue">
+        <div>
+          <div class="kick">Die Spielstätte</div>
+          <h2>Kleine Komödie Reuden</h2>
+          <p>
+            Mitten auf dem Land, am Stadtrand von Bitterfeld-Wolfen, entsteht aus einer alten
+            Scheune unser eigener kleiner Theatersaal — gemütlich, charmant und ganz nah dran am
+            Geschehen. Hier begrüßen wir Sie ab März 2026 als Gäste unserer ersten festen Bühne.
+          </p>
+          <div class="facts">
+            <div class="fact"><div class="n">80–90</div><div class="l">Zuschauerplätze</div></div>
+            <div class="fact"><div class="n">1</div><div class="l">Theater-Bar</div></div>
+            <div class="fact"><div class="n">~30 km</div><div class="l">von Leipzig</div></div>
+          </div>
+          <a href="/kleine-komoedie" class="btn btn-amber">Anfahrt &amp; Übernachtung →</a>
+        </div>
+        <div class="mapcard">
+          <div class="map">
+            <svg viewBox="0 0 400 230" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <g stroke="rgba(247,236,224,.18)" stroke-width="1" fill="none">
+                <path d="M0 60 L400 40 M0 130 L400 150 M0 200 L400 185 M70 0 L90 230 M200 0 L185 230 M310 0 L330 230" />
+              </g>
+              <circle cx="205" cy="118" r="30" fill="rgba(244,161,77,.18)" />
+              <circle cx="205" cy="104" r="9" fill="#f4a14d" />
+              <path d="M205 95 a9 9 0 0 1 9 9 c0 7 -9 16 -9 16 c0 0 -9 -9 -9 -16 a9 9 0 0 1 9 -9z" fill="#f4a14d" />
+            </svg>
+          </div>
+          <div class="addr">
+            <b>Kleine Komödie Reuden</b><br />
+            <span>Dorfstraße 23 · 06766 Reuden an der Fuhne</span><br />
+            <span>Übernachtung in der Nähe: Pension Harmonie, Bitterfeld-Wolfen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AKTUELLES -->
+  <section class="block band" id="news">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Aktuelles</div>
+          <h2>Neues aus der Komödie</h2>
+        </div>
+        <a class="more" href="/#news">Alle Beiträge →</a>
+      </div>
+      <div class="news">
+        <article class="post">
+          <div class="dt">Januar 2026</div>
+          <h4>Wir bauen eine Bühne!</h4>
+          <p>Einblicke in den Umbau der Scheune zum Theatersaal — Fotos von der Baustelle.</p>
+        </article>
+        <article class="post">
+          <div class="dt">Februar 2026</div>
+          <h4>Der Eröffnungsspielplan steht</h4>
+          <p>Welche Stücke und Dinner-Shows Sie in den ersten Wochen erwarten.</p>
+        </article>
+        <article class="post">
+          <div class="dt">März 2026</div>
+          <h4>Premiere: 13. März</h4>
+          <p>Feiern Sie mit uns die Eröffnung der Kleinen Komödie Reuden.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUTSCHEIN -->
+  <section class="block" id="gutscheine">
+    <div class="container">
+      <div class="strip">
+        <div>
+          <h3>Verschenken Sie Lachen.</h3>
+          <p>Geschenkgutscheine für Theaterabende und Dinner-Shows — das perfekte Geschenk für jeden Anlass.</p>
+        </div>
+        <a href="/gutscheine" class="btn btn-dark">Gutschein kaufen →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

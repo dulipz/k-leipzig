@@ -1,0 +1,67 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Buttons · IconButtons · Badges" subtitle="Pill controls, gold/plum/ghost, and genre tags" -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-page); padding: var(--space-6); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-5); }
+  .lbl { width: 100%; font-size: var(--text-2xs); letter-spacing: var(--tracking-caps); text-transform: uppercase; font-weight: 700; color: var(--ink-400); margin-bottom: var(--space-1); }
+  .stage { background: var(--ink-950); border-radius: var(--radius-lg); padding: var(--space-5); }
+  svg.lucide { width: 18px; height: 18px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { Button, IconButton, Badge } = window.KomDieLeipzigDesignSystem_ce970b;
+  const Ic = ({ n }) => <i data-lucide={n}></i>;
+
+  function Demo() {
+    React.useEffect(() => { window.lucide && window.lucide.createIcons(); });
+    return (
+      <>
+        <div className="row"><span className="lbl">Buttons · light</span>
+          <Button variant="primary">Tickets sichern</Button>
+          <Button variant="secondary">Tisch reservieren</Button>
+          <Button variant="ghost">Mehr erfahren</Button>
+          <Button variant="link" iconRight={<Ic n="chevron-right" />}>Spielplan</Button>
+        </div>
+        <div className="row"><span className="lbl">Sizes & disabled</span>
+          <Button size="sm" variant="primary">Klein</Button>
+          <Button size="md" variant="primary">Mittel</Button>
+          <Button size="lg" variant="primary">Groß</Button>
+          <Button variant="primary" disabled>Ausverkauft</Button>
+        </div>
+        <div className="row stage"><span className="lbl" style={{color:"var(--ink-400)"}}>On stage (dark)</span>
+          <Button variant="primary" iconRight={<Ic n="ticket" />}>Tickets</Button>
+          <Button variant="secondary" tone="stage">Reservieren</Button>
+          <Button variant="ghost" tone="stage">Spielplan</Button>
+          <IconButton label="Menü" variant="stage"><Ic n="menu" /></IconButton>
+          <IconButton label="Konto" variant="stage"><Ic n="user" /></IconButton>
+        </div>
+        <div className="row"><span className="lbl">IconButtons</span>
+          <IconButton label="Suche" variant="solid"><Ic n="search" /></IconButton>
+          <IconButton label="Menü" variant="ghost"><Ic n="menu" /></IconButton>
+          <IconButton label="Teilen" variant="ghost"><Ic n="share-2" /></IconButton>
+          <IconButton label="Schließen" variant="ghost" size="sm"><Ic n="x" /></IconButton>
+        </div>
+        <div className="row"><span className="lbl">Badges · genre tags</span>
+          <Badge variant="gold">Trabi-Komödie</Badge>
+          <Badge variant="plum">Märchen-Komödie</Badge>
+          <Badge variant="outline">Kult-Komödie</Badge>
+          <Badge variant="neutral">Premiere</Badge>
+        </div>
+      </>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

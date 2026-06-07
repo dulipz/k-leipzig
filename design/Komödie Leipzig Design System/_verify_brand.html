@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="styles.css" />
+<style> body { margin:0; font-family: var(--font-sans); } </style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script>
+const FILES = (window.__VERIFY_FILES__ || []);
+async function loadComp(path) {
+  let code = await (await fetch(path)).text();
+  code = code.replace(/import[^;]*;/g, "");                  // drop imports
+  code = code.replace(/export\s+function\s+(\w+)/g, "window.$1 = function $1"); // export -> global
+  const out = Babel.transform(code, { presets: ["react"] }).code;
+  (0, eval)(out);
+}
+window.__renderVerify = async (paths, renderFn) => {
+  const React = window.React;
+  for (const p of paths) { await loadComp(p); }
+  ReactDOM.createRoot(document.getElementById("root")).render(renderFn(React));
+};
+</script>
+<script type="text/babel" data-presets="react">
+  // overwritten per-use via __renderVerify; default brand demo
+  window.addEventListener("load", async () => {
+    await window.__renderVerify(
+      ["components/brand/Monogram.jsx", "components/brand/Wordmark.jsx"],
+      (R) => {
+        const W = window.Wordmark, M = window.Monogram;
+        const cell = (bg, dark, kids) => R.createElement("div", { style: { padding: "40px", display: "flex", flexDirection: "column", gap: "12px", alignItems: "center", justifyContent: "center", background: bg, minHeight: "180px", className: dark ? "kl-stage" : "" }, className: dark ? "kl-stage" : "" }, kids);
+        return R.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr" } },
+          R.createElement("div", { className: "kl-stage", style: { padding: 40, display: "flex", justifyContent: "center", alignItems: "center", minHeight: 200 } }, R.createElement(W, { layout: "stacked", tone: "gold", tagline: true })),
+          R.createElement("div", { style: { padding: 40, display: "flex", justifyContent: "center", alignItems: "center", minHeight: 200, background: "var(--surface-page)" } }, R.createElement(W, { layout: "horizontal", tone: "ink" })),
+          R.createElement("div", { className: "kl-stage", style: { padding: 40, display: "flex", justifyContent: "center", alignItems: "center", minHeight: 200 } }, R.createElement(W, { layout: "wordmark-only", tone: "gold", size: "sm" })),
+          R.createElement("div", { style: { padding: 40, display: "flex", gap: 24, justifyContent: "center", alignItems: "center", minHeight: 200, background: "var(--surface-page)" } },
+            R.createElement(M, { size: 64, tone: "gold" }), R.createElement(M, { size: 64, tone: "ink" }), R.createElement("span", { style: { color: "var(--plum-500)" } }, R.createElement(M, { size: 64, tone: "mono" })))
+        );
+      }
+    );
+  });
+</script>
+</body>
+</html>

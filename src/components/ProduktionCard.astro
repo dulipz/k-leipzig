@@ -1,0 +1,26 @@
+---
+import { typBadge, type Typ } from '../lib/format';
+
+interface Props {
+  id: string;
+  titel: string;
+  untertitel: string;
+  typ: Typ;
+  preisAb: number;
+}
+const { id, titel, untertitel, typ, preisAb } = Astro.props;
+const badge = typBadge(typ);
+---
+
+<article class="card">
+  <div class="poster">
+    <span class="ph-tag">Plakat folgt</span>
+    <span class={`badge ${badge.cls}`}>{badge.label}</span>
+    <h3 set:html={titel} />
+    <span class="sub">{untertitel}</span>
+  </div>
+  <div class="foot">
+    <span class="price">ab {preisAb} €</span>
+    <a href={`/programm/${id}`}>Mehr →</a>
+  </div>
+</article>

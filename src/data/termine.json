@@ -1,0 +1,13 @@
+[
+  { "id": "t-2026-03-13", "produktion": "go-trabi-go",        "datum": "2026-03-13", "uhrzeit": "20:00", "status": "verfuegbar" },
+  { "id": "t-2026-03-14", "produktion": "go-trabi-go",        "datum": "2026-03-14", "uhrzeit": "20:00", "status": "verfuegbar" },
+  { "id": "t-2026-03-21", "produktion": "die-olsenbande-2",   "datum": "2026-03-21", "uhrzeit": "18:30", "status": "verfuegbar" },
+  { "id": "t-2026-03-27", "produktion": "die-feuerzangenbowle","datum": "2026-03-27", "uhrzeit": "20:00", "status": "verfuegbar" },
+  { "id": "t-2026-04-04", "produktion": "hasch-mich",         "datum": "2026-04-04", "uhrzeit": "18:30", "status": "verfuegbar" },
+  { "id": "t-2026-04-10", "produktion": "mit-66-jahren",      "datum": "2026-04-10", "uhrzeit": "20:00", "status": "verfuegbar" },
+  { "id": "t-2026-04-18", "produktion": "die-feuerzangenbowle","datum": "2026-04-18", "uhrzeit": "20:00", "status": "ausverkauft" },
+  { "id": "t-2026-04-25", "produktion": "die-olsenbande-2",   "datum": "2026-04-25", "uhrzeit": "18:30", "status": "verfuegbar" },
+  { "id": "t-2026-05-08", "produktion": "go-trabi-go",        "datum": "2026-05-08", "uhrzeit": "20:00", "status": "verfuegbar" },
+  { "id": "t-2026-05-16", "produktion": "hasch-mich",         "datum": "2026-05-16", "uhrzeit": "18:30", "status": "verfuegbar" },
+  { "id": "t-2026-05-30", "produktion": "mit-66-jahren",      "datum": "2026-05-30", "uhrzeit": "20:00", "status": "verfuegbar" }
+]

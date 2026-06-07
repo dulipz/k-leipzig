@@ -1,0 +1,84 @@
+/* ============================================================
+   Komödie Leipzig — BASE LAYER
+   Light, opinionated resets + a few brand element defaults.
+   Kept minimal so it never fights product code.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  font-weight: var(--fw-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display headings default to the playbill serif (Lo-Type, single weight) */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  line-height: var(--leading-tight);
+  font-weight: var(--fw-regular);
+  margin: 0 0 0.4em;
+  text-wrap: balance;
+}
+h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--text-strong);
+  line-height: var(--leading-snug);
+  font-weight: var(--fw-bold);
+  margin: 0 0 0.5em;
+}
+
+p { margin: 0 0 1em; text-wrap: pretty; }
+
+a {
+  color: var(--text-link);
+  text-decoration-color: color-mix(in srgb, var(--text-link) 40%, transparent);
+  text-underline-offset: 0.15em;
+}
+a:hover { color: var(--gold-600); }
+
+/* Brand utility helpers ------------------------------------- */
+
+/* Eyebrow / kicker — the gold small-caps line above headings */
+.kl-eyebrow {
+  font-family: var(--type-eyebrow-font);
+  font-weight: var(--type-eyebrow-weight);
+  font-size: var(--type-eyebrow-size);
+  letter-spacing: var(--type-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--gold-600);
+}
+
+/* Footlight backdrop — warm glow rising from the lower edge.
+   Drop onto any dark "stage" section. */
+.kl-stage {
+  background:
+    radial-gradient(120% 90% at 50% 118%, var(--glow-gold), transparent 60%),
+    radial-gradient(100% 80% at 15% -10%, var(--glow-plum), transparent 55%),
+    var(--stage-page);
+  color: var(--text-stage-body);
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

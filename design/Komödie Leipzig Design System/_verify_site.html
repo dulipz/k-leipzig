@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  body { margin: 0; background: var(--surface-page); font-family: var(--font-sans); }
+  svg.kl-ic { width: 1.05em; height: 1.05em; display: inline-block; vertical-align: -0.15em; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="ui_kits/website/data.js"></script>
+<script>
+async function loadComp(path) {
+  let code = await (await fetch(path)).text();
+  code = code.replace(/import[^;]*;/g, "");
+  code = code.replace(/export\s+function\s+(\w+)/g, "window.$1 = function $1");
+  (0, eval)(Babel.transform(code, { presets: ["react"] }).code);
+}
+async function loadBabel(path) {
+  let code = await (await fetch(path)).text();
+  (0, eval)(Babel.transform(code, { presets: ["react"] }).code);
+}
+window.addEventListener("load", async () => {
+  for (const p of [
+    "components/brand/Monogram.jsx","components/brand/Wordmark.jsx",
+    "components/core/Badge.jsx","components/core/Button.jsx","components/core/IconButton.jsx",
+    "components/forms/Input.jsx","components/forms/Select.jsx","components/cards/ShowCard.jsx",
+  ]) await loadComp(p);
+  window.KomDieLeipzigDesignSystem_ce970b = {
+    Monogram: window.Monogram, Wordmark: window.Wordmark, Button: window.Button,
+    IconButton: window.IconButton, Badge: window.Badge, Input: window.Input,
+    Select: window.Select, ShowCard: window.ShowCard,
+  };
+  for (const p of [
+    "ui_kits/website/kit.jsx","ui_kits/website/SiteHeader.jsx","ui_kits/website/SiteFooter.jsx",
+    "ui_kits/website/HomeScreen.jsx","ui_kits/website/SpielplanScreen.jsx",
+    "ui_kits/website/ShowDetailScreen.jsx","ui_kits/website/TicketsScreen.jsx",
+  ]) await loadBabel(p);
+  await loadBabel("_verify_app.jsx");
+});
+</script>
+</body>
+</html>

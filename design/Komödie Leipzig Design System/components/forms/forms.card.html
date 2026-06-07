@@ -1,0 +1,44 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Form Fields" subtitle="Input & Select — default, focus, error, on-stage" -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-page); padding: var(--space-6); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+  .stage { background: var(--ink-950); border-radius: var(--radius-lg); padding: var(--space-5); }
+  svg.lucide { width: 18px; height: 18px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { Input, Select } = window.KomDieLeipzigDesignSystem_ce970b;
+  function Demo() {
+    React.useEffect(() => { window.lucide && window.lucide.createIcons(); });
+    return (
+      <div className="grid">
+        <Input label="Name" placeholder="Vor- und Nachname" />
+        <Select label="Vorstellung" options={[
+          { value: "1", label: "Fr · 13.03.2026 · 19:30 Uhr" },
+          { value: "2", label: "Sa · 14.03.2026 · 19:30 Uhr" },
+        ]} />
+        <Input label="E-Mail" type="email" placeholder="ihre@email.de" helper="Für die Reservierungsbestätigung." iconLeft={<i data-lucide="mail" style={{color:"var(--gold-600)"}}></i>} />
+        <Input label="Gäste" defaultValue="0" error="Bitte Anzahl der Gäste angeben." />
+        <div className="stage" style={{gridColumn:"1 / -1", display:"grid", gridTemplateColumns:"1fr 1fr", gap:"var(--space-5)"}}>
+          <Input tone="stage" label="Suche im Spielplan" placeholder="Stück, Genre …" iconLeft={<i data-lucide="search" style={{color:"var(--gold-400)"}}></i>} />
+          <Select tone="stage" label="Anzahl Plätze" options={[{value:"2",label:"2 Plätze"},{value:"4",label:"4 Plätze"},{value:"6",label:"6 Plätze"}]} />
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

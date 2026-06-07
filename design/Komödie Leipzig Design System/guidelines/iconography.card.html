@@ -1,0 +1,30 @@
+<!-- @dsCard group="Brand" viewport="700x190" name="Iconography · Lucide" subtitle="Stroke icons, currentColor — flagged substitution" -->
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin:0; font-family:var(--font-sans); background:var(--surface-page); padding:var(--space-6); color:var(--text-body); }
+  .lbl { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-400); font-weight:700; margin-bottom:14px; }
+  .row { display:flex; flex-wrap:wrap; gap:var(--space-6); }
+  .ic { display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--ink-700); }
+  .ic span { font-size:10px; color:var(--ink-500); }
+  svg.lucide { width:26px; height:26px; }
+  .gold svg { color:var(--gold-600); }
+</style></head>
+<body>
+  <div class="lbl">Lucide · 1.75px stroke · inherits currentColor · the single chevron ▸ is the brand cue</div>
+  <div class="row">
+    <div class="ic gold"><i data-lucide="ticket"></i><span>ticket</span></div>
+    <div class="ic"><i data-lucide="calendar-days"></i><span>calendar</span></div>
+    <div class="ic"><i data-lucide="utensils"></i><span>dinner</span></div>
+    <div class="ic"><i data-lucide="map-pin"></i><span>venue</span></div>
+    <div class="ic"><i data-lucide="users"></i><span>guests</span></div>
+    <div class="ic"><i data-lucide="gift"></i><span>gutschein</span></div>
+    <div class="ic"><i data-lucide="phone"></i><span>kontakt</span></div>
+    <div class="ic"><i data-lucide="clock"></i><span>uhrzeit</span></div>
+    <div class="ic"><i data-lucide="search"></i><span>suche</span></div>
+    <div class="ic"><i data-lucide="menu"></i><span>menu</span></div>
+    <div class="ic gold"><i data-lucide="chevron-right"></i><span>▸ mehr</span></div>
+  </div>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
+</body></html>

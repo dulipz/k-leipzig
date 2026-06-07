@@ -1,0 +1,81 @@
+/* ============================================================
+   Komödie Leipzig — TYPOGRAPHY TOKENS
+   ------------------------------------------------------------
+   Display : "Lo-Type"            — playbill voice, self-hosted brand font
+   Sans    : "Bricolage Grotesque"— warm functional voice (CDN)
+   Type scale is a 1.25 (major third) ramp on a 16px base, with
+   two extra display steps for marquee moments.
+   ============================================================ */
+
+:root {
+  /* ---- Families ------------------------------------------- */
+  --font-display: "Lo-Type", "Iowan Old Style", Georgia, serif;
+  --font-sans:    "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:    var(--font-sans);
+
+  /* ---- Weights -------------------------------------------- */
+  --fw-light:     300;   /* @kind other */
+  --fw-regular:   400;   /* @kind other */
+  --fw-medium:    500;   /* @kind other */
+  --fw-semibold:  600;   /* @kind other */
+  --fw-bold:      700;   /* @kind other */
+  --fw-black:     800;   /* @kind other */
+  --fw-display:   900; /* @kind other */
+
+  /* ---- Font sizes (1.25 ramp) ----------------------------- */
+  --text-2xs:  0.6875rem;  /* 11px — micro labels, legal */
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px — body */
+  --text-lg:   1.125rem;   /* 18px — lead body */
+  --text-xl:   1.375rem;   /* 22px */
+  --text-2xl:  1.75rem;    /* 28px */
+  --text-3xl:  2.25rem;    /* 36px */
+  --text-4xl:  3rem;       /* 48px */
+  --text-5xl:  4rem;       /* 64px */
+  --text-6xl:  5.5rem;     /* 88px — marquee / hero wordmark */
+
+  /* ---- Line heights --------------------------------------- */
+  --leading-tight:   1.05;   /* display headlines */
+  --leading-snug:    1.2;
+  --leading-normal:  1.5;    /* body copy */
+  --leading-relaxed: 1.7;    /* long-form prose */
+
+  /* ---- Letter spacing ------------------------------------- */
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-wider:   0.08em;
+  --tracking-caps:    0.16em;   /* the brand's small-caps eyebrow */
+
+  /* ==========================================================
+     SEMANTIC TYPE ALIASES
+     ========================================================== */
+  /* Marquee — the big theatrical hero line.
+     Lo-Type is single-weight: drive scale with size, not weight. */
+  --type-marquee-font:    var(--font-display);
+  --type-marquee-weight:  var(--fw-regular);
+  --type-marquee-size:    var(--text-6xl);
+  --type-marquee-leading: var(--leading-tight);
+
+  /* Display headings */
+  --type-display-font:    var(--font-display);
+  --type-display-weight:  var(--fw-regular);
+
+  /* Eyebrow / kicker — small caps, gold, wide tracking */
+  --type-eyebrow-font:    var(--font-sans);
+  --type-eyebrow-weight:  var(--fw-bold);
+  --type-eyebrow-size:    var(--text-xs);
+  --type-eyebrow-track:   var(--tracking-caps);
+
+  /* Body */
+  --type-body-font:    var(--font-sans);
+  --type-body-weight:  var(--fw-regular);
+  --type-body-size:    var(--text-base);
+  --type-body-leading: var(--leading-normal);
+
+  /* UI label / button */
+  --type-label-font:   var(--font-sans);
+  --type-label-weight: var(--fw-semibold);
+  --type-label-track:  var(--tracking-wide);
+}
