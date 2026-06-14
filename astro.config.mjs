@@ -13,7 +13,7 @@ import cloudflare from '@astrojs/cloudflare';
  */
 export default defineConfig({
   site: 'https://www.komoedie-leipzig.de',
-  adapter: cloudflare({ platformProxy: { enabled: true } }),
+  adapter: cloudflare({ platformProxy: { enabled: true }, imageService: 'compile' }),
   integrations: [react(), markdoc(), keystatic()],
   vite: {
     resolve: {
