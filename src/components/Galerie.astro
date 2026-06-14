@@ -1,0 +1,107 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  /** Ordner-Slug unter /public/images/galerie/<slug> */
+  slug: string;
+  /** Überschrift der Galerie */
+  titel: string;
+  /** Kurzer Untertitel / Beschreibung */
+  untertitel?: string;
+}
+const { slug, titel, untertitel } = Astro.props;
+
+// Bilder werden zur Build-Zeit aus dem Ordner eingelesen.
+// Je Bild gibt es eine kleine Vorschau (thumb) und eine große Fassung (full).
+const dir = path.join(process.cwd(), 'public', 'images', 'galerie', slug);
+let dateien: string[] = [];
+try {
+  dateien = fs
+    .readdirSync(path.join(dir, 'thumb'))
+    .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
+    .sort();
+} catch {
+  dateien = [];
+}
+
+const bilder = dateien.map((name) => ({
+  thumb: `/images/galerie/${slug}/thumb/${name}`,
+  full: `/images/galerie/${slug}/full/${name}`,
+}));
+---
+
+{bilder.length > 0 && (
+  <div class="galerie">
+    <div class="g-head">
+      <h3 set:html={titel} />
+      {untertitel && <span class="g-sub">{untertitel}</span>}
+    </div>
+    <div class="g-grid">
+      {bilder.map((b, i) => (
+        <button
+          type="button"
+          class="g-item"
+          data-full={b.full}
+          aria-label={`Bild ${i + 1} von ${bilder.length} vergrößern`}
+        >
+          <img src={b.thumb} loading="lazy" decoding="async" alt={`${titel} – Foto ${i + 1}`} />
+        </button>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .galerie { margin-top: 40px; }
+  .galerie:first-child { margin-top: 0; }
+  .g-head { margin-bottom: 18px; }
+  .g-head h3 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.05;
+  }
+  .g-sub {
+    display: block;
+    margin-top: 6px;
+    color: var(--cream-dim);
+    font-size: 15px;
+  }
+  .g-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .g-item {
+    display: block;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: zoom-in;
+    background: var(--wine-deep);
+    aspect-ratio: 3 / 2;
+    box-shadow: 0 10px 26px -16px rgba(0, 0, 0, 0.8);
+  }
+  .g-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: saturate(0.96);
+  }
+  .g-item:hover img,
+  .g-item:focus-visible img {
+    transform: scale(1.06);
+    filter: saturate(1.05);
+  }
+  .g-item:focus-visible {
+    outline: 3px solid var(--amber);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .g-item img { transition: none; }
+  }
+</style>

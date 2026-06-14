@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const ensemble = (await getCollection('ensemble')).sort(
+  (a, b) => (a.data.reihenfolge ?? 99) - (b.data.reihenfolge ?? 99)
+);
+---
+
+<BaseLayout
+  title="Ensemble — Komödie Leipzig"
+  description="Die Schauspielerinnen und Schauspieler der Kleinen Komödie Reuden."
+>
+  <section class="block" id="ensemble">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Wer bei uns spielt</div>
+          <h2>Unser Ensemble</h2>
+        </div>
+      </div>
+
+      {ensemble.length === 0 ? (
+        <p class="caption">Das Ensemble wird bald vorgestellt.</p>
+      ) : (
+        <div class="ens-grid">
+          {ensemble.map((p) => (
+            <article class="ens-card">
+              <div
+                class:list={["ens-foto", { "has-img": p.data.foto }]}
+                style={p.data.foto ? `background-image:url('${p.data.foto}')` : undefined}
+              >
+                {!p.data.foto && <span class="ph-tag">Foto folgt</span>}
+              </div>
+              <div class="ens-body">
+                <h3>{p.data.name}</h3>
+                {p.data.rolle && <span class="ens-rolle">{p.data.rolle}</span>}
+                {p.data.bio && <p class="ens-bio">{p.data.bio}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  .ens-card {
+    background: var(--wine-soft);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .ens-foto {
+    aspect-ratio: 3 / 4;
+    background: var(--wine-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ens-foto.has-img {
+    background-size: cover;
+    background-position: center top;
+  }
+  .ph-tag {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+  .ens-body { padding: 16px 18px 20px; }
+  .ens-body h3 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 1.1;
+  }
+  .ens-rolle {
+    display: block;
+    margin-top: 4px;
+    color: var(--amber);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .ens-bio {
+    margin-top: 10px;
+    color: var(--cream-dim);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+</style>

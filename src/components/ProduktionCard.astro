@@ -10,11 +10,26 @@ interface Props {
 }
 const { id, titel, untertitel, typ, preisAb } = Astro.props;
 const badge = typBadge(typ);
+
+// Plakate je Produktion (Bilder liegen in /public/images/produktionen).
+// Neue Produktion mit Plakat? Einfach hier eine Zeile ergänzen.
+const plakate: Record<string, string> = {
+  'go-trabi-go': '/images/produktionen/gotrabigo.jpg',
+  'die-olsenbande-2': '/images/produktionen/olsenbande2.jpg',
+  'die-feuerzangenbowle': '/images/produktionen/feuerzangenbowle.jpg',
+  'drei-haselnuesse': '/images/produktionen/aschen.jpg',
+  'mit-66-jahren': '/images/produktionen/Mit66Jahren.png',
+  'hasch-mich': '/images/produktionen/haschmich.png',
+};
+const plakat = plakate[id];
 ---
 
 <article class="card">
-  <div class="poster">
-    <span class="ph-tag">Plakat folgt</span>
+  <div
+    class:list={["poster", { "has-img": plakat }]}
+    style={plakat ? `background-image:url('${plakat}')` : undefined}
+  >
+    {!plakat && <span class="ph-tag">Plakat folgt</span>}
     <span class={`badge ${badge.cls}`}>{badge.label}</span>
     <h3 set:html={titel} />
     <span class="sub">{untertitel}</span>
@@ -24,3 +39,19 @@ const badge = typBadge(typ);
     <a href={`/programm/${id}`}>Mehr →</a>
   </div>
 </article>
+
+<style>
+  .poster.has-img {
+    background-size: cover;
+    background-position: center;
+  }
+  .poster.has-img::before {
+    opacity: 1;
+    background: linear-gradient(
+      to top,
+      rgba(28, 8, 20, .92) 0%,
+      rgba(28, 8, 20, .5) 42%,
+      rgba(28, 8, 20, .12) 100%
+    );
+  }
+</style>

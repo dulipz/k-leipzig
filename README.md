@@ -47,8 +47,9 @@ Das Schema steht in `src/content.config.ts`.
 ## Nächste Schritte
 
 1. **Spielplan-, Detail-, Venue- und Rechtsseiten** als eigene Routen ergänzen.
-2. **Keystatic** als Backend aufsetzen (`/keystatic`), damit die Inhaberschaft
-   Produktionen & Termine ohne Code pflegen kann.
+2. ~~**Keystatic** als Backend aufsetzen (`/keystatic`)~~ ✅ **erledigt** –
+   Redaktions-Backend für Produktionen, Termine & Ensemble unter `/keystatic`
+   (lokaler Modus). Siehe `REDAKTION.md`.
 3. **Ticketing** anbinden (Reservix / eveeno / Pretix) → füllt `ticketUrl`.
 4. **Cloudflare-Adapter** (`@astrojs/cloudflare`) ergänzen, sobald ein
    serverseitiger Endpunkt nötig ist (Kontaktformular via Resend).

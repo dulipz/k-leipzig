@@ -10,6 +10,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.6.0"
+    "astro": "^5.7.0",
+    "@astrojs/cloudflare": "^12.6.13",
+    "@astrojs/markdoc": "^0.15.7",
+    "@astrojs/react": "^4.4.0",
+    "@keystatic/astro": "^5.1.0",
+    "@keystatic/core": "^0.5.50",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
   }
 }

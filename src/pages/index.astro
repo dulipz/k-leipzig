@@ -3,6 +3,7 @@ import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProduktionCard from '../components/ProduktionCard.astro';
 import TerminRow from '../components/TerminRow.astro';
+import Galerie from '../components/Galerie.astro';
 import type { Typ } from '../lib/format';
 
 // --- Programm (Produktionen) ---
@@ -41,12 +42,33 @@ const kommende = aufbereitet
 // Fallback: falls alle Beispieltermine in der Vergangenheit liegen,
 // zeige die jüngsten – so ist der Block nie leer.
 const naechste = (kommende.length ? kommende : aufbereitet.sort((a, b) => b.time - a.time)).slice(0, 4);
+
+// --- Hero-Bilder (liegen in /public/images/hero) ---
+const heroBilder = [
+  '/images/hero/hero_01.jpg',
+  '/images/hero/hero_02.jpg',
+  '/images/hero/hero_03.jpg',
+  '/images/hero/hero_04.jpg',
+  '/images/hero/hero_05.jpg',
+  '/images/hero/hero_06.jpg',
+  '/images/hero/hero_07.jpg',
+  '/images/hero/hero_08.jpg',
+];
 ---
 
 <BaseLayout>
   <!-- HERO -->
   <section class="hero">
-    <div class="container">
+    <div class="hero-slideshow" aria-hidden="true">
+      {heroBilder.map((src, i) => (
+        <div
+          class:list={["hero-slide", { "is-active": i === 0 }]}
+          style={`background-image:url('${src}')`}
+        />
+      ))}
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="container hero-content">
       <div class="bulbs reveal d1" style="margin-bottom:28px">
         <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
@@ -117,6 +139,28 @@ const naechste = (kommende.length ? kommende : aufbereitet.sort((a, b) => b.time
           />
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- GALERIE / EINDRÜCKE -->
+  <section class="block band" id="galerie">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Eindrücke</div>
+          <h2>Bilder von der Bühne</h2>
+        </div>
+      </div>
+      <Galerie
+        slug="mit-66-jahren"
+        titel="Mit 66 Jahren"
+        untertitel="Szenenfotos der musikalischen Altenheim-Komödie."
+      />
+      <Galerie
+        slug="go-trabi-go"
+        titel="Go Trabi Go"
+        untertitel="Bilder aus der turbulenten Trabi-Komödie."
+      />
     </div>
   </section>
 
@@ -234,4 +278,94 @@ const naechste = (kommende.length ? kommende : aufbereitet.sort((a, b) => b.time
       </div>
     </div>
   </section>
+  <!-- LIGHTBOX (für alle Galerien) -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Bildansicht">
+    <button class="lb-close" type="button" aria-label="Schließen">×</button>
+    <button class="lb-nav lb-prev" type="button" aria-label="Vorheriges Bild">‹</button>
+    <img class="lb-img" src="" alt="" />
+    <button class="lb-nav lb-next" type="button" aria-label="Nächstes Bild">›</button>
+  </div>
 </BaseLayout>
+
+<style>
+  /* Hero-Diashow: Bilder liegen hinter dem Text */
+  .hero { overflow: hidden; }
+  .hero-slideshow { position: absolute; inset: 0; z-index: 0; }
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.4s ease-in-out;
+    transform: scale(1.05);
+  }
+  .hero-slide.is-active { opacity: 1; }
+  /* Plum-Verlauf, damit die helle Schrift gut lesbar bleibt */
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(44,13,32,.72) 0%, rgba(44,13,32,.55) 45%, rgba(44,13,32,.9) 100%),
+      radial-gradient(120% 80% at 50% 0%, rgba(244,161,77,.12), transparent 60%);
+  }
+  .hero-content { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide { transition: none; transform: none; }
+  }
+
+  /* Lightbox für die Galerien */
+  .lightbox { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; background: rgba(14,4,10,.93); padding: 24px; }
+  .lightbox[hidden] { display: none; }
+  .lb-img { max-width: min(1200px, 94vw); max-height: 88vh; border-radius: 10px; box-shadow: var(--shadow); }
+  .lb-close, .lb-nav { position: absolute; background: rgba(0,0,0,.42); color: var(--cream); border: 1px solid var(--line); cursor: pointer; border-radius: 999px; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s; }
+  .lb-close { top: 18px; right: 18px; width: 46px; height: 46px; font-size: 28px; }
+  .lb-nav { top: 50%; transform: translateY(-50%); width: 54px; height: 54px; font-size: 34px; }
+  .lb-prev { left: 18px; }
+  .lb-next { right: 18px; }
+  .lb-close:hover, .lb-nav:hover { background: var(--amber); color: var(--wine-deep); }
+  @media (max-width: 640px) { .lb-nav { width: 44px; height: 44px; font-size: 28px; } }
+</style>
+
+<script>
+  // Wechselt die Hero-Bilder im Takt durch.
+  const slides = Array.from(document.querySelectorAll('.hero-slide'));
+  if (slides.length > 1) {
+    let i = 0;
+    setInterval(() => {
+      slides[i].classList.remove('is-active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('is-active');
+    }, 5000);
+  }
+
+  // --- Lightbox für die Galerien ---
+  const lb = document.getElementById('lightbox');
+  if (lb) {
+    const lbImg = lb.querySelector('.lb-img');
+    const items = Array.from(document.querySelectorAll('.g-item'));
+    const urls = items.map((el) => el.getAttribute('data-full'));
+    let cur = -1;
+    const show = (n) => {
+      cur = (n + urls.length) % urls.length;
+      lbImg.setAttribute('src', urls[cur]);
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => {
+      lb.hidden = true;
+      lbImg.setAttribute('src', '');
+      document.body.style.overflow = '';
+    };
+    items.forEach((el, i) => el.addEventListener('click', () => show(i)));
+    lb.querySelector('.lb-close').addEventListener('click', close);
+    lb.querySelector('.lb-prev').addEventListener('click', () => show(cur - 1));
+    lb.querySelector('.lb-next').addEventListener('click', () => show(cur + 1));
+    lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(cur - 1);
+      else if (e.key === 'ArrowRight') show(cur + 1);
+    });
+  }
+</script>
