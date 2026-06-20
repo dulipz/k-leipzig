@@ -1,5 +1,7 @@
-name: "Holgerthews"
-rolle: ""
-bio: ""
+name: "Holger Thews"
+rolle: "Schauspieler"
+bio: "Holger Thews wurde in Menden im Sauerland geboren. Nach einem kurzen Medizinstudium zog es Holger zur Bühne. Für seine Schauspielausbildung zog er nach Stuttgart, um sich danach von den gebrauchten Bundesländern zu verabschieden und sein Glück in den frischeren zu suchen. Das gelang ihm auch sogleich in Dresden am Theater Junge Generation, darauffolgend ein paar Jahre freischaffend, in denen er häufig an der Comödie Dresden spielte und schließlich an den Landesbühnen Sachsen in Radebeul und auf der Felsenbühne Rathen, auf der er viele Jahre lang als Old Shatterhand zu sehen war."
 foto: "holgerthews.png"
-reihenfolge: 5
+reihenfolge: 15
+zuSehenIn:
+  - "Die Feuerzangenbowle"

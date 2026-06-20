@@ -26,16 +26,27 @@ const ensemble = (await getCollection('ensemble')).sort(
         <div class="ens-grid">
           {ensemble.map((p) => (
             <article class="ens-card">
-              <div
-                class:list={["ens-foto", { "has-img": p.data.foto }]}
-                style={p.data.foto ? `background-image:url('${p.data.foto}')` : undefined}
-              >
-                {!p.data.foto && <span class="ph-tag">Foto folgt</span>}
+              <div class="ens-left">
+                <div
+                  class:list={["ens-foto", { "has-img": p.data.foto }]}
+                  style={p.data.foto ? `background-image:url('${p.data.foto}')` : undefined}
+                >
+                  {!p.data.foto && <span class="ph-tag">Foto folgt</span>}
+                </div>
+                {p.data.rolle && <div class="ens-rolle">{p.data.rolle}</div>}
               </div>
+
               <div class="ens-body">
                 <h3>{p.data.name}</h3>
-                {p.data.rolle && <span class="ens-rolle">{p.data.rolle}</span>}
                 {p.data.bio && <p class="ens-bio">{p.data.bio}</p>}
+                {p.data.zuSehenIn && p.data.zuSehenIn.length > 0 && (
+                  <div class="ens-shows">
+                    <span class="ens-shows-label">zu sehen in:</span>
+                    <ul>
+                      {p.data.zuSehenIn.map((s) => <li>{s}</li>)}
+                    </ul>
+                  </div>
+                )}
               </div>
             </article>
           ))}
@@ -48,51 +59,78 @@ const ensemble = (await getCollection('ensemble')).sort(
 <style>
   .ens-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 40px;
   }
   .ens-card {
-    background: var(--wine-soft);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 22px;
+    align-items: start;
   }
+
+  /* Linke Spalte: Foto + Rolle darunter */
+  .ens-left { display: flex; flex-direction: column; }
   .ens-foto {
+    width: 100%;
     aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    overflow: hidden;
     background: var(--wine-deep);
+    border: 1px solid var(--line);
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .ens-foto.has-img {
-    background-size: cover;
-    background-position: center top;
-  }
+  .ens-foto.has-img { background-size: cover; background-position: center top; }
   .ph-tag {
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
     color: var(--cream-dim);
   }
-  .ens-body { padding: 16px 18px 20px; }
+  .ens-rolle {
+    margin-top: 10px;
+    white-space: pre-line;
+    color: var(--cream-dim);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  /* Rechte Spalte: Name, Bio, zu sehen in */
   .ens-body h3 {
     font-family: var(--display);
     font-weight: 900;
-    font-size: 22px;
-    line-height: 1.1;
-  }
-  .ens-rolle {
-    display: block;
-    margin-top: 4px;
-    color: var(--amber);
-    font-weight: 700;
-    font-size: 14px;
+    font-size: 27px;
+    line-height: 1.05;
+    margin-bottom: 12px;
   }
   .ens-bio {
-    margin-top: 10px;
     color: var(--cream-dim);
-    font-size: 14.5px;
+    font-size: 15px;
+    line-height: 1.55;
+    white-space: pre-line;
+  }
+  .ens-shows { margin-top: 16px; }
+  .ens-shows-label {
+    display: block;
+    color: var(--amber);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+  }
+  .ens-shows ul { list-style: none; padding: 0; margin: 0; }
+  .ens-shows li {
+    color: var(--cream);
+    font-size: 15px;
     line-height: 1.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    .ens-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .ens-card { grid-template-columns: 120px 1fr; gap: 16px; }
+    .ens-body h3 { font-size: 23px; }
   }
 </style>

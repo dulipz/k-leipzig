@@ -56,7 +56,7 @@ const heroBilder = [
 ];
 ---
 
-<BaseLayout>
+<BaseLayout heroHeader>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-slideshow" aria-hidden="true">
@@ -128,6 +128,7 @@ const heroBilder = [
         </div>
         <a class="more" href="/#programm">Alle Produktionen →</a>
       </div>
+      <div class="swipe-hint">Wischen</div>
       <div class="grid">
         {produktionen.map((p) => (
           <ProduktionCard
@@ -173,6 +174,7 @@ const heroBilder = [
           <h2>Theaterabend oder Dinner-Show?</h2>
         </div>
       </div>
+      <div class="swipe-hint">Wischen</div>
       <div class="two">
         <div class="prod">
           <span class="pill">Theaterabend</span>
@@ -246,6 +248,7 @@ const heroBilder = [
         </div>
         <a class="more" href="/#news">Alle Beiträge →</a>
       </div>
+      <div class="swipe-hint">Wischen</div>
       <div class="news">
         <article class="post">
           <div class="dt">Januar 2026</div>
@@ -300,6 +303,14 @@ const heroBilder = [
     transform: scale(1.05);
   }
   .hero-slide.is-active { opacity: 1; }
+
+  /* Mobil: Hero-Bild weniger gezoomt und mittig ausgerichtet */
+  @media (max-width: 680px) {
+    .hero-slide {
+      transform: none;
+      background-position: center center;
+    }
+  }
   /* Plum-Verlauf, damit die helle Schrift gut lesbar bleibt */
   .hero-overlay {
     position: absolute; inset: 0;
@@ -328,6 +339,11 @@ const heroBilder = [
 
 <script>
   // Wechselt die Hero-Bilder im Takt durch.
+  // Navigation wird beim Scrollen fest/undurchsichtig.
+  const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 30);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   const slides = Array.from(document.querySelectorAll('.hero-slide'));
   if (slides.length > 1) {
     let i = 0;

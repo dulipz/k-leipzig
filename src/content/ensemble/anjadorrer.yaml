@@ -1,5 +1,7 @@
-name: "Anjadorrer"
-rolle: ""
-bio: ""
+name: "Anja Dorrer"
+rolle: "Schauspielerin"
+bio: "studierte in Graz Schauspiel. Nach dem Studium zog es Anja nach Deutschland, wo sie in zahlreichen Theaterstücken auf Tournee zu sehen war. 2017 heuerte sie als Schauspielerin auf der „Mein Schiff“ Flotte an. Seit 2020 arbeitet sie erfolgreich als Synchronschauspielerin und Sprecherin in Berlin."
 foto: "anjadorrer.jpg"
-reihenfolge: 2
+reihenfolge: 5
+zuSehenIn:
+  - "Eine Weihnachtsgeschichte"

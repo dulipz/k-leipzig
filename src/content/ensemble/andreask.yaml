@@ -1,5 +1,8 @@
-name: "Andreask"
-rolle: ""
-bio: ""
+name: "Andreas Klein"
+rolle: "Schauspieler"
+bio: "studierte an der Schauspielschule Lübeck. Sein erstes Engagement hatte er in Kiel. Weitere Stationen waren Bielefeld, Essen, Hannover und Hamburg. Seit 1992 ist er freischaffend u.a. für das Eurostudio Landgraf tätig.\nIm Fernsehen arbeitete er u.a. mit Istvan Szabo, Dieter Wedel und Monika Zinnenberg. In der Jugendserie „Neues vom Süderhof“ spielte er die Hauptrolle des Vaters, Dr. Günther Brendel.\nAndreas lebt in Berlin."
 foto: "andreask.jpg"
-reihenfolge: 1
+reihenfolge: 10
+zuSehenIn:
+  - "Eine Weihnachtsgeschichte"
+  - "Mit 66 Jahren"

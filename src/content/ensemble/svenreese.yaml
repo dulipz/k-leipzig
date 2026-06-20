@@ -1,5 +1,7 @@
-name: "Svenreese"
-rolle: ""
-bio: ""
+name: "Sven Reese"
+rolle: "Schauspieler"
+bio: "wurde 1976 in Stendal geboren. Er studierte Schauspiel an der Hochschule für Musik und Theater in Hamburg. Festes Ensemblemitglied war er an den Freien Kammerspielen Magdeburg und an den Westfälischen Kammerspielen Paderborn. Von 2006 bis 2020 spielte er am Theater der Jungen Welt in Leipzig."
 foto: "svenreese.jpg"
-reihenfolge: 17
+reihenfolge: 16
+zuSehenIn:
+  - "Die Feuerzangenbowle"

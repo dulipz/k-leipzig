@@ -1,5 +1,7 @@
-name: "Lutz"
-rolle: ""
-bio: ""
+name: "Lutz Leyh"
+rolle: "Schauspieler"
+bio: "absolvierte sein Schauspielstudium an der HFF Potsdam-Babelsberg. Er wirkte in mehreren DEFA Filmen mit. Lutz Leyh war festes Ensemblemitglied am Mecklenburgischen Landestheater Parchim und dem Volkstheater Rostock. Seit 2010 ist er freiberuflich. Er spielte bei Stage Entertainment „Hinterm Horizont“, dem Poetenpack Potsdam, den Rosenberg Festspielen Kronach und erarbeitete eigene Inszenierungen. Lutz lebt mit seiner Familie bei Parchim."
 foto: "lutz.jpg"
 reihenfolge: 11
+zuSehenIn:
+  - "Die Feuerzangenbowle"

@@ -1,5 +1,11 @@
-name: "Irene"
-rolle: ""
-bio: ""
+name: "Irene Holzfurtner"
+rolle: "Geschäftsführerin\nSchauspielerin"
+bio: "studierte an der Schule der darstellenden Künste Berlin. Ihr erstes Engagement hatte sie am Stadttheater Zwickau. Danach spielte sie an mehreren Berliner Bühnen u.a. an der Volksbühne. Nach mehrjähriger Tourneetätigkeit in Deutschland, Österreich und der Schweiz ist sie freischaffend im Bereich Bühne, Film und Fernsehen."
 foto: "irene.jpg"
-reihenfolge: 7
+reihenfolge: 1
+zuSehenIn:
+  - "Drei Haselnüsse für Aschenbrödel"
+  - "Die Olsenbande 2"
+  - "Go Trabi Go"
+  - "Mit 66 Jahren"
+  - "Hasch mich, ich bin der Mörder"

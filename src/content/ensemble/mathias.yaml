@@ -1,5 +1,11 @@
-name: "Mathias"
-rolle: ""
-bio: ""
+name: "Mathias Engel"
+rolle: "Geschäftsführer\nSchauspieler"
+bio: "studierte an der Theaterhochschule „Hans Otto“ in Leipzig. Nach seinem Studium folgten Engagements am „neuen theater“ Halle und dem Theater Altenburg/Gera. Seit 2002 ist Mathias Engel freischaffend für Bühne, Film und Fernsehen tätig. Von 2009 – 2013 spielte er bei den Karl-May-Spielen in Bad Segeberg. Im Sommer 2014 war er bei den Störtebeker Festspielen auf Rügen in Ralswiek zu sehen."
 foto: "mathias.jpg"
-reihenfolge: 13
+reihenfolge: 2
+zuSehenIn:
+  - "Drei Haselnüsse für Aschenbrödel"
+  - "Die Olsenbande 2"
+  - "Go Trabi Go"
+  - "Mit 66 Jahren"
+  - "Hasch mich, ich bin der Mörder"

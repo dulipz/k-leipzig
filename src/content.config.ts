@@ -72,6 +72,7 @@ const ensemble = defineCollection({
         !v ? v : v.startsWith('/') || v.startsWith('http') ? v : `/images/ensemble/${v}`
       ),
     reihenfolge: z.number().default(99),
+    zuSehenIn: z.array(z.string()).default([]),
   }),
 });
 

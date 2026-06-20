@@ -37,6 +37,7 @@ const bilder = dateien.map((name) => ({
       <h3 set:html={titel} />
       {untertitel && <span class="g-sub">{untertitel}</span>}
     </div>
+    <div class="swipe-hint">Wischen</div>
     <div class="g-grid">
       {bilder.map((b, i) => (
         <button
@@ -103,5 +104,23 @@ const bilder = dateien.map((name) => ({
   }
   @media (prefers-reduced-motion: reduce) {
     .g-item img { transition: none; }
+  }
+
+  /* Mobil: Galerie als wischbares Karussell statt vieler gestapelter Bilder */
+  @media (max-width: 680px) {
+    .g-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .g-grid::-webkit-scrollbar { display: none; }
+    .g-item {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+    }
   }
 </style>

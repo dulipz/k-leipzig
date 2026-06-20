@@ -71,6 +71,14 @@ export default config({
           description: 'Kleinere Zahl = weiter vorne.',
           defaultValue: 99,
         }),
+        zuSehenIn: fields.array(
+          fields.text({ label: 'Produktion' }),
+          {
+            label: 'Zu sehen in',
+            description: 'Stücke, in denen die Person zu sehen ist.',
+            itemLabel: (props) => props.value || 'Produktion',
+          }
+        ),
       },
     }),
   },

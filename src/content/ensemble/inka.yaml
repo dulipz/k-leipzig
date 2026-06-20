@@ -1,5 +1,7 @@
-name: "Inka"
-rolle: ""
-bio: ""
+name: "Inka Pabst"
+rolle: "Schauspielerin"
+bio: "absolvierte ihre Schauspielausbildung am Europäischen Theaterinstitut Berlin und ist seitdem freiberuflich als Schauspielerin tätig. Erste Auftritte führten sie u.a. an die Volksbühne Berlin und das Hebbel Theater. Mit zahlreichen Theaterproduktionen sowie eigenen (Musik-)Projekten gastiert sie deutschlandweit.\nwww.inkapabst.de\nwww.ladypeppi.de"
 foto: "inka.jpg"
-reihenfolge: 6
+reihenfolge: 12
+zuSehenIn:
+  - "Die Feuerzangenbowle"

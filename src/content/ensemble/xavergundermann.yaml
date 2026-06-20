@@ -1,5 +1,7 @@
-name: "Xavergundermann"
-rolle: ""
-bio: ""
+name: "Xaver Gundermann"
+rolle: "Schauspieler"
+bio: "Der im Jahr 2000, in Starnberg, geborene Schauspieler, studierte an der Filmschauspielschule Berlin, wo er 2022 seinen Abschluss machte. Seine ersten professionellen Schritte machte er an einem Kinder- und Jugend-Theater in Berlin. Zuletzt zu sehen, war er in „Casanova - Sinnlichkeit und Sehnsucht“ auf dem Theaterkahn Dresden, unter der Regie von Peter Wekwerth. Seit 2025 ist er Teil der Komödie Leipzig."
 foto: "xavergundermann.png"
-reihenfolge: 20
+reihenfolge: 18
+zuSehenIn:
+  - "Drei Haselnüsse für Aschenbrödel"

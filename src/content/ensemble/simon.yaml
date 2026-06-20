@@ -1,5 +1,7 @@
-name: "Simon"
-rolle: ""
-bio: ""
+name: "Simon van Parys"
+rolle: "Schauspieler"
+bio: "studierte als belgischer Niederländer in Leipzig Schauspiel. Nach dem Erstengagement am Thalia Theater Halle, arbeitete er als freier Schauspieler, Regisseur, Autor, Musiker, Kabarettist und Theaterleiter in Deutschland, Österreich und der Schweiz. Mit dem Kabaretttrio „Herbert, Horst und Heinz“ gewann er verschiedene Kabarett-Preise.\nZur Zeit ist er in vielerlei Funktion in Produktionen des freien Theaters „Schaustelle“ in Halle tätig, singt in einer Rock'n'Roll-Band und tritt mit selbstvertonten Sonetten von William Shakespeare auf.\nwww.van-parys.de"
 foto: "simon.jpg"
-reihenfolge: 16
+reihenfolge: 13
+zuSehenIn:
+  - "Eine Weihnachtsgeschichte"

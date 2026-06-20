@@ -6,11 +6,14 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  /** Transparente Navigation über einem Vollbild-Hero (nur Startseite). */
+  heroHeader?: boolean;
 }
 
 const {
   title = 'Komödie Leipzig — Kleine Komödie Reuden',
   description = 'Komödiantisches Theater und Dinner-Shows in der Kleinen Komödie Reuden bei Bitterfeld-Wolfen. Bei uns lachen Sie besser. Eröffnung 13.03.2026.',
+  heroHeader = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -57,7 +60,7 @@ const jsonLd = {
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
   </head>
-  <body>
+  <body class:list={[{ "has-hero": heroHeader }]}>
     <div class="wrap">
       <Header />
       <main>

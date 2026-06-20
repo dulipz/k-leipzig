@@ -1,5 +1,7 @@
-name: "Wolfgang"
-rolle: ""
-bio: ""
+name: "Wolfgang Boos"
+rolle: "Schauspieler"
+bio: "wurde 1975 in Baden-Baden geboren und absolvierte seine Schauspielausbildung an der Fritz-Kirchhoff-Schule „Der Kreis“ in Berlin.\nEs folgten Engagements unter anderem am Staatstheater Mainz, am neuen theater schauspiel halle unter Peter Sodann, sowie in Erfurt, Eltville, Hannover und am Theater Junge Generation in Dresden.\nSeit 2008 ist Wolfgang Boos als freier Schauspieler tätig.\nNeben seiner Theaterarbeit hat Wolfgang Boos in zahlreichen Film- und Fernsehproduktionen mitgewirkt."
 foto: "wolfgang.jpg"
-reihenfolge: 19
+reihenfolge: 3
+zuSehenIn:
+  - "Die Olsenbande 2"
