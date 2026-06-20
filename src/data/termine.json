@@ -2,78 +2,85 @@
   "termine": [
     {
       "produktion": "go-trabi-go",
-      "datum": "2026-03-13",
+      "datum": "2026-07-03",
       "uhrzeit": "20:00",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "go-trabi-go",
-      "datum": "2026-03-14",
+      "datum": "2026-07-04",
       "uhrzeit": "20:00",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "die-olsenbande-2",
-      "datum": "2026-03-21",
+      "datum": "2026-07-11",
       "uhrzeit": "18:30",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "die-feuerzangenbowle",
-      "datum": "2026-03-27",
+      "datum": "2026-07-18",
       "uhrzeit": "20:00",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "hasch-mich",
-      "datum": "2026-04-04",
+      "datum": "2026-08-01",
       "uhrzeit": "18:30",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "mit-66-jahren",
-      "datum": "2026-04-10",
+      "datum": "2026-08-14",
       "uhrzeit": "20:00",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "die-feuerzangenbowle",
-      "datum": "2026-04-18",
+      "datum": "2026-08-22",
       "uhrzeit": "20:00",
       "status": "ausverkauft",
       "ticketUrl": null
     },
     {
       "produktion": "die-olsenbande-2",
-      "datum": "2026-04-25",
+      "datum": "2026-09-05",
       "uhrzeit": "18:30",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "go-trabi-go",
-      "datum": "2026-05-08",
+      "datum": "2026-09-19",
       "uhrzeit": "20:00",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "hasch-mich",
-      "datum": "2026-05-16",
+      "datum": "2026-10-03",
       "uhrzeit": "18:30",
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "mit-66-jahren",
-      "datum": "2026-05-30",
+      "datum": "2026-10-17",
       "uhrzeit": "20:00",
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-05",
+      "uhrzeit": "16:00",
       "status": "verfuegbar",
       "ticketUrl": null
     }
