@@ -98,6 +98,19 @@ export default config({
             }),
             datum: fields.date({ label: 'Datum' }),
             uhrzeit: fields.text({ label: 'Uhrzeit', defaultValue: '20:00' }),
+            ort: fields.text({
+              label: 'Spielort',
+              defaultValue: 'Kleine Komödie, Reuden an der Fuhne',
+            }),
+            art: fields.select({
+              label: 'Art',
+              options: [
+                { label: 'Theaterabend', value: 'theater' },
+                { label: 'Dinner-Show', value: 'dinner' },
+              ],
+              defaultValue: 'theater',
+            }),
+            preis: fields.number({ label: 'Preis pro Person (€)', description: 'Leer lassen = auf Anfrage', step: 0.1 }),
             status: fields.select({
               label: 'Status',
               options: [
@@ -111,7 +124,7 @@ export default config({
           {
             label: 'Vorstellungen',
             itemLabel: (props) =>
-              `${props.fields.datum.value ?? '—'} · ${props.fields.produktion.value ?? ''}`,
+              `${props.fields.datum.value ?? '—'} · ${props.fields.produktion.value ?? ''} · ${props.fields.ort.value ?? ''}`,
           }
         ),
       },

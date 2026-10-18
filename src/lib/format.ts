@@ -41,3 +41,8 @@ export function dateParts(iso: string): { wd: string; day: string; month: string
     month: mFmt.format(d).replace('.', ''),
   };
 }
+
+const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+export function preisText(preis?: number | null): string {
+  return preis && preis > 0 ? `${euro.format(preis)} p. P.` : 'Preis auf Anfrage';
+}

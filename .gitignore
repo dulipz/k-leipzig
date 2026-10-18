@@ -17,3 +17,8 @@ images/*.zip
 # lokale Referenz-/Arbeitsordner (nicht fürs Deployment)
 Old Site/
 design/
+
+# lokale Arbeits-/Testordner (nicht ins Repo)
+Old_site/
+images/_to_delete/
+images/wetransfer_*/

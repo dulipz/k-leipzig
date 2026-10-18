@@ -13,8 +13,8 @@
   --cream-dim: #d8c4b8;
   --ink: #1a0810;
   --line: rgba(247, 236, 224, 0.16);
-  --display: "Fraunces", Georgia, serif;
-  --body: "Libre Franklin", system-ui, sans-serif;
+  --display: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --body: "Libre Franklin Variable", "Libre Franklin", system-ui, sans-serif;
   --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
 }
 
@@ -290,4 +290,86 @@ footer.site .mark b { color: var(--amber); }
   .logo .sub { font-size: 8.5px; letter-spacing: .16em; margin-top: 3px; white-space: nowrap; }
   .bar .btn-amber { padding: 8px 15px; font-size: 13px; box-shadow: 0 6px 16px -8px rgba(244, 161, 77, .7); }
   .burger { padding: 8px 4px; }
+}
+
+/* Links im Fließtext des Footers nicht als Block (☎-Zeile) */
+footer.site p a { display: inline; margin: 0; }
+
+/* =========================================================
+   Mobil-Feinschliff (≤ 680px): zentrierte Typografie,
+   größeres Logo, Hero-Aufbau oben → unten
+   ========================================================= */
+@media (max-width: 680px) {
+  /* --- Header: Logo ~15 % größer, Tickets nach rechts zum Menü --- */
+  .bar { gap: 10px; }
+  .logo .mark { font-size: clamp(18px, 5.4vw, 21px); }
+  .logo .sub { font-size: clamp(8.5px, 2.5vw, 9.8px); }
+  .bar .btn-amber { margin-left: auto; }
+  .burger { margin-right: -4px; }
+  #mnav a { text-align: center; }
+
+  /* --- Hero: Lichterkette + Eyebrow oben, Titel Mitte, Infos + Buttons unten --- */
+  .hero { padding: 84px 0 22px; justify-content: stretch; text-align: center; }
+  .hero-content { flex: 1; display: flex; flex-direction: column; align-items: center; }
+  .hero .bulbs { justify-content: center; margin: 0 auto 14px !important; gap: 12px; }
+  .hero .eyebrow { margin-bottom: 0; font-size: 11.5px; letter-spacing: .12em; padding: 7px 14px; justify-content: center; text-align: center; line-height: 1.4; }
+  .hero h1 { margin: auto 0 0; font-size: clamp(42px, 12vw, 54px); }
+  .hero .lead { display: none; }
+  .opening { order: 5; margin-top: 22px; width: 100%; justify-content: center; text-align: center; padding: 12px 16px; font-size: 14.5px; gap: 4px 14px; }
+  .hero .cta { order: 6; width: 100%; margin-top: 14px; flex-wrap: nowrap; gap: 10px; }
+  .hero .cta .btn { flex: 1 1 0; justify-content: center; text-align: center; padding: 13px 10px; font-size: 14px; white-space: nowrap; }
+
+  /* --- Abschnittsköpfe zentriert --- */
+  .head { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+  .head > div { width: 100%; }
+  .swipe-hint { justify-content: center; }
+  .caption { text-align: center; }
+
+  /* --- Termin-Karten: Datum oben als Zeile, alles zentriert --- */
+  .stub { grid-template-columns: 1fr; text-align: center; gap: 10px; padding: 18px 16px; }
+  .stub:hover { transform: none; }
+  .stub .date { display: flex; justify-content: center; align-items: baseline; gap: 8px; min-width: 0; }
+  .stub .date .wd, .stub .date .m { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; margin: 0; }
+  .stub .date .d { font-size: 28px; }
+  .stub .info .t { font-size: 20px; }
+  .stub .info .meta { justify-content: center; gap: 6px 10px; }
+  .stub .stub-cta { grid-column: auto; margin-top: 4px; }
+  .soldout { display: block; padding: 6px 0 0; }
+
+  /* --- Karten in den Karussells --- */
+  .poster { align-items: center; text-align: center; }
+  .prod, .post { text-align: center; padding: 26px 22px; }
+  .card .foot { padding: 14px 18px 18px; }
+
+  /* --- Spielstätte --- */
+  .venue > div:first-child { text-align: center; }
+  .facts { justify-content: center; gap: 18px 26px; flex-wrap: nowrap; }
+  .fact .n { font-size: 30px; }
+  .venue .btn { justify-content: center; }
+  .mapcard .addr { text-align: center; }
+
+  /* --- Gutschein-Streifen --- */
+  .strip { align-items: center; text-align: center; padding: 30px 22px; }
+  .strip p { margin: 8px auto 0; }
+
+  /* --- Rechtstexte & Kontakt: Kopf zentriert, Fließtext links (Lesbarkeit) --- */
+  .legal-page .head { margin-bottom: 22px; }
+
+  /* --- Footer zentriert --- */
+  footer.site { text-align: center; padding-top: 44px; }
+  .fgrid { gap: 28px; }
+  .legal { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  .legal span:last-child { display: flex; justify-content: center; gap: 18px; }
+  .legal a { margin: 0; }
+}
+@media (max-width: 680px) {
+  .hero .eyebrow { display: inline-block; }
+}
+/* Mobil: Buttons kompakter (passen immer in eine Zeile) */
+@media (max-width: 680px) {
+  .hero .cta { gap: 8px; }
+  .hero .cta .btn {
+    min-width: 0; padding: 11px 8px; gap: 5px;
+    font-size: clamp(11.5px, 3.5vw, 14px); letter-spacing: 0;
+  }
 }

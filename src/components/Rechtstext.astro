@@ -1,0 +1,20 @@
+---
+// Einheitlicher Rahmen für Impressum, Datenschutz, AGB und Kontakt
+interface Props { kick: string; titel: string }
+const { kick, titel } = Astro.props;
+---
+<section class="block legal-page">
+  <div class="container">
+    <div class="head"><div><div class="kick">{kick}</div><h2>{titel}</h2></div></div>
+    <div class="legal-body"><slot /></div>
+  </div>
+</section>
+
+<style>
+  .legal-body { max-width: 760px; color: var(--cream-dim); font-size: 16.5px; line-height: 1.65; }
+  .legal-body :global(h3) { font-family: var(--display); font-weight: 600; font-size: 22px; color: var(--cream); margin: 32px 0 8px; }
+  .legal-body :global(p), .legal-body :global(ul) { margin: 0 0 14px; }
+  .legal-body :global(ul) { padding-left: 20px; }
+  .legal-body :global(a) { color: var(--amber); }
+  .legal-body :global(strong) { color: var(--cream); }
+</style>

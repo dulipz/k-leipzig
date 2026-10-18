@@ -129,8 +129,19 @@ const ensemble = (await getCollection('ensemble')).sort(
   @media (max-width: 1000px) {
     .ens-grid { grid-template-columns: 1fr; }
   }
-  @media (max-width: 480px) {
-    .ens-card { grid-template-columns: 120px 1fr; gap: 16px; }
-    .ens-body h3 { font-size: 23px; }
+  /* Mobil: Foto oben, alles zentriert */
+  @media (max-width: 680px) {
+    .ens-grid { gap: 22px; }
+    .ens-card {
+      grid-template-columns: 1fr; gap: 14px; text-align: center;
+      background: var(--wine-soft); border: 1px solid var(--line); border-radius: 18px;
+      padding: 24px 20px 26px;
+    }
+    .ens-left { align-items: center; }
+    .ens-foto { width: 170px; border-radius: 14px; }
+    .ens-rolle { font-size: 13.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--amber); font-weight: 700; }
+    .ens-body h3 { font-size: 25px; margin-bottom: 10px; }
+    .ens-bio { font-size: 15.5px; }
+    .ens-shows { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
   }
 </style>

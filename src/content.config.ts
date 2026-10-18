@@ -47,6 +47,12 @@ const termine = defineCollection({
     produktion: reference('produktionen'),
     datum: z.string(), // ISO: "2026-03-13"
     uhrzeit: z.string(), // "20:00"
+    // Spielort (Kleine Komödie oder Partner-Hotel/Restaurant)
+    ort: z.string().nullish(),
+    // Art des Abends – überschreibt den Typ der Produktion für diesen Termin
+    art: z.enum(['theater', 'dinner']).nullish(),
+    // Preis pro Person in € (leer = auf Anfrage)
+    preis: z.number().nullish(),
     status: z.enum(['verfuegbar', 'ausverkauft']).default('verfuegbar'),
     ticketUrl: z.string().nullish(),
   }),

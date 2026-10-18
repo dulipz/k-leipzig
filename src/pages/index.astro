@@ -7,7 +7,9 @@ import Galerie from '../components/Galerie.astro';
 import type { Typ } from '../lib/format';
 
 // --- Programm (Produktionen) ---
-const produktionen = (await getCollection('produktionen')).sort(
+const produktionen = (await getCollection('produktionen'))
+  .filter((p) => p.data.reihenfolge < 20) // Gastspiele (Reihenfolge ≥ 20) nur im Spielplan
+  .sort(
   (a, b) => a.data.reihenfolge - b.data.reihenfolge
 );
 
@@ -25,7 +27,9 @@ const aufbereitet = await Promise.all(
       ticketUrl: t.data.ticketUrl,
       titel: prod?.data.titel ?? '',
       untertitel: prod?.data.untertitel ?? '',
-      typ: (prod?.data.typ ?? 'theater') as Typ,
+      typ: (t.data.art ?? prod?.data.typ ?? 'theater') as Typ,
+      ort: t.data.ort,
+      preis: t.data.preis,
       time: new Date(t.data.datum + 'T00:00:00').getTime(),
     };
   })
@@ -41,7 +45,9 @@ const kommende = aufbereitet
 
 // Fallback: falls alle Beispieltermine in der Vergangenheit liegen,
 // zeige die jüngsten – so ist der Block nie leer.
-const naechste = (kommende.length ? kommende : aufbereitet.sort((a, b) => b.time - a.time)).slice(0, 4);
+// Startseite: bevorzugt buchbare Termine zeigen (genug Vorrat, da die Seite statisch gebaut wird)
+const buchbar = kommende.filter((t) => t.status !== 'ausverkauft');
+const naechste = (buchbar.length ? buchbar : kommende).slice(0, 12);
 
 // --- Hero-Bilder (liegen in /public/images/hero) ---
 const heroBilder = [
@@ -54,39 +60,57 @@ const heroBilder = [
   '/images/hero/hero_07.jpg',
   '/images/hero/hero_08.jpg',
 ];
+
+// Mobile Hero-Bilder (Hochformat, Darsteller mittig) – Reihenfolge wie vom Kunden gewünscht.
+// Das Foto wird in voller Breite mittig gezeigt; darüber/darunter eine weichgezeichnete Kopie.
+const heroBilderMobil = [
+  { src: '/images/hero/mobile/hero_m_01.jpg' },
+  { src: '/images/hero/mobile/hero_m_02.jpg' },
+  { src: '/images/hero/mobile/hero_m_03.jpg' },
+  { src: '/images/hero/mobile/hero_m_04.jpg' },
+  { src: '/images/hero/mobile/hero_m_05.jpg' },
+  { src: '/images/hero/mobile/hero_m_06.jpg' },
+];
 ---
 
 <BaseLayout heroHeader>
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-slideshow" aria-hidden="true">
+    <div class="hero-slideshow hero-desk" aria-hidden="true">
       {heroBilder.map((src, i) => (
         <div
           class:list={["hero-slide", { "is-active": i === 0 }]}
           style={`background-image:url('${src}')`}
         />
       ))}
-      <div class="hero-overlay"></div>
     </div>
+    <div class="hero-slideshow hero-mob" aria-hidden="true">
+      {heroBilderMobil.map((b, i) => (
+        <div
+          class:list={["hero-slide", { "is-active": i === 0 }]}
+          style={`--img:url('${b.src}')`}
+        />
+      ))}
+    </div>
+    <div class="hero-overlay"></div>
     <div class="container hero-content">
       <div class="bulbs reveal d1" style="margin-bottom:28px">
         <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
-      <span class="eyebrow reveal d1">Kleine Komödie Reuden · Eröffnung 13.03.2026</span>
+      <span class="eyebrow reveal d1">Kleine Komödie Reuden · <span style="white-space:nowrap">Theater &amp; Theater-Bar</span></span>
       <h1 class="reveal d2">Bei uns lachen<br />Sie <em>besser.</em></h1>
       <p class="lead reveal d3">
-        Aus einer alten Scheune wird ein Theatersaal: komödiantisches Boulevard-Theater,
-        eine gemütliche Theater-Bar und stimmungsvolle Dinnerveranstaltungen —
+        Aus einer alten Scheune wird ein Theatersaal: komödiantisches Boulevard-Theater
+        und eine gemütliche Theater-Bar —
         unsere erste feste Spielstätte vor den Toren von Bitterfeld-Wolfen.
       </p>
       <div class="cta reveal d3">
-        <a href="/#termine" class="btn btn-amber">Spielplan ansehen →</a>
-        <a href="/kleine-komoedie" class="btn btn-ghost">Die neue Spielstätte</a>
+        <a href="/spielplan" class="btn btn-amber">Spielplan ansehen →</a>
+        <a href="/#venue" class="btn btn-ghost">Die neue Spielstätte</a>
       </div>
       <div class="opening reveal d4">
-        <span>🎭 <b>Eröffnung:</b> Freitag, 13.03.2026</span>
-        <span>📍 <b>Reuden an der Fuhne</b> bei Bitterfeld-Wolfen</span>
-        <span>💺 <b>80–90 Plätze</b></span>
+        <span>📍 <b>Reuden an der Fuhne</b> bei <span style="white-space:nowrap">Bitterfeld-Wolfen</span></span>
+        <span>💺 <b>80 Plätze</b></span>
       </div>
     </div>
   </section>
@@ -99,7 +123,7 @@ const heroBilder = [
           <div class="kick">Termine &amp; Tickets</div>
           <h2>Die nächsten Vorstellungen</h2>
         </div>
-        <a class="more" href="/buchung">Tickets reservieren →</a>
+        <a class="more" href="/spielplan">Kompletter Spielplan →</a>
       </div>
       <div class="termine">
         {naechste.map((t) => (
@@ -111,10 +135,12 @@ const heroBilder = [
             titel={t.titel}
             untertitel={t.untertitel}
             typ={t.typ}
+            ort={t.ort}
+            heimSeite
+            preis={t.preis}
           />
         ))}
       </div>
-      <p class="caption">Beispielhafte Darstellung — die echten Termine pflegen Sie später bequem im Backend.</p>
     </div>
   </section>
 
@@ -128,6 +154,7 @@ const heroBilder = [
         </div>
         <a class="more" href="/#programm">Alle Produktionen →</a>
       </div>
+      <p class="preis-hinweis">Tickets für unsere eigenen Veranstaltungen ab 34,– €. Gastspiele haben gesonderte Preise.</p>
       <div class="swipe-hint">Wischen</div>
       <div class="grid">
         {produktionen.map((p) => (
@@ -155,12 +182,17 @@ const heroBilder = [
       <Galerie
         slug="mit-66-jahren"
         titel="Mit 66 Jahren"
-        untertitel="Szenenfotos der musikalischen Altenheim-Komödie."
+        untertitel="Szenenfotos der Altenheimkomödie."
       />
       <Galerie
         slug="go-trabi-go"
         titel="Go Trabi Go"
-        untertitel="Bilder aus der turbulenten Trabi-Komödie."
+        untertitel="Bilder aus der turbulenten Trabikomödie."
+      />
+      <Galerie
+        slug="aschenbroedel"
+        titel="3 Haselnüsse für Aschenbrödel"
+        untertitel="Szenenfotos der Märchenkomödie."
       />
     </div>
   </section>
@@ -187,11 +219,11 @@ const heroBilder = [
         </div>
         <div class="prod">
           <span class="pill">Dinner-Show</span>
-          <h3>Komödie &amp; 4-Gänge-Menü</h3>
+          <h3>Komödie &amp; Menü bei unseren Partnern</h3>
           <p>
-            Unsere beliebten Dinnerveranstaltungen verbinden Theater mit einem mehrgängigen Menü —
-            ein kompletter Abend aus Genuss und guter Laune. Plätze sind begrenzt; eine frühzeitige
-            Reservierung lohnt sich besonders.
+            In ausgewählten Partner-Hotels und -Restaurants verbinden unsere Dinnerveranstaltungen
+            Theater mit einem mehrgängigen Menü — ein kompletter Abend aus Genuss und guter Laune.
+            (In der Kleinen Komödie Reuden spielen wir ohne Dinner.)
           </p>
         </div>
       </div>
@@ -206,16 +238,16 @@ const heroBilder = [
           <div class="kick">Die Spielstätte</div>
           <h2>Kleine Komödie Reuden</h2>
           <p>
-            Mitten auf dem Land, am Stadtrand von Bitterfeld-Wolfen, entsteht aus einer alten
-            Scheune unser eigener kleiner Theatersaal — gemütlich, charmant und ganz nah dran am
-            Geschehen. Hier begrüßen wir Sie ab März 2026 als Gäste unserer ersten festen Bühne.
+            Mitten auf dem Land, am Stadtrand von Bitterfeld-Wolfen, ist aus einer alten
+            Scheune unser eigener kleiner Theatersaal entstanden — gemütlich, charmant und ganz nah dran am
+            Geschehen. Hier begrüßen wir Sie als Gäste unserer ersten festen Bühne.
           </p>
           <div class="facts">
-            <div class="fact"><div class="n">80–90</div><div class="l">Zuschauerplätze</div></div>
+            <div class="fact"><div class="n">80</div><div class="l">Zuschauerplätze</div></div>
             <div class="fact"><div class="n">1</div><div class="l">Theater-Bar</div></div>
             <div class="fact"><div class="n">~30 km</div><div class="l">von Leipzig</div></div>
           </div>
-          <a href="/kleine-komoedie" class="btn btn-amber">Anfahrt &amp; Übernachtung →</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Kleine+Kom%C3%B6die+Reuden+an+der+Fuhne" class="btn btn-amber" target="_blank" rel="noopener">Anfahrt (Google Maps) →</a>
         </div>
         <div class="mapcard">
           <div class="map">
@@ -246,7 +278,6 @@ const heroBilder = [
           <div class="kick">Aktuelles</div>
           <h2>Neues aus der Komödie</h2>
         </div>
-        <a class="more" href="/#news">Alle Beiträge →</a>
       </div>
       <div class="swipe-hint">Wischen</div>
       <div class="news">
@@ -258,7 +289,7 @@ const heroBilder = [
         <article class="post">
           <div class="dt">Februar 2026</div>
           <h4>Der Eröffnungsspielplan steht</h4>
-          <p>Welche Stücke und Dinner-Shows Sie in den ersten Wochen erwarten.</p>
+          <p>Welche Stücke Sie in den ersten Wochen erwarten.</p>
         </article>
         <article class="post">
           <div class="dt">März 2026</div>
@@ -277,7 +308,7 @@ const heroBilder = [
           <h3>Verschenken Sie Lachen.</h3>
           <p>Geschenkgutscheine für Theaterabende und Dinner-Shows — das perfekte Geschenk für jeden Anlass.</p>
         </div>
-        <a href="/gutscheine" class="btn btn-dark">Gutschein kaufen →</a>
+        <a href="/#gutschein-anfragen" class="btn btn-dark" data-gutschein>Gutschein anfragen →</a>
       </div>
     </div>
   </section>
@@ -304,21 +335,42 @@ const heroBilder = [
   }
   .hero-slide.is-active { opacity: 1; }
 
-  /* Mobil: Hero-Bild weniger gezoomt und mittig ausgerichtet */
+  /* Desktop- und Mobil-Diashow: je nach Bildschirm nur eine sichtbar */
+  .hero-mob { display: none; }
   @media (max-width: 680px) {
-    .hero-slide {
-      transform: none;
-      background-position: center center;
+    .hero-desk { display: none; }
+    .hero-mob { display: block; }
+    .hero-mob .hero-slide { transform: none; overflow: hidden; }
+    /* weichgezeichneter Hintergrund aus demselben Foto */
+    .hero-mob .hero-slide::before {
+      content: ""; position: absolute; inset: -40px;
+      background: var(--img) center / cover no-repeat;
+      filter: blur(26px) brightness(.5) saturate(1.1);
+    }
+    /* das scharfe Foto in voller Breite, Darsteller mittig */
+    .hero-mob .hero-slide::after {
+      content: ""; position: absolute; inset: 0;
+      background: var(--img) center 38% / 100% auto no-repeat;
     }
   }
   /* Plum-Verlauf, damit die helle Schrift gut lesbar bleibt */
   .hero-overlay {
-    position: absolute; inset: 0;
+    position: absolute; inset: 0; z-index: 0;
     background:
       linear-gradient(180deg, rgba(44,13,32,.72) 0%, rgba(44,13,32,.55) 45%, rgba(44,13,32,.9) 100%),
       radial-gradient(120% 80% at 50% 0%, rgba(244,161,77,.12), transparent 60%);
   }
+  /* Mobil: Mitte heller, damit die Gesichter gut zu sehen sind; unten dunkel für Text & Buttons */
+  @media (max-width: 680px) {
+    .hero-overlay {
+      background: linear-gradient(180deg, rgba(44,13,32,.55) 0%, rgba(44,13,32,.12) 22%, rgba(44,13,32,.18) 50%, rgba(44,13,32,.82) 74%, rgba(44,13,32,.94) 100%);
+    }
+    .hero h1 { text-shadow: 0 2px 18px rgba(0,0,0,.55); }
+  }
   .hero-content { position: relative; z-index: 1; }
+
+  .preis-hinweis { margin: -8px 0 22px; font-size: .95rem; opacity: .85; }
+  @media (max-width: 680px) { .preis-hinweis { text-align: center; font-size: 15px; } }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-slide { transition: none; transform: none; }
@@ -344,15 +396,21 @@ const heroBilder = [
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  const slides = Array.from(document.querySelectorAll('.hero-slide'));
-  if (slides.length > 1) {
-    let i = 0;
-    setInterval(() => {
-      slides[i].classList.remove('is-active');
-      i = (i + 1) % slides.length;
-      slides[i].classList.add('is-active');
-    }, 5000);
-  }
+  // Nur die gerade sichtbare Diashow (Desktop oder Mobil) wechseln
+  const mq = window.matchMedia('(max-width: 680px)');
+  const sets = {
+    desk: Array.from(document.querySelectorAll('.hero-desk .hero-slide')),
+    mob: Array.from(document.querySelectorAll('.hero-mob .hero-slide')),
+  };
+  const idx = { desk: 0, mob: 0 };
+  setInterval(() => {
+    const key = mq.matches ? 'mob' : 'desk';
+    const slides = sets[key];
+    if (slides.length < 2) return;
+    slides[idx[key]].classList.remove('is-active');
+    idx[key] = (idx[key] + 1) % slides.length;
+    slides[idx[key]].classList.add('is-active');
+  }, 5000);
 
   // --- Lightbox für die Galerien ---
   const lb = document.getElementById('lightbox');

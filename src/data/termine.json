@@ -1,86 +1,2762 @@
 {
   "termine": [
     {
-      "produktion": "go-trabi-go",
-      "datum": "2026-07-03",
-      "uhrzeit": "20:00",
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
-      "produktion": "go-trabi-go",
-      "datum": "2026-07-04",
-      "uhrzeit": "20:00",
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
       "produktion": "die-olsenbande-2",
-      "datum": "2026-07-11",
-      "uhrzeit": "18:30",
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
-      "produktion": "die-feuerzangenbowle",
-      "datum": "2026-07-18",
-      "uhrzeit": "20:00",
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
-      "produktion": "hasch-mich",
-      "datum": "2026-08-01",
-      "uhrzeit": "18:30",
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
-      "produktion": "mit-66-jahren",
-      "datum": "2026-08-14",
-      "uhrzeit": "20:00",
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
-      "produktion": "die-feuerzangenbowle",
-      "datum": "2026-08-22",
-      "uhrzeit": "20:00",
+      "datum": "2026-10-09",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
       "status": "ausverkauft",
       "ticketUrl": null
     },
     {
       "produktion": "die-olsenbande-2",
-      "datum": "2026-09-05",
-      "uhrzeit": "18:30",
+      "datum": "2026-10-10",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2026-10-11",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "go-trabi-go",
-      "datum": "2026-09-19",
-      "uhrzeit": "20:00",
+      "datum": "2026-10-16",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
-      "produktion": "hasch-mich",
-      "datum": "2026-10-03",
-      "uhrzeit": "18:30",
+      "produktion": "go-trabi-go",
+      "datum": "2026-10-17",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2026-10-18",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2026-10-23",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2026-10-24",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2026-10-25",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "mit-66-jahren",
-      "datum": "2026-10-17",
-      "uhrzeit": "20:00",
+      "datum": "2026-10-30",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-10-31",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-06",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-11-06",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-07",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-11-08",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-13",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-11-13",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-14",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-14",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-15",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-19",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-19",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-20",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-20",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-20",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-21",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-21",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-21",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-22",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-22",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-25",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-25",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-26",
+      "uhrzeit": "18:00",
+      "ort": "Hotel „Zur Henne“, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-26",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-27",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-27",
+      "uhrzeit": "19:30",
+      "ort": "Bürgerhaus, Geithain",
+      "art": "theater",
+      "preis": 28.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-27",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-11-28",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-28",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-28",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-29",
+      "uhrzeit": "18:00",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-11-29",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-11-30",
+      "uhrzeit": "19:00",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-02",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-02",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-03",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-03",
+      "uhrzeit": "19:00",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-03",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-04",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-04",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-04",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
       "status": "verfuegbar",
       "ticketUrl": null
     },
     {
       "produktion": "drei-haselnuesse",
       "datum": "2026-12-05",
-      "uhrzeit": "16:00",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-05",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-05",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-06",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-06",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-06",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-07",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-12-08",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-08",
+      "uhrzeit": "18:00",
+      "ort": "Hotel „Zur Henne“, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-09",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-09",
+      "uhrzeit": "18:00",
+      "ort": "Hotel „Zur Henne“, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-09",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-10",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-10",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-10",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-11",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-11",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-11",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-12",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-12",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-12",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-13",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-12-14",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2026-12-15",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-16",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-16",
+      "uhrzeit": "19:00",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-16",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-17",
+      "uhrzeit": "18:00",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-17",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-17",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-18",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-18",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-18",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-19",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-19",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-19",
+      "uhrzeit": "19:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-20",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-20",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Schloss Tangermünde",
+      "art": "dinner",
+      "preis": 99.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-20",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-21",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-21",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2026-12-22",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2026-12-22",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2026-12-22",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-01-02",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-01-03",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-01-08",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-01-09",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-09",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-01-10",
+      "uhrzeit": "17:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-10",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-15",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-01-15",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-16",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-01-16",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-17",
+      "uhrzeit": "17:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-01-17",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-18",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": null,
+      "status": "ausverkauft",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-01-22",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-22",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-01-23",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-23",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-01-24",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-29",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-01-29",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-01-30",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-01-30",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-02-05",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-02-06",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "gastspiel-lesung-wechseljahre",
+      "datum": "2027-02-07",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 24.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-02-12",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-02-12",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "drei-haselnuesse",
+      "datum": "2027-02-13",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-02-13",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-02-14",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-02-18",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-02-19",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-02-19",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-02-20",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-02-20",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-02-21",
+      "uhrzeit": "17:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-02-26",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-02-27",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-02-28",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-03-05",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-03-06",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-03-07",
+      "uhrzeit": "17:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-03-12",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-03-13",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-03-14",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-03-19",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-03-20",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-03-26",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-03-27",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-04-02",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-04-03",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "gastspiel-ludger-k",
+      "datum": "2027-04-03",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "gastspiel-ludger-k",
+      "datum": "2027-04-04",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-04-09",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-04-10",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-04-11",
+      "uhrzeit": "18:30",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-04-16",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-04-17",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-04-18",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-04-23",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-04-24",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-04-25",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-05-01",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "theater",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-05-02",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "gastspiel-gunter-boehnke",
+      "datum": "2027-05-08",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-05-14",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-05-15",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-05-21",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "gastspiel-kay-ray",
+      "datum": "2027-05-22",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-06-19",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Schloss Apolda",
+      "art": "dinner",
+      "preis": null,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-02",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 117.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-03",
+      "uhrzeit": "20:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-04",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-07",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-09",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 117.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-10",
+      "uhrzeit": "19:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "theater",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-16",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 117.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-17",
+      "uhrzeit": "20:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-18",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-21",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-07-23",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 117.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-12",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus, Kloster Arendsee",
+      "art": "dinner",
+      "preis": 125.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-13",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus, Kloster Arendsee",
+      "art": "dinner",
+      "preis": 125.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-14",
+      "uhrzeit": "20:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-15",
+      "uhrzeit": "19:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 29.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-18",
+      "uhrzeit": "18:00",
+      "ort": "Insel Stein – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 99.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-20",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "hasch-mich",
+      "datum": "2027-08-21",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-09-17",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-09-18",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-09-24",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-09-25",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-09-26",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-10-01",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-10-02",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-10-07",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-10-08",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-10-09",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-10-10",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-10-15",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "go-trabi-go",
+      "datum": "2027-10-16",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-10-22",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-10-23",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-10-29",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-10-30",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-10-31",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-04",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-11-05",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-05",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-06",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-11-06",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-olsenbande-2",
+      "datum": "2027-11-07",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-12",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-11-12",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-13",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": null,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-11-13",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-19",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-19",
+      "uhrzeit": "18:00",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-20",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-20",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-11-20",
+      "uhrzeit": "18:00",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-21",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-24",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-24",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-25",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-11-25",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-11-26",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-26",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-26",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-11-27",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-11-27",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-11-27",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-01",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-01",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-02",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-02",
+      "uhrzeit": "18:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-02",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-03",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-03",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-03",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-04",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-04",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-04",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-05",
+      "uhrzeit": "17:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-05",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-07",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-08",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-09",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-09",
+      "uhrzeit": "18:00",
+      "ort": "Flair Hotel Deutsches Haus – Kulturscheune",
+      "art": "dinner",
+      "preis": 115.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-09",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Hallescher Anger, Naumburg",
+      "art": "dinner",
+      "preis": 95.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-10",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-10",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-10",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-11",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-11",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-11",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-12",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-12",
+      "uhrzeit": "18:00",
+      "ort": "Schlossrestaurant Hundisburg",
+      "art": "dinner",
+      "preis": 94.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-14",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-15",
+      "uhrzeit": "19:00",
+      "ort": "Gasthof und Hotel zur Kastanie, Gerichshain",
+      "art": "dinner",
+      "preis": 74.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-15",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-16",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-16",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-17",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-17",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-17",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-18",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-18",
+      "uhrzeit": "18:00",
+      "ort": "Hotel Kalkhütte, Urbach",
+      "art": "dinner",
+      "preis": 98.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-18",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-19",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-feuerzangenbowle",
+      "datum": "2027-12-19",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-19",
+      "uhrzeit": "18:00",
+      "ort": "Restaurant Auszeit, Neukieritzsch",
+      "art": "dinner",
+      "preis": 84.9,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-20",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-21",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-21",
+      "uhrzeit": "18:30",
+      "ort": "Central Kabarett, Leipzig",
+      "art": "dinner",
+      "preis": 89.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2027-12-22",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 111.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "eine-weihnachtsgeschichte",
+      "datum": "2027-12-22",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2028-01-02",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2028-01-07",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
+      "status": "verfuegbar",
+      "ticketUrl": null
+    },
+    {
+      "produktion": "die-hexe-baba-jaga",
+      "datum": "2028-01-08",
+      "uhrzeit": "18:00",
+      "ort": "Eichenkranz – Restaurant Zum Stein, Wörlitz",
+      "art": "dinner",
+      "preis": 109.0,
       "status": "verfuegbar",
       "ticketUrl": null
     }

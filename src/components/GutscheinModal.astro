@@ -1,0 +1,289 @@
+---
+// Gutschein-Anfrage als Popup. Wird über jedes Element mit [data-gutschein] geöffnet
+// (z. B. Button auf der Startseite, „Gutscheine“-Link im Header) und per E-Mail versendet.
+const KONTAKT_EMAIL = 'kontakt@komoedie-leipzig.de';
+const betraege = [34, 50, 68, 100];
+---
+
+<dialog class="g-modal" id="gutschein-modal" aria-labelledby="g-title" data-email={KONTAKT_EMAIL}>
+  <button type="button" class="g-close" data-g-close aria-label="Schließen">×</button>
+  <h3 id="g-title">Gutschein anfragen</h3>
+  <p class="g-intro">
+    Verschenken Sie einen Abend voller Lachen. Wir senden Ihnen nach Ihrer Anfrage eine
+    Bestätigung mit allen Details zur Bezahlung.
+  </p>
+
+  <form id="g-form" class="g-form" novalidate>
+    <!-- BETRAG -->
+    <fieldset class="g-full g-set">
+      <legend>Gutscheinwert *</legend>
+      <div class="g-betraege" role="radiogroup" aria-label="Gutscheinwert">
+        {betraege.map((b, i) => (
+          <label class="g-chip">
+            <input type="radio" name="g-betrag" value={b} checked={i === 1} />
+            <span>{b} €</span>
+          </label>
+        ))}
+        <label class="g-chip">
+          <input type="radio" name="g-betrag" value="frei" />
+          <span>Anderer Betrag</span>
+        </label>
+      </div>
+      <div class="g-frei" id="g-frei-wrap" hidden>
+        <label for="g-frei">Wunschbetrag in €</label>
+        <div class="g-euro">
+          <input id="g-frei" type="number" min="10" step="1" inputmode="numeric" placeholder="z. B. 75" />
+          <span>€</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="g-field">
+      <label for="g-anzahl">Anzahl Gutscheine</label>
+      <select id="g-anzahl">
+        {[1,2,3,4,5,6,7,8,9,10].map((n) => <option value={n}>{n}</option>)}
+      </select>
+    </div>
+    <div class="g-field">
+      <label for="g-zustellung">Zustellung</label>
+      <select id="g-zustellung">
+        <option>Per Post</option>
+        <option>Per E-Mail (zum Ausdrucken)</option>
+        <option>Abholung an der Abendkasse</option>
+      </select>
+    </div>
+
+    <!-- WIDMUNG -->
+    <div class="g-field">
+      <label for="g-fuer">Für (Name der/des Beschenkten)</label>
+      <input id="g-fuer" type="text" placeholder="optional" />
+    </div>
+    <div class="g-field">
+      <label for="g-von">Von (Name auf dem Gutschein)</label>
+      <input id="g-von" type="text" placeholder="optional" />
+    </div>
+    <div class="g-field g-full">
+      <label for="g-text">Wunsch- / Glückwunschtext</label>
+      <textarea id="g-text" rows="3" maxlength="300"
+        placeholder="z. B. Alles Liebe zum Geburtstag! Wir wünschen dir einen herrlich komischen Abend."></textarea>
+      <span class="g-count" id="g-count">0 / 300</span>
+    </div>
+
+    <!-- KÄUFER -->
+    <div class="g-sep g-full">Ihre Kontaktdaten</div>
+    <div class="g-field">
+      <label for="g-name">Name *</label>
+      <input id="g-name" type="text" required autocomplete="name" />
+    </div>
+    <div class="g-field">
+      <label for="g-mail">E-Mail *</label>
+      <input id="g-mail" type="email" required autocomplete="email" />
+    </div>
+    <div class="g-field">
+      <label for="g-tel">Telefon</label>
+      <input id="g-tel" type="tel" autocomplete="tel" />
+    </div>
+    <div class="g-field" id="g-adresse-wrap">
+      <label for="g-strasse">Straße &amp; Hausnummer *</label>
+      <input id="g-strasse" type="text" autocomplete="street-address" />
+    </div>
+    <div class="g-field g-full" id="g-ort-wrap">
+      <label for="g-ort">PLZ &amp; Ort *</label>
+      <input id="g-ort" type="text" autocomplete="postal-code" placeholder="z. B. 06766 Reuden an der Fuhne" />
+    </div>
+
+    <p class="g-error g-full" id="g-error" hidden></p>
+
+    <div class="g-submit g-full">
+      <div class="g-total" id="g-total">Gesamt: 50,00 €</div>
+      <button type="submit" class="btn btn-amber">Gutschein anfragen →</button>
+      <p class="g-privacy">Ihre Anfrage wird per E-Mail an uns gesendet — keine Weitergabe an Dritte.</p>
+    </div>
+  </form>
+</dialog>
+
+<style>
+  .g-modal {
+    width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
+    margin: auto; padding: 30px 30px 34px; color: var(--cream);
+    background: var(--wine-soft); border: 1px solid var(--line); border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+  }
+  .g-modal::backdrop { background: rgba(14,4,10,.78); backdrop-filter: blur(3px); }
+  .g-modal[open] { animation: g-pop .22s ease-out; }
+  @keyframes g-pop { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+  .g-close {
+    position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 999px;
+    background: rgba(0,0,0,.25); color: var(--cream); border: 1px solid var(--line);
+    font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .2s, color .2s;
+  }
+  .g-close:hover { background: var(--amber); color: var(--wine-deep); }
+  .g-modal h3 { font-family: var(--display); font-weight: 900; font-size: 26px; margin-bottom: 8px; padding-right: 48px; }
+  .g-intro { color: var(--cream-dim); font-size: 15px; margin-bottom: 22px; }
+
+  .g-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .g-full { grid-column: 1 / -1; }
+  .g-set { border: 0; padding: 0; margin: 0; }
+  .g-set legend, .g-field label, .g-frei label { font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 9px; }
+  .g-field { display: flex; flex-direction: column; gap: 7px; position: relative; }
+  .g-field label { margin-bottom: 0; }
+  .g-field input, .g-field select, .g-field textarea, .g-euro input {
+    font-family: var(--body); font-size: 16px; color: var(--cream);
+    background: var(--wine-deep); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; transition: border-color .2s; width: 100%;
+  }
+  .g-field input:focus, .g-field select:focus, .g-field textarea:focus, .g-euro input:focus { outline: none; border-color: var(--amber); }
+  .g-field input.is-invalid { border-color: #ff8a8a; }
+  .g-field textarea { resize: vertical; }
+  .g-field select option { color: #000; }
+  .g-count { position: absolute; right: 10px; bottom: 8px; font-size: 12px; color: var(--cream-dim); pointer-events: none; }
+
+  .g-betraege { display: flex; flex-wrap: wrap; gap: 10px; }
+  .g-chip { position: relative; cursor: pointer; }
+  .g-chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .g-chip span {
+    display: inline-block; font-weight: 700; font-size: 15px; padding: 10px 18px; border-radius: 999px;
+    border: 1px solid var(--line); background: rgba(0,0,0,.18); transition: background .2s, border-color .2s, color .2s;
+  }
+  .g-chip:hover span { border-color: rgba(244,161,77,.5); }
+  .g-chip input:checked + span { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+  .g-chip input:focus-visible + span { outline: 2px solid var(--amber-bright); outline-offset: 2px; }
+  .g-frei { margin-top: 14px; display: flex; flex-direction: column; gap: 7px; max-width: 220px; }
+  .g-frei[hidden] { display: none; }
+  .g-frei label { margin-bottom: 0; }
+  .g-euro { display: flex; align-items: center; gap: 8px; }
+  .g-euro span { font-weight: 700; }
+
+  .g-sep {
+    margin-top: 6px; padding-top: 18px; border-top: 1px solid var(--line);
+    font-family: var(--display); font-weight: 800; font-size: 18px;
+  }
+  .g-error { margin: 0; padding: 10px 14px; border-radius: 10px; background: rgba(255,120,120,.12); border: 1px solid rgba(255,138,138,.5); color: #ffc9c9; font-size: 14px; }
+  .g-error[hidden] { display: none; }
+  .g-submit { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 4px; }
+  .g-total { width: 100%; font-weight: 700; font-size: 17px; color: var(--amber-bright); }
+  .g-privacy { font-size: 13px; color: var(--cream-dim); margin: 0; }
+  [hidden] { display: none !important; }
+
+  @media (max-width: 600px) {
+    .g-modal { width: 100%; max-width: 100%; max-height: 92dvh; margin: auto 0 0; border-radius: 18px 18px 0 0; padding: 24px 20px 28px; }
+    .g-form { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { .g-modal[open] { animation: none; } }
+</style>
+
+<script>
+  const modal = document.getElementById('gutschein-modal') as HTMLDialogElement | null;
+  if (modal) {
+    const email = modal.dataset.email || '';
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const form = $('g-form') as HTMLFormElement;
+    const freiWrap = $('g-frei-wrap');
+    const frei = $('g-frei') as HTMLInputElement;
+    const anzahl = $('g-anzahl') as HTMLSelectElement;
+    const zustellung = $('g-zustellung') as HTMLSelectElement;
+    const text = $('g-text') as HTMLTextAreaElement;
+    const count = $('g-count');
+    const total = $('g-total');
+    const errorEl = $('g-error');
+    const strasse = $('g-strasse') as HTMLInputElement;
+    const ort = $('g-ort') as HTMLInputElement;
+    const adrWraps = [$('g-adresse-wrap'), $('g-ort-wrap')];
+    const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+
+    const betrag = (): number => {
+      const sel = form.querySelector<HTMLInputElement>('input[name="g-betrag"]:checked');
+      if (!sel) return 0;
+      return sel.value === 'frei' ? Math.round(Number(frei.value) || 0) : Number(sel.value);
+    };
+    const perPost = () => zustellung.value.startsWith('Per Post');
+
+    function aktualisieren() {
+      const sel = form.querySelector<HTMLInputElement>('input[name="g-betrag"]:checked');
+      freiWrap.hidden = !(sel && sel.value === 'frei');
+      const b = betrag();
+      const n = Number(anzahl.value) || 1;
+      total.textContent = b > 0
+        ? (n > 1 ? `Gesamt: ${n} × ${euro.format(b)} = ${euro.format(b * n)}` : `Gesamt: ${euro.format(b)}`)
+        : 'Gesamt: –';
+      adrWraps.forEach((w) => (w.hidden = !perPost()));
+      count.textContent = `${text.value.length} / 300`;
+    }
+    form.addEventListener('input', aktualisieren);
+    form.addEventListener('change', aktualisieren);
+
+    function oeffnen() {
+      if (typeof modal!.showModal === 'function') modal!.showModal(); else modal!.setAttribute('open', '');
+      document.body.style.overflow = 'hidden';
+      errorEl.hidden = true;
+      aktualisieren();
+    }
+    function schliessen() {
+      if (typeof modal!.close === 'function') modal!.close(); else modal!.removeAttribute('open');
+    }
+    modal.addEventListener('close', () => { document.body.style.overflow = ''; });
+    modal.addEventListener('click', (e) => {
+      if (e.target !== modal) return;
+      const r = modal.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) schliessen();
+    });
+    modal.querySelectorAll('[data-g-close]').forEach((b) => b.addEventListener('click', schliessen));
+
+    // Öffnen über alle Auslöser
+    document.querySelectorAll('[data-gutschein]').forEach((el) =>
+      el.addEventListener('click', (e) => { e.preventDefault(); oeffnen(); })
+    );
+    if (location.hash === '#gutschein-anfragen') oeffnen();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = ($('g-name') as HTMLInputElement).value.trim();
+      const mail = ($('g-mail') as HTMLInputElement).value.trim();
+      const tel = ($('g-tel') as HTMLInputElement).value.trim();
+      const fuer = ($('g-fuer') as HTMLInputElement).value.trim();
+      const von = ($('g-von') as HTMLInputElement).value.trim();
+      const b = betrag();
+      const n = Number(anzahl.value) || 1;
+
+      const fehler: string[] = [];
+      form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
+      const markiere = (id: string) => $(id).classList.add('is-invalid');
+      if (!b || b < 10) { fehler.push('einen Gutscheinwert (mind. 10 €)'); if (!freiWrap.hidden) markiere('g-frei'); }
+      if (!name) { fehler.push('Ihren Namen'); markiere('g-name'); }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { fehler.push('eine gültige E-Mail-Adresse'); markiere('g-mail'); }
+      if (perPost() && (!strasse.value.trim() || !ort.value.trim())) {
+        fehler.push('Ihre Anschrift für den Postversand');
+        if (!strasse.value.trim()) markiere('g-strasse');
+        if (!ort.value.trim()) markiere('g-ort');
+      }
+      if (fehler.length) {
+        errorEl.textContent = `Bitte ergänzen Sie ${fehler.join(', ')}.`;
+        errorEl.hidden = false;
+        return;
+      }
+      errorEl.hidden = true;
+
+      const subject = `Gutschein-Anfrage: ${n} × ${euro.format(b)}`;
+      const body =
+        `Hallo Komödie Leipzig,\n\n` +
+        `ich möchte folgenden Gutschein bestellen:\n\n` +
+        `Gutscheinwert: ${euro.format(b)}\n` +
+        `Anzahl: ${n}\n` +
+        `Gesamtbetrag: ${euro.format(b * n)}\n` +
+        `Zustellung: ${zustellung.value}\n\n` +
+        `Für: ${fuer || '—'}\n` +
+        `Von: ${von || '—'}\n` +
+        `Wunsch-/Glückwunschtext:\n${text.value.trim() || '—'}\n\n` +
+        `— Meine Kontaktdaten —\n` +
+        `Name: ${name}\n` +
+        `E-Mail: ${mail}\n` +
+        `Telefon: ${tel || '—'}\n` +
+        (perPost() ? `Anschrift: ${strasse.value.trim()}, ${ort.value.trim()}\n` : '') +
+        `\nMit freundlichen Grüßen\n${name}`;
+
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setTimeout(schliessen, 600);
+    });
+  }
+</script>

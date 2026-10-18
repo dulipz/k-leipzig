@@ -1,0 +1,467 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dateParts, typLabel, zusatz, preisText, type Typ } from '../lib/format';
+
+const KONTAKT_EMAIL = 'kontakt@komoedie-leipzig.de';
+
+// Alle Vorstellungen + zugehörige Produktion aufbereiten
+const alleTermine = await getCollection('termine');
+const aufbereitet = await Promise.all(
+  alleTermine.map(async (t) => {
+    const prod = await getEntry(t.data.produktion);
+    return {
+      prodId: prod?.id ?? '',
+      titel: prod?.data.titel ?? '',
+      untertitel: prod?.data.untertitel ?? '',
+      typ: (t.data.art ?? prod?.data.typ ?? 'theater') as Typ,
+      ort: t.data.ort ?? '',
+      preis: t.data.preis ?? null,
+      reihenfolge: prod?.data.reihenfolge ?? 99,
+      datum: t.data.datum,
+      uhrzeit: t.data.uhrzeit,
+      status: t.data.status,
+      ticketUrl: t.data.ticketUrl ?? null,
+      time: new Date(t.data.datum + 'T00:00:00').getTime(),
+    };
+  })
+);
+
+const heute = new Date();
+heute.setHours(0, 0, 0, 0);
+const kommende = aufbereitet
+  .filter((t) => t.time >= heute.getTime())
+  .sort((a, b) => a.time - b.time);
+
+// Filter-Chips: nur Stücke, die kommende Termine haben (nach Reihenfolge)
+const stueckeMap = new Map<string, { id: string; titel: string; reihenfolge: number }>();
+for (const t of kommende) {
+  if (!stueckeMap.has(t.prodId)) {
+    stueckeMap.set(t.prodId, { id: t.prodId, titel: t.titel, reihenfolge: t.reihenfolge });
+  }
+}
+const stuecke = [...stueckeMap.values()].sort((a, b) => a.reihenfolge - b.reihenfolge);
+
+// Spielorte für den Orts-Filter (Kleine Komödie zuerst, dann nach Anzahl Termine)
+const ortSlug = (s: string) =>
+  s.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const orteCount = new Map<string, number>();
+for (const t of kommende) if (t.ort) orteCount.set(t.ort, (orteCount.get(t.ort) ?? 0) + 1);
+const orte = [...orteCount.entries()]
+  .sort((a, b) => (b[0].startsWith('Kleine Komödie') ? 1 : 0) - (a[0].startsWith('Kleine Komödie') ? 1 : 0) || b[1] - a[1])
+  .map(([name]) => ({ id: ortSlug(name), name }));
+
+// Monate für den Monats-Filter (nur Monate mit kommenden Terminen)
+const monatFmt = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' });
+const monatKurzFmt = new Intl.DateTimeFormat('de-DE', { month: 'short' });
+const monate = [...new Set(kommende.map((t) => t.datum.slice(0, 7)))].map((ym) => {
+  const d = new Date(ym + '-01T00:00:00');
+  return { id: ym, lang: monatFmt.format(d), kurz: `${monatKurzFmt.format(d).replace('.', '')} ${ym.slice(2, 4)}` };
+});
+const hatDinner = kommende.some((t) => t.typ === 'dinner');
+
+const langDatum = (iso: string) =>
+  new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(
+    new Date(iso + 'T00:00:00')
+  );
+---
+
+<BaseLayout
+  title="Spielplan & Tickets — Komödie Leipzig"
+  description="Alle Termine der Komödie Leipzig: Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren Partner-Hotels. Jetzt Plätze reservieren."
+>
+  <section class="block" id="buchung">
+    <div class="container">
+      <div class="head">
+        <div>
+          <div class="kick">Spielplan &amp; Tickets</div>
+          <h2>Vorstellung wählen &amp; reservieren</h2>
+        </div>
+      </div>
+
+      <p class="b-intro">
+        Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren
+        Partner-Häusern. Wählen Sie eine Vorstellung aus und senden Sie uns Ihre
+        Reservierungsanfrage — Sie erhalten von uns eine Bestätigung mit allen
+        Details zur Bezahlung.
+      </p>
+
+      {kommende.length === 0 ? (
+        <p class="caption">Aktuell sind keine kommenden Termine eingetragen.</p>
+      ) : (
+        <>
+          <!-- FILTER -->
+          <div class="b-filters" role="search" aria-label="Termine filtern">
+            <div class="b-sel">
+              <label for="f-prod">Stück</label>
+              <select id="f-prod">
+                <option value="all">Alle Stücke</option>
+                {stuecke.map((s) => <option value={s.id} set:html={s.titel} />)}
+              </select>
+            </div>
+            <div class="b-sel">
+              <label for="f-monat">Monat</label>
+              <select id="f-monat">
+                <option value="all">Alle Monate</option>
+                {monate.map((m) => <option value={m.id}>{m.lang}</option>)}
+              </select>
+            </div>
+            <div class="b-sel">
+              <label for="f-ort">Spielort</label>
+              <select id="f-ort">
+                <option value="all">Alle Spielorte</option>
+                {orte.map((o) => <option value={o.id}>{o.name}</option>)}
+              </select>
+            </div>
+            {hatDinner && (
+              <div class="b-sel">
+                <label for="f-art">Art</label>
+                <select id="f-art">
+                  <option value="all">Alle Vorstellungen</option>
+                  <option value="theater">Theaterabend</option>
+                  <option value="dinner">Dinner-Show</option>
+                </select>
+              </div>
+            )}
+          </div>
+          <label class="b-check">
+            <input type="checkbox" id="f-frei" />
+            <span>Nur freie Termine</span>
+          </label>
+          <div class="b-status">
+            <span id="b-count" aria-live="polite"></span>
+            <button type="button" class="b-reset" id="b-reset" hidden>Filter zurücksetzen</button>
+          </div>
+          <p class="b-empty caption" id="b-empty" hidden>Für diese Auswahl gibt es keine Termine.</p>
+
+          <!-- TERMINLISTE -->
+          <div class="b-list" id="terminliste">
+            {kommende.map((t) => {
+              const dp = dateParts(t.datum);
+              const badge = typLabel(t.typ);
+              const ausverkauft = t.status === 'ausverkauft';
+              return (
+                <div class="stub b-row" data-prod={t.prodId} data-ort={ortSlug(t.ort)} data-datum={t.datum} data-monat={t.datum.slice(0, 7)} data-art={t.typ === 'dinner' ? 'dinner' : 'theater'} data-status={t.status}>
+                  <div class="date">
+                    <div class="wd">{dp.wd}</div>
+                    <div class="d">{dp.day}</div>
+                    <div class="m">{dp.month}</div>
+                  </div>
+                  <div class="info">
+                    <div class="t" set:html={`${t.titel} — ${t.untertitel}`} />
+                    <div class="meta">
+                      <span class={`badge ${ausverkauft ? 'sold' : badge.cls}`}>{ausverkauft ? 'Ausverkauft' : badge.label}</span>
+                      <span>{t.uhrzeit} Uhr · {zusatz(t.typ)}</span>
+                    </div>
+                    {t.ort && <div class="meta ort">📍 {t.ort} · {preisText(t.preis)}</div>}
+                  </div>
+                  <div class="stub-cta">
+                    {ausverkauft ? (
+                      <span class="soldout">Ausverkauft</span>
+                    ) : (
+                      <button
+                        type="button"
+                        class="btn btn-amber b-reserve"
+                        data-titel={`${t.titel} — ${t.untertitel}`}
+                        data-datum={langDatum(t.datum)}
+                        data-uhrzeit={t.uhrzeit}
+                        data-ort={t.ort}
+                      >Reservieren</button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <!-- RESERVIERUNGSFORMULAR -->
+          <dialog class="b-form-wrap b-modal" id="reservierung" aria-labelledby="res-title">
+            <button type="button" class="b-close" id="b-close" aria-label="Schließen">×</button>
+            <h3 id="res-title">Reservierungsanfrage</h3>
+            <p class="b-chosen" id="b-chosen" data-empty="true">
+              Bitte oben zuerst eine Vorstellung auswählen.
+            </p>
+
+            <form id="b-form" class="b-form" novalidate>
+              <input type="hidden" id="f-stueck" />
+              <input type="hidden" id="f-datum" />
+              <input type="hidden" id="f-uhrzeit" />
+
+              <div class="b-field">
+                <label for="f-anzahl">Anzahl Tickets</label>
+                <select id="f-anzahl" required>
+                  {[1,2,3,4,5,6,7,8,9,10].map((n) => <option value={n}>{n}</option>)}
+                  <option value="mehr als 10">mehr als 10</option>
+                </select>
+              </div>
+              <div class="b-field">
+                <label for="f-name">Name *</label>
+                <input id="f-name" type="text" required autocomplete="name" />
+              </div>
+              <div class="b-field">
+                <label for="f-mail">E-Mail *</label>
+                <input id="f-mail" type="email" required autocomplete="email" />
+              </div>
+              <div class="b-field">
+                <label for="f-tel">Telefon</label>
+                <input id="f-tel" type="tel" autocomplete="tel" />
+              </div>
+              <div class="b-field b-field-full">
+                <label for="f-msg">Nachricht (optional)</label>
+                <textarea id="f-msg" rows="3" placeholder="z. B. Sitzplatzwünsche, Rollstuhlplatz, Allergien beim Dinner …"></textarea>
+              </div>
+
+              <div class="b-submit">
+                <button type="submit" class="btn btn-amber" id="f-send" disabled>Reservierung anfragen →</button>
+                <p class="b-privacy">Ihre Anfrage wird per E-Mail an uns gesendet — keine Weitergabe an Dritte.</p>
+              </div>
+            </form>
+          </dialog>
+        </>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .b-intro { color: var(--cream-dim); font-size: 17px; max-width: 720px; margin-bottom: 28px; }
+
+  /* Filter: Dropdowns */
+  .b-filters {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .b-sel { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .b-sel label { font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--cream-dim); }
+  .b-sel select {
+    width: 100%; font: inherit; font-size: 15.5px; font-weight: 600; color: var(--cream);
+    background-color: rgba(0,0,0,.28); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 40px 12px 14px; cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23f4a14d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+    transition: border-color .2s;
+  }
+  .b-sel select:hover { border-color: rgba(244,161,77,.5); }
+  .b-sel select:focus { outline: none; border-color: var(--amber); }
+  .b-sel select.is-set { border-color: var(--amber); background-color: rgba(244,161,77,.12); }
+  .b-sel select option { color: #000; }
+  .b-check { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; color: var(--cream); margin-bottom: 12px; }
+  .b-check input { width: 18px; height: 18px; accent-color: var(--amber); }
+  .b-status { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; font-size: 14px; color: var(--cream-dim); min-height: 22px; }
+  .b-reset { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; color: var(--amber); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 900px) {
+    .b-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .b-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+    .b-sel label { font-size: 11.5px; }
+    .b-sel select { font-size: 14.5px; padding: 11px 32px 11px 12px; background-position: right 11px center; }
+    .b-intro { text-align: center; margin-inline: auto; font-size: 16px; }
+    .b-check { display: flex; justify-content: center; }
+    .b-status { justify-content: center; }
+    .b-empty { text-align: center; }
+  }
+
+  /* Terminliste */
+  .b-list { display: grid; gap: 14px; }
+  .b-row.is-hidden { display: none; }
+  .b-reserve { flex-shrink: 0; }
+
+  /* Formular */
+  .b-form-wrap {
+    background: var(--wine-soft); border: 1px solid var(--line);
+    border-radius: 18px; padding: 30px 30px 34px; color: var(--cream);
+  }
+  /* Popup */
+  .b-modal {
+    width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
+    margin: auto; box-shadow: 0 30px 80px rgba(0,0,0,.55);
+  }
+  .b-modal::backdrop { background: rgba(14,4,10,.78); backdrop-filter: blur(3px); }
+  .b-modal[open] { animation: b-pop .22s ease-out; }
+  @keyframes b-pop { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+  .b-close {
+    position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 999px;
+    background: rgba(0,0,0,.25); color: var(--cream); border: 1px solid var(--line);
+    font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .2s, color .2s;
+  }
+  .b-close:hover { background: var(--amber); color: var(--wine-deep); }
+  .b-modal h3 { padding-right: 48px; }
+  @media (prefers-reduced-motion: reduce) { .b-modal[open] { animation: none; } }
+  .b-form-wrap h3 { font-family: var(--display); font-weight: 900; font-size: 26px; margin-bottom: 10px; }
+  .b-chosen {
+    font-size: 16px; color: var(--amber-bright); font-weight: 600; margin-bottom: 22px;
+    padding: 12px 16px; background: rgba(244,161,77,.1); border: 1px solid rgba(244,161,77,.35);
+    border-radius: 12px;
+  }
+  .b-chosen[data-empty="true"] { color: var(--cream-dim); background: rgba(0,0,0,.18); border-color: var(--line); font-weight: 500; }
+  .b-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .b-field { display: flex; flex-direction: column; gap: 7px; }
+  .b-field-full { grid-column: 1 / -1; }
+  .b-field label { font-size: 14px; font-weight: 600; color: var(--cream); }
+  .b-field input, .b-field select, .b-field textarea {
+    font-family: var(--body); font-size: 16px; color: var(--cream);
+    background: var(--wine-deep); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; transition: border-color .2s;
+  }
+  .b-field input:focus, .b-field select:focus, .b-field textarea:focus {
+    outline: none; border-color: var(--amber);
+  }
+  .b-field textarea { resize: vertical; }
+  .b-submit { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 6px; }
+  .b-submit .btn[disabled] { opacity: .5; cursor: not-allowed; }
+  .b-privacy { font-size: 13px; color: var(--cream-dim); margin: 0; }
+
+  @media (max-width: 600px) {
+    .b-form { grid-template-columns: 1fr; }
+    .b-form-wrap { padding: 24px 20px 28px; }
+    .b-modal { width: 100%; max-width: 100%; max-height: 92dvh; margin: auto 0 0; border-radius: 18px 18px 0 0; }
+  }
+</style>
+
+<script>
+  const email = 'kontakt@komoedie-leipzig.de';
+  const prodSel = document.getElementById('f-prod');
+  const monatSel = document.getElementById('f-monat');
+  const artSel = document.getElementById('f-art');
+  const freiBox = document.getElementById('f-frei');
+  const countEl = document.getElementById('b-count');
+  const resetBtn = document.getElementById('b-reset');
+  const rows = Array.from(document.querySelectorAll('.b-row'));
+  const chosen = document.getElementById('b-chosen');
+  const sendBtn = document.getElementById('f-send');
+  const form = document.getElementById('b-form');
+  const fStueck = document.getElementById('f-stueck');
+  const fDatum = document.getElementById('f-datum');
+  const fUhrzeit = document.getElementById('f-uhrzeit');
+
+  const ortSel = document.getElementById('f-ort');
+  const empty = document.getElementById('b-empty');
+  const fOrt = { value: '' };
+
+  // Vergangene Termine ausblenden (die Seite wird statisch gebaut)
+  const d = new Date();
+  const heuteIso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  rows.forEach((r) => { if ((r.getAttribute('data-datum') || '') < heuteIso) r.remove(); });
+  const aktiveRows = rows.filter((r) => r.isConnected);
+
+  // Monate ohne (noch) kommende Termine aus der Auswahl entfernen
+  if (monatSel) Array.from(monatSel.options).forEach((opt) => {
+    if (opt.value !== 'all' && !aktiveRows.some((r) => r.getAttribute('data-monat') === opt.value)) opt.remove();
+  });
+  const selects = [prodSel, monatSel, ortSel, artSel].filter(Boolean);
+
+  function anwenden() {
+    const prodFilter = prodSel ? prodSel.value : 'all';
+    const monatFilter = monatSel ? monatSel.value : 'all';
+    const o = ortSel ? ortSel.value : 'all';
+    const a = artSel ? artSel.value : 'all';
+    const nurFrei = freiBox ? freiBox.checked : false;
+    let sichtbar = 0;
+    aktiveRows.forEach((r) => {
+      const show = (prodFilter === 'all' || r.getAttribute('data-prod') === prodFilter) &&
+                   (monatFilter === 'all' || r.getAttribute('data-monat') === monatFilter) &&
+                   (o === 'all' || r.getAttribute('data-ort') === o) &&
+                   (a === 'all' || r.getAttribute('data-art') === a) &&
+                   (!nurFrei || r.getAttribute('data-status') !== 'ausverkauft');
+      r.classList.toggle('is-hidden', !show);
+      if (show) sichtbar++;
+    });
+    if (empty) empty.hidden = sichtbar > 0;
+    if (countEl) countEl.textContent = `${sichtbar} ${sichtbar === 1 ? 'Termin' : 'Termine'}`;
+    const aktiv = prodFilter !== 'all' || monatFilter !== 'all' || o !== 'all' || a !== 'all' || nurFrei;
+    if (resetBtn) resetBtn.hidden = !aktiv;
+    selects.forEach((sel) => sel.classList.toggle('is-set', sel.value !== 'all'));
+  }
+
+  // Alle Filter reagieren auf Änderungen
+  selects.forEach((sel) => sel.addEventListener('change', anwenden));
+  if (freiBox) freiBox.addEventListener('change', anwenden);
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    selects.forEach((sel) => { sel.value = 'all'; });
+    if (freiBox) freiBox.checked = false;
+    anwenden();
+  });
+  anwenden();
+
+  // --- Reservierungs-Popup ---
+  const modal = document.getElementById('reservierung');
+  function oeffnen() {
+    if (!modal) return;
+    if (typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open', '');
+    document.body.style.overflow = 'hidden';
+    const nameField = document.getElementById('f-name');
+    if (nameField) setTimeout(() => nameField.focus(), 60);
+  }
+  function schliessen() {
+    if (!modal) return;
+    if (typeof modal.close === 'function') modal.close(); else modal.removeAttribute('open');
+  }
+  if (modal) {
+    modal.addEventListener('close', () => { document.body.style.overflow = ''; });
+    // Klick auf den abgedunkelten Hintergrund schließt
+    modal.addEventListener('click', (e) => {
+      if (e.target !== modal) return;
+      const r = modal.getBoundingClientRect();
+      const innen = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!innen) schliessen();
+    });
+  }
+  const closeBtn = document.getElementById('b-close');
+  if (closeBtn) closeBtn.addEventListener('click', schliessen);
+
+  // Vorstellung auswählen
+  document.querySelectorAll('.b-reserve').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const titel = btn.getAttribute('data-titel') || '';
+      const datum = btn.getAttribute('data-datum') || '';
+      const uhrzeit = btn.getAttribute('data-uhrzeit') || '';
+      fStueck.value = titel;
+      fDatum.value = datum;
+      fUhrzeit.value = uhrzeit;
+      fOrt.value = btn.getAttribute('data-ort') || '';
+      if (chosen) {
+        chosen.textContent = `Gewählt: ${titel} · ${datum} · ${uhrzeit} Uhr${fOrt.value ? ' · ' + fOrt.value : ''}`;
+        chosen.setAttribute('data-empty', 'false');
+      }
+      if (sendBtn) sendBtn.disabled = false;
+      oeffnen();
+    });
+  });
+
+  // Absenden -> E-Mail vorbereiten
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!fStueck.value) { alert('Bitte zuerst oben eine Vorstellung auswählen.'); return; }
+      const name = (document.getElementById('f-name')).value.trim();
+      const mail = (document.getElementById('f-mail')).value.trim();
+      if (!name || !mail) { alert('Bitte Name und E-Mail angeben.'); return; }
+      const anzahl = (document.getElementById('f-anzahl')).value;
+      const tel = (document.getElementById('f-tel')).value.trim();
+      const msg = (document.getElementById('f-msg')).value.trim();
+
+      const subject = `Reservierungsanfrage: ${fStueck.value} am ${fDatum.value}`;
+      const body =
+        `Hallo Komödie Leipzig,\n\n` +
+        `ich möchte folgende Vorstellung reservieren:\n\n` +
+        `Stück: ${fStueck.value}\n` +
+        `Datum: ${fDatum.value}\n` +
+        `Uhrzeit: ${fUhrzeit.value} Uhr\n` +
+        `Spielort: ${fOrt.value || '—'}\n` +
+        `Anzahl Tickets: ${anzahl}\n\n` +
+        `Name: ${name}\n` +
+        `E-Mail: ${mail}\n` +
+        `Telefon: ${tel || '—'}\n\n` +
+        `Nachricht: ${msg || '—'}\n\n` +
+        `Mit freundlichen Grüßen\n${name}`;
+
+      window.location.href =
+        `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setTimeout(schliessen, 600);
+    });
+  }
+</script>

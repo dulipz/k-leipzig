@@ -1,0 +1,26 @@
+# Alte URLs der bisherigen Website (one.com) -> neue Seiten
+/spielplan.php          /spielplan       301
+/bestellung.php         /spielplan       301
+/geschenkgutschein.php  /#gutscheine     301
+/index.html             /                301
+/kontakt.html           /kontakt         301
+/impressum.html         /impressum       301
+/datenschutzerklaerung.html /datenschutz 301
+/agb.html               /agb             301
+/schauspieler.html      /ensemble        301
+/theaterdinner.html     /#programm       301
+/aschen.html            /#programm       301
+/weihnachts.html        /#programm       301
+/feuerzange.html        /#programm       301
+/olsenbande.html        /#programm       301
+/olsenbande2.html       /#programm       301
+/gotrabigo.html         /#programm       301
+/mit66jahren.html       /#programm       301
+/haschmich.html         /#programm       301
+/sommer.html            /#programm       301
+/lerche.html            /#programm       301
+/rundj.html             /#programm       301
+/rossl.html             /#programm       301
+/geizige.html           /#programm       301
+/schoeller.html         /#programm       301
+/tt.html                /#programm       301

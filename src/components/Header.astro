@@ -6,17 +6,17 @@ const { active } = Astro.props;
 
 const links = [
   { href: '/#programm', label: 'Programm', key: 'programm' },
-  { href: '/#termine', label: 'Termine & Tickets', key: 'termine' },
+  { href: '/spielplan', label: 'Spielplan & Tickets', key: 'termine' },
   { href: '/#news', label: 'Aktuelles', key: 'aktuelles' },
   { href: '/ensemble', label: 'Ensemble', key: 'ensemble' },
-  { href: '/kleine-komoedie', label: 'Kleine Komödie', key: 'venue' },
+  { href: '/#venue', label: 'Kleine Komödie', key: 'venue' },
 ];
 ---
 
 <div class="util">
   <div class="container">
-    <a href="#"><span class="tag">☎ Tickets:</span> [Telefon folgt]</a>
-    <a href="/gutscheine">Gutscheine</a>
+    <a href="tel:+491791437331"><span class="tag">☎ Tickets:</span> 0179 1437331</a>
+    <a href="/#gutschein-anfragen" data-gutschein>Gutscheine</a>
   </div>
 </div>
 
@@ -31,7 +31,7 @@ const links = [
         <a href={l.href} class={active === l.key ? 'active' : undefined}>{l.label}</a>
       ))}
     </nav>
-    <a href="/buchung" class="btn btn-amber" style="flex-shrink:0">Tickets</a>
+    <a href="/spielplan" class="btn btn-amber" style="flex-shrink:0">Tickets</a>
     <button class="burger" id="burger" aria-label="Menü" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
