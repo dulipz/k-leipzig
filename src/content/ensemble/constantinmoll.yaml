@@ -3,4 +3,5 @@ rolle: "Schauspieler & Sänger"
 bio: "Constantin hat seine Schauspielausbildung 2024 an der Schule für Schauspiel in Hamburg beendet und arbeitet seitdem freischaffend als Schauspieler und Sänger. Seit dem Ende seiner Ausbildung war er unter anderem an den Hamburger Kammerspielen, der Comödie Lübeck, der Freilichtbühne Waren/Müritz und auf deutschlandweiter Tour mit „TINA – The Rock Legend“ zu sehen. Seit der Spielzeit 26/27 gehört Constantin zudem zum Ensemble des Kabaretttheaters „Die Stachelschweine“ in Berlin."
 foto: "constantinmoll.jpg"
 reihenfolge: 21
-zuSehenIn: []
+zuSehenIn:
+  - "Eine Weihnachtsgeschichte"

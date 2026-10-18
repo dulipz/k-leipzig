@@ -3,4 +3,5 @@ rolle: "Schauspielerin"
 bio: "Geboren und aufgewachsen in Halle an der Saale. Nach dem Abitur Studium der Ägyptologie in Berlin, dann der Schauspielkunst. Engagements am carrousel-Theater Berlin und Staatstheater Cottbus. Als freie Schauspielerin u. a. bei den Burghofspielen Eltville, Barockfestspielen Schloss Batzdorf, Rolf-Hoppe-Hoftheater Dresden, Neue Bühne Senftenberg, Hans-Otto-Theater Potsdam. Seit 2014 fester Bestandteil der Shakespeare Company Berlin."
 foto: "johannajuliaspitzer.jpg"
 reihenfolge: 22
-zuSehenIn: []
+zuSehenIn:
+  - "Die Feuerzangenbowle"

@@ -3,4 +3,5 @@ rolle: "Schauspieler"
 bio: "Schauspielstudium an der Theaterhochschule „Hans Otto“ Leipzig. Engagements am Staatstheater Cottbus, den Freien Kammerspielen Magdeburg, am Theater Junge Generation Dresden und am Gerhart-Hauptmann-Theater Zittau. Arbeiten mit freien Gruppen in Dresden und Halle. Gastengagements an Theatern in Berlin, Weimar, Erfurt, Zwickau und Görlitz. Erste Erfahrungen im komödiantischen Dinner-Theater mit Alf Mahlo in Dresden. Lehrbeauftragter an der HMT Rostock. Zuletzt als Kommissar und Täter in Krimi-Dinner-Produktionen unterwegs. Lebt in Dresden."
 foto: "thomasfranzkressmann.jpg"
 reihenfolge: 23
-zuSehenIn: []
+zuSehenIn:
+  - "Die Feuerzangenbowle"
