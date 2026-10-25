@@ -68,22 +68,24 @@ const langDatum = (iso: string) =>
 
 <BaseLayout
   title="Spielplan & Tickets — Komödie Leipzig"
-  description="Alle Termine der Komödie Leipzig: Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren Partner-Hotels. Jetzt Plätze reservieren."
+  description="Alle Termine der Komödie Leipzig: Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren Partner-Hotels. Jetzt Karten bestellen."
 >
   <section class="block" id="buchung">
     <div class="container">
       <div class="head">
         <div>
           <div class="kick">Spielplan &amp; Tickets</div>
-          <h2>Vorstellung wählen &amp; reservieren</h2>
+          <h2>Vorstellung wählen &amp; Karten bestellen</h2>
         </div>
       </div>
 
       <p class="b-intro">
         Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren
         Partner-Häusern. Wählen Sie eine Vorstellung aus und senden Sie uns Ihre
-        Reservierungsanfrage — Sie erhalten von uns eine Bestätigung mit allen
-        Details zur Bezahlung.
+        Kartenbestellung — Sie erhalten von uns eine Bestätigung mit allen Details
+        zur Bezahlung. Die Tickets schicken wir Ihnen anschließend per Post zu.
+        Tickets für unsere Veranstaltungen in der Kleinen Komödie Reuden 34,– €,
+        bei Gastspielen/Lesungen ab 24,– €. Unsere Dinnerveranstaltungen ab 74,– €.
       </p>
 
       {kommende.length === 0 ? (
@@ -166,7 +168,7 @@ const langDatum = (iso: string) =>
                         data-datum={langDatum(t.datum)}
                         data-uhrzeit={t.uhrzeit}
                         data-ort={t.ort}
-                      >Reservieren</button>
+                      >Tickets bestellen</button>
                     )}
                   </div>
                 </div>
@@ -174,10 +176,10 @@ const langDatum = (iso: string) =>
             })}
           </div>
 
-          <!-- RESERVIERUNGSFORMULAR -->
-          <dialog class="b-form-wrap b-modal" id="reservierung" aria-labelledby="res-title">
+          <!-- KARTENBESTELLUNG -->
+          <dialog class="b-form-wrap b-modal" id="kartenbestellung" aria-labelledby="res-title">
             <button type="button" class="b-close" id="b-close" aria-label="Schließen">×</button>
-            <h3 id="res-title">Reservierungsanfrage</h3>
+            <h3 id="res-title">Kartenbestellung</h3>
             <p class="b-chosen" id="b-chosen" data-empty="true">
               Bitte oben zuerst eine Vorstellung auswählen.
             </p>
@@ -206,14 +208,27 @@ const langDatum = (iso: string) =>
                 <label for="f-tel">Telefon</label>
                 <input id="f-tel" type="tel" autocomplete="tel" />
               </div>
+              <div class="b-sep b-field-full">Anschrift für den Ticketversand</div>
+              <div class="b-field b-field-full">
+                <label for="f-strasse">Straße &amp; Hausnummer *</label>
+                <input id="f-strasse" type="text" required autocomplete="street-address" />
+              </div>
+              <div class="b-field">
+                <label for="f-plz">PLZ *</label>
+                <input id="f-plz" type="text" required inputmode="numeric" autocomplete="postal-code" maxlength="10" />
+              </div>
+              <div class="b-field">
+                <label for="f-ort-stadt">Ort *</label>
+                <input id="f-ort-stadt" type="text" required autocomplete="address-level2" />
+              </div>
               <div class="b-field b-field-full">
                 <label for="f-msg">Nachricht (optional)</label>
                 <textarea id="f-msg" rows="3" placeholder="z. B. Sitzplatzwünsche, Rollstuhlplatz, Allergien beim Dinner …"></textarea>
               </div>
 
               <div class="b-submit">
-                <button type="submit" class="btn btn-amber" id="f-send" disabled>Reservierung anfragen →</button>
-                <p class="b-privacy">Ihre Anfrage wird per E-Mail an uns gesendet — keine Weitergabe an Dritte.</p>
+                <button type="submit" class="btn btn-amber" id="f-send" disabled>Karten verbindlich bestellen →</button>
+                <p class="b-privacy">Ihre Bestellung wird per E-Mail an uns gesendet — keine Weitergabe an Dritte.</p>
               </div>
             </form>
           </dialog>
@@ -311,6 +326,11 @@ const langDatum = (iso: string) =>
     outline: none; border-color: var(--amber);
   }
   .b-field textarea { resize: vertical; }
+  .b-field input.is-invalid { border-color: #ff8a7a; box-shadow: 0 0 0 3px rgba(255,138,122,.18); }
+  .b-sep {
+    margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line);
+    font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--amber);
+  }
   .b-submit { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 6px; }
   .b-submit .btn[disabled] { opacity: .5; cursor: not-allowed; }
   .b-privacy { font-size: 13px; color: var(--cream-dim); margin: 0; }
@@ -377,6 +397,12 @@ const langDatum = (iso: string) =>
     selects.forEach((sel) => sel.classList.toggle('is-set', sel.value !== 'all'));
   }
 
+  // Vorauswahl per Link, z. B. /spielplan?stueck=go-trabi-go (von den Stück-Seiten)
+  const vorwahl = new URLSearchParams(location.search).get('stueck');
+  if (vorwahl && prodSel && Array.from(prodSel.options).some((o) => o.value === vorwahl)) {
+    prodSel.value = vorwahl;
+  }
+
   // Alle Filter reagieren auf Änderungen
   selects.forEach((sel) => sel.addEventListener('change', anwenden));
   if (freiBox) freiBox.addEventListener('change', anwenden);
@@ -387,8 +413,8 @@ const langDatum = (iso: string) =>
   });
   anwenden();
 
-  // --- Reservierungs-Popup ---
-  const modal = document.getElementById('reservierung');
+  // --- Kartenbestellungs-Popup ---
+  const modal = document.getElementById('kartenbestellung');
   function oeffnen() {
     if (!modal) return;
     if (typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open', '');
@@ -439,15 +465,30 @@ const langDatum = (iso: string) =>
       if (!fStueck.value) { alert('Bitte zuerst oben eine Vorstellung auswählen.'); return; }
       const name = (document.getElementById('f-name')).value.trim();
       const mail = (document.getElementById('f-mail')).value.trim();
-      if (!name || !mail) { alert('Bitte Name und E-Mail angeben.'); return; }
+      const strasse = (document.getElementById('f-strasse')).value.trim();
+      const plz = (document.getElementById('f-plz')).value.trim();
+      const stadt = (document.getElementById('f-ort-stadt')).value.trim();
+      const fehlt = [];
+      if (!name) fehlt.push('f-name');
+      if (!mail) fehlt.push('f-mail');
+      if (!strasse) fehlt.push('f-strasse');
+      if (!plz) fehlt.push('f-plz');
+      if (!stadt) fehlt.push('f-ort-stadt');
+      form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
+      if (fehlt.length) {
+        fehlt.forEach((id) => document.getElementById(id)?.classList.add('is-invalid'));
+        document.getElementById(fehlt[0])?.focus();
+        alert('Bitte Name, E-Mail und vollständige Anschrift angeben – sonst können wir Ihnen die Tickets nicht zuschicken.');
+        return;
+      }
       const anzahl = (document.getElementById('f-anzahl')).value;
       const tel = (document.getElementById('f-tel')).value.trim();
       const msg = (document.getElementById('f-msg')).value.trim();
 
-      const subject = `Reservierungsanfrage: ${fStueck.value} am ${fDatum.value}`;
+      const subject = `Kartenbestellung: ${fStueck.value} am ${fDatum.value}`;
       const body =
         `Hallo Komödie Leipzig,\n\n` +
-        `ich möchte folgende Vorstellung reservieren:\n\n` +
+        `ich bestelle hiermit Karten für folgende Vorstellung:\n\n` +
         `Stück: ${fStueck.value}\n` +
         `Datum: ${fDatum.value}\n` +
         `Uhrzeit: ${fUhrzeit.value} Uhr\n` +
@@ -456,6 +497,7 @@ const langDatum = (iso: string) =>
         `Name: ${name}\n` +
         `E-Mail: ${mail}\n` +
         `Telefon: ${tel || '—'}\n\n` +
+        `Anschrift für den Ticketversand:\n${name}\n${strasse}\n${plz} ${stadt}\n\n` +
         `Nachricht: ${msg || '—'}\n\n` +
         `Mit freundlichen Grüßen\n${name}`;
 

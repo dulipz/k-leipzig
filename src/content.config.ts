@@ -23,6 +23,12 @@ const produktionen = defineCollection({
     typ: z.enum(['theater', 'dinner', 'familie']),
     preisAb: z.number(),
     reihenfolge: z.number().default(99),
+    // Detailseite: Regie, Besetzung und Hinweise (Rechte, Fotografen …)
+    regie: z.string().nullish(),
+    besetzung: z
+      .array(z.object({ rolle: z.string(), name: z.string() }))
+      .default([]),
+    hinweise: z.string().nullish(),
   }),
 });
 

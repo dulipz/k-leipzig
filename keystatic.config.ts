@@ -47,6 +47,22 @@ export default config({
           description: 'Kleinere Zahl = weiter vorne.',
           defaultValue: 99,
         }),
+        regie: fields.text({ label: 'Buch, Bühne & Regie' }),
+        besetzung: fields.array(
+          fields.object({
+            rolle: fields.text({ label: 'Rolle(n)' }),
+            name: fields.text({ label: 'Darsteller/in' }),
+          }),
+          {
+            label: 'Besetzung',
+            itemLabel: (props) => `${props.fields.rolle.value || 'Rolle'} – ${props.fields.name.value || ''}`,
+          }
+        ),
+        hinweise: fields.text({
+          label: 'Hinweise',
+          description: 'z. B. Aufführungsrechte, Fotograf, Premiere',
+          multiline: true,
+        }),
         beschreibung: fields.markdoc({ label: 'Beschreibung' }),
       },
     }),

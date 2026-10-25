@@ -9,8 +9,12 @@ const betraege = [34, 50, 68, 100];
   <button type="button" class="g-close" data-g-close aria-label="Schließen">×</button>
   <h3 id="g-title">Gutschein anfragen</h3>
   <p class="g-intro">
-    Verschenken Sie einen Abend voller Lachen. Wir senden Ihnen nach Ihrer Anfrage eine
-    Bestätigung mit allen Details zur Bezahlung.
+    Verschenken Sie einen Abend voller Lachen in der <b>Kleinen Komödie Reuden</b>. Wir senden
+    Ihnen nach Ihrer Anfrage eine Bestätigung mit allen Details zur Bezahlung.
+  </p>
+  <p class="g-hinweis">
+    Bitte beachten Sie: Wir verkaufen ausschließlich Gutscheine für die Kleine Komödie Reuden.
+    Gutscheine für Dinnerabende erhalten Sie ausschließlich bei den jeweiligen Veranstaltern.
   </p>
 
   <form id="g-form" class="g-form" novalidate>
@@ -103,6 +107,10 @@ const betraege = [34, 50, 68, 100];
 </dialog>
 
 <style>
+  .g-hinweis {
+    font-size: 14.5px; line-height: 1.5; color: var(--cream); margin: 0 0 20px;
+    padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(244,161,77,.5); background: rgba(244,161,77,.1);
+  }
   .g-modal {
     width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
     margin: auto; padding: 30px 30px 34px; color: var(--cream);
@@ -267,7 +275,7 @@ const betraege = [34, 50, 68, 100];
       const subject = `Gutschein-Anfrage: ${n} × ${euro.format(b)}`;
       const body =
         `Hallo Komödie Leipzig,\n\n` +
-        `ich möchte folgenden Gutschein bestellen:\n\n` +
+        `ich möchte folgenden Gutschein für die Kleine Komödie Reuden bestellen:\n\n` +
         `Gutscheinwert: ${euro.format(b)}\n` +
         `Anzahl: ${n}\n` +
         `Gesamtbetrag: ${euro.format(b * n)}\n` +

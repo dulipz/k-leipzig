@@ -1,5 +1,6 @@
 ---
 import { typBadge, type Typ } from '../lib/format';
+import { plakate, galerien } from '../lib/produktion-medien';
 
 interface Props {
   id: string;
@@ -9,35 +10,30 @@ interface Props {
   preisAb: number;
 }
 const { id, titel, untertitel, typ, preisAb } = Astro.props;
-const badge = typBadge(typ);
-
-// Plakate je Produktion (Bilder liegen in /public/images/produktionen).
-// Neue Produktion mit Plakat? Einfach hier eine Zeile ergänzen.
-const plakate: Record<string, string> = {
-  'go-trabi-go': '/images/produktionen/gotrabigo.jpg',
-  'die-olsenbande-2': '/images/produktionen/olsenbande2.jpg',
-  'die-feuerzangenbowle': '/images/produktionen/feuerzangenbowle.jpg',
-  'drei-haselnuesse': '/images/produktionen/aschen.jpg',
-  'mit-66-jahren': '/images/produktionen/Mit66Jahren.png',
-  'hasch-mich': '/images/produktionen/haschmich.png',
-  'die-hexe-baba-jaga': '/images/produktionen/babajaga.jpg',
-};
+// „Theater“ steht nicht mehr auf den Plakaten (wir spielen ohnehin nur Theater) –
+// nur abweichende Arten wie Familienstück oder Dinner bekommen ein Etikett.
+const badge = typ === 'theater' ? null : typBadge(typ);
 const plakat = plakate[id];
+const hatFotos = Boolean(galerien[id]);
+const href = `/programm/${id}`;
 ---
 
 <article class="card">
-  <div
+  <a
+    href={href}
     class:list={["poster", { "has-img": plakat }]}
     style={plakat ? `background-image:url('${plakat}')` : undefined}
+    aria-label={`${titel.replace(/<[^>]+>/g, '')} – Details${hatFotos ? ' und Szenenfotos' : ''}`}
   >
     {!plakat && <span class="ph-tag">Plakat folgt</span>}
-    <span class={`badge ${badge.cls}`}>{badge.label}</span>
+    {badge && <span class={`badge ${badge.cls}`}>{badge.label}</span>}
+    {hatFotos && <span class="foto-tag">📷 Szenenfotos</span>}
     <h3 set:html={titel} />
     <span class="sub">{untertitel}</span>
-  </div>
+  </a>
   <div class="foot">
     <span class="price">ab {preisAb} €</span>
-    <a href={`/programm/${id}`}>Mehr →</a>
+    <a href={href}>{hatFotos ? 'Mehr & Fotos →' : 'Mehr →'}</a>
   </div>
 </article>
 
@@ -54,5 +50,11 @@ const plakat = plakate[id];
       rgba(28, 8, 20, .5) 42%,
       rgba(28, 8, 20, .12) 100%
     );
+  }
+  .foto-tag {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--cream); background: rgba(0, 0, 0, .5); border: 1px solid var(--line);
+    padding: 4px 10px; border-radius: 999px;
   }
 </style>
