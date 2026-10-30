@@ -22,3 +22,6 @@ design/
 Old_site/
 images/_to_delete/
 images/wetransfer_*/
+
+# lokale Secrets (Wrangler)
+.dev.vars

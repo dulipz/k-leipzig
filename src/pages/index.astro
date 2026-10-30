@@ -104,10 +104,6 @@ const heroBilderMobil = [
     </div>
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <div class="bulbs reveal d1" style="margin-bottom:28px">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-      </div>
-      <span class="eyebrow reveal d1">Kleine Komödie Reuden · <span style="white-space:nowrap">Theater &amp; Theater-Bar</span></span>
       <h1 class="reveal d2">Bei uns lachen<br />Sie <em>besser.</em></h1>
       <p class="lead reveal d3">
         Aus einer alten Scheune wird ein Theatersaal: komödiantisches Boulevard-Theater
@@ -245,8 +241,7 @@ const heroBilderMobil = [
           </div>
           <div class="addr">
             <b>Kleine Komödie Reuden</b><br />
-            <span>Dorfstraße 23 · 06766 Reuden an der Fuhne</span><br />
-            <span>Übernachtung in der Nähe: Pension Harmonie, Bitterfeld-Wolfen</span>
+            <span>Dorfstraße 23 · 06766 Reuden an der Fuhne</span>
           </div>
         </div>
       </div>
@@ -262,25 +257,9 @@ const heroBilderMobil = [
           <div class="kick">Vermietung</div>
           <h2>Ihre Feier auf unserer Bühne</h2>
           <p>
-            Die Kleine Komödie Reuden ist nicht nur Theater — sie ist auch ein ganz besonderer
-            Ort zum Feiern. Gemütlicher Theatersaal, eigene Theater-Bar und ein stimmungsvoller
-            Innenhof unter freiem Himmel: Bei uns wird Ihr Fest zum großen Auftritt.
+            Sie möchten die Kleine Komödie Reuden für eine Veranstaltung anmieten? Sprechen Sie
+            uns gerne an — wir prüfen jede Anfrage individuell und melden uns bei Ihnen.
           </p>
-          <p>
-            Wir vermieten unsere Spielstätte für private und geschäftliche Anlässe. Erzählen
-            Sie uns von Ihrer Idee — gemeinsam machen wir daraus einen Abend, über den Ihre
-            Gäste noch lange reden.
-          </p>
-          <ul class="anlaesse" aria-label="Mögliche Anlässe">
-            <li>Hochzeiten</li>
-            <li>Geburtstage &amp; Jubiläen</li>
-            <li>Jugendweihe-Feiern</li>
-            <li>Polterabende &amp; Junggesellenabschiede</li>
-            <li>Firmen- &amp; Weihnachtsfeiern</li>
-            <li>Taufen &amp; Familienfeste</li>
-            <li>Klassen- &amp; Vereinstreffen</li>
-            <li>Lesungen, Konzerte &amp; Workshops</li>
-          </ul>
           <div class="verm-cta">
             <a class="btn btn-amber" href={vermietungMail}>Termin anfragen →</a>
             <a class="btn btn-ghost" href="tel:+491791437331">☎ 0179 1437331</a>
@@ -384,12 +363,7 @@ const heroBilderMobil = [
   .verm .kick { color: var(--amber); font-weight: 700; letter-spacing: .18em; text-transform: uppercase; font-size: 13px; margin-bottom: 10px; }
   .verm h2 { font-family: var(--display); font-weight: 900; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; margin-bottom: 14px; }
   .verm-text p { color: var(--cream-dim); font-size: 16.5px; margin-bottom: 14px; }
-  .anlaesse { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 26px; }
-  .anlaesse li {
-    font-size: 14px; font-weight: 600; padding: 6px 13px; border-radius: 999px;
-    background: rgba(244, 161, 77, .12); border: 1px solid rgba(244, 161, 77, .45); color: var(--amber-bright);
-  }
-  .verm-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .verm-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
   .verm-media { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .verm-img { position: relative; margin: 0; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 16 / 7; grid-column: 1 / -1; }
   .verm-img.gross { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
@@ -409,7 +383,7 @@ const heroBilderMobil = [
   }
   @media (max-width: 680px) {
     .verm-text { text-align: center; }
-    .anlaesse, .verm-cta { justify-content: center; }
+    .verm-cta { justify-content: center; }
     .verm-cta .btn { width: 100%; justify-content: center; }
     .verm-feats { grid-template-columns: 1fr; margin-top: 28px; }
   }

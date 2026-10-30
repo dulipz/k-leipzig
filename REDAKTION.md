@@ -74,3 +74,26 @@ npm run dev        # lokale Vorschau
   > Hinweis: Das Ensemble wurde aus den vorhandenen Fotos vorbefüllt. Die Namen
   > sind Platzhalter (aus den Dateinamen) – bitte einmal Name, Rolle und Bio
   > ergänzen.
+
+---
+
+## Ausverkauft-Schalter (`/sinahamala`)
+
+Interne, nicht verlinkte Seite für die Kasse: kommende Vorstellungen mit einem Tipp
+auf **Ausverkauft** / **Karten frei** setzen. Ein gemeinsames Passwort, Login bleibt
+30 Tage gespeichert. Jede Änderung wird direkt in `src/data/termine.json` im GitHub-Repo
+gespeichert (nur die eine Status-Zeile) → Cloudflare baut neu → nach ca. 2 Minuten live.
+
+**Einrichtung (Cloudflare → Projekt `k-leipzig` → Settings → Variables and Secrets):**
+
+| Name | Typ | Wert |
+|---|---|---|
+| `SINAHAMALA_PASSWORD` | Secret | das gemeinsame Passwort |
+| `GITHUB_TOKEN` | Secret | GitHub Fine-grained Token: nur Repo `dulipz/k-leipzig`, Berechtigung *Contents: Read and write* |
+| `GITHUB_BRANCH` | Text (optional) | Standard `master` – nur ändern, falls Cloudflare von einem anderen Branch baut |
+
+Passwort ändern = Secret ändern → alle Geräte sind abgemeldet.
+
+**Lokal testen:** `.dev.vars` mit `SINAHAMALA_PASSWORD=...` anlegen (nicht committen),
+`npm run dev`, dann http://localhost:4321/sinahamala. Ohne `GITHUB_TOKEN` wird lokal
+direkt die Datei geändert.

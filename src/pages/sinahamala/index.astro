@@ -1,0 +1,279 @@
+---
+// Interne Seite für die Kasse: Vorstellungen mit einem Tipp auf "Ausverkauft" setzen.
+// Nicht verlinkt, nicht in Suchmaschinen. Ein gemeinsames Passwort.
+import '@fontsource-variable/fraunces/opsz.css';
+import '@fontsource-variable/libre-franklin/index.css';
+import { getCollection } from 'astro:content';
+import { COOKIE, getEnv, sessionGueltig, termineLesen, terminKey, heuteBerlin } from '../../lib/sinahamala';
+
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'no-store');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+
+const env = getEnv(Astro.locals);
+const angemeldet = await sessionGueltig(env, Astro.cookies.get(COOKIE)?.value);
+const fehler = Astro.url.searchParams.get('fehler');
+
+let items: any[] = [];
+let ladeFehler = '';
+if (angemeldet) {
+  try {
+    const titel = new Map((await getCollection('produktionen')).map((p) => [p.id, (p.data as any).titel as string]));
+    const { termine } = await termineLesen(env);
+    const heute = heuteBerlin();
+    items = termine
+      .map((t, idx) => ({
+        idx,
+        key: terminKey(t),
+        d: t.datum,
+        u: t.uhrzeit,
+        t: titel.get(t.produktion) ?? t.produktion,
+        o: t.ort ?? '',
+        a: t.art ?? 'theater',
+        s: t.status ?? 'verfuegbar',
+      }))
+      .filter((x) => x.d >= heute)
+      .sort((a, b) => (a.d + a.u).localeCompare(b.d + b.u));
+  } catch (e) {
+    ladeFehler = e instanceof Error ? e.message : 'Spielplan konnte nicht geladen werden.';
+  }
+}
+const daten = JSON.stringify({ items, heute: heuteBerlin() }).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#2c0d20" />
+  <title>Ausverkauft-Schalter · Komödie Leipzig</title>
+</head>
+<body>
+  {!angemeldet ? (
+    <main class="login">
+      <form method="post" action="/sinahamala/login" class="login-box">
+        <small class="kick">Komödie Leipzig · intern</small>
+        <h1>Ausverkauft-Schalter</h1>
+        <label for="pw">Passwort</label>
+        <input id="pw" name="passwort" type="password" autocomplete="current-password" required autofocus />
+        {fehler === '1' && <p class="err">Das Passwort stimmt nicht. Bitte noch einmal versuchen.</p>}
+        {fehler === 'setup' && <p class="err">Der Login ist noch nicht eingerichtet (SINAHAMALA_PASSWORD fehlt).</p>}
+        <button type="submit">Anmelden</button>
+      </form>
+    </main>
+  ) : (
+    <>
+      <div class="wrap">
+        <header>
+          <div class="top">
+            <div class="brand"><small class="kick">Komödie Leipzig · intern</small><h1>Ausverkauft-Schalter</h1></div>
+            <form method="post" action="/sinahamala/logout"><button class="logout" type="submit">Abmelden</button></form>
+          </div>
+          <input id="q" class="search" type="search" placeholder="Stück, Ort oder Datum suchen …" autocomplete="off" />
+          <div class="chips" role="group" aria-label="Filter">
+            <button class="chip" data-f="alle" aria-pressed="true">Alle</button>
+            <button class="chip" data-f="woche" aria-pressed="false">Nächste 7 Tage</button>
+            <button class="chip" data-f="reuden" aria-pressed="false">Kleine Komödie Reuden</button>
+            <button class="chip" data-f="dinner" aria-pressed="false">Dinner-Shows</button>
+            <button class="chip" data-f="sold" aria-pressed="false">Nur ausverkaufte</button>
+          </div>
+        </header>
+        {ladeFehler && <p class="err big">{ladeFehler}</p>}
+        <main id="out"></main>
+        <p class="hint">Änderungen sind sofort gespeichert und erscheinen nach ca. 2 Minuten auf der Website.</p>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite">
+        <p id="tmsg"></p><button id="undo" type="button">Rückgängig</button>
+      </div>
+      <script type="application/json" id="sh-data" set:html={daten}></script>
+    </>
+  )}
+</body>
+</html>
+
+<script>
+  const el = document.getElementById('sh-data');
+  if (el) {
+    type Item = { idx: number; key: string; d: string; u: string; t: string; o: string; a: string; s: string };
+    const { items, heute } = JSON.parse(el.textContent || '{}') as { items: Item[]; heute: string };
+    const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+    const MON = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    let filter = 'alle', query = '';
+    let last: { item: Item; prev: string } | null = null;
+    let timer: number | undefined;
+    const out = document.getElementById('out')!;
+    const toast = document.getElementById('toast')!;
+    const tmsg = document.getElementById('tmsg')!;
+    const undoBtn = document.getElementById('undo') as HTMLButtonElement;
+    const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+    const dt = (s: string) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+    const kurz = (x: Item) => { const d = dt(x.d); return `${d.getDate()}.${d.getMonth() + 1}.`; };
+    const bis7 = (() => { const d = dt(heute); d.setDate(d.getDate() + 7); return d; })();
+    const pending = new Set<number>();
+
+    function visible(x: Item) {
+      if (filter === 'woche' && dt(x.d) > bis7) return false;
+      if (filter === 'reuden' && !/Reuden/.test(x.o)) return false;
+      if (filter === 'dinner' && x.a !== 'dinner') return false;
+      if (filter === 'sold' && x.s !== 'ausverkauft') return false;
+      if (query) {
+        const d = dt(x.d);
+        const hay = `${x.t} ${x.o} ${d.getDate()}.${d.getMonth() + 1}. ${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}. ${MON[d.getMonth()]}`.toLowerCase();
+        if (!query.split(/\s+/).every((w) => hay.includes(w))) return false;
+      }
+      return true;
+    }
+
+    function render() {
+      const list = items.filter(visible);
+      if (!list.length) {
+        out.innerHTML = `<p class="empty">${items.length ? 'Keine Vorstellung gefunden. Suchbegriff oder Filter ändern.' : 'Keine kommenden Vorstellungen eingetragen.'}</p>`;
+        return;
+      }
+      const groups: Record<string, Item[]> = {};
+      list.forEach((x) => (groups[x.d.slice(0, 7)] ||= []).push(x));
+      out.innerHTML = Object.entries(groups).map(([k, arr]) => {
+        const sold = arr.filter((x) => x.s === 'ausverkauft').length;
+        return `<div class="month">${MON[Number(k.slice(5, 7)) - 1]} ${k.slice(0, 4)}<span>${arr.length} Vorstellungen · ${sold} ausverkauft</span></div><div class="list">` +
+          arr.map((x) => {
+            const d = dt(x.d), on = x.s === 'ausverkauft';
+            return `<div class="row${on ? ' is-sold' : ''}${pending.has(x.idx) ? ' is-busy' : ''}">
+              <div class="date"><div class="wd">${WD[d.getDay()]}</div><div class="d">${d.getDate()}.</div><div class="t">${x.u}</div></div>
+              <div class="info"><b>${esc(x.t)}</b><div class="o"><span class="tag">${x.a === 'dinner' ? 'Dinner' : 'Theater'}</span>${esc(x.o)}</div></div>
+              <button class="sw" role="switch" aria-checked="${on}" data-idx="${x.idx}" ${pending.has(x.idx) ? 'disabled' : ''} aria-label="${esc(x.t)} am ${kurz(x)} ausverkauft">
+                <span class="track"></span><span class="label">${on ? 'Ausverkauft' : 'Karten frei'}</span>
+              </button></div>`;
+          }).join('') + '</div>';
+      }).join('');
+    }
+
+    function zeige(html: string, mitUndo: boolean, fehler = false) {
+      tmsg.innerHTML = html;
+      undoBtn.hidden = !mitUndo;
+      toast.classList.toggle('is-err', fehler);
+      toast.classList.add('show');
+      clearTimeout(timer);
+      timer = window.setTimeout(() => toast.classList.remove('show'), fehler ? 9000 : 6000);
+    }
+
+    async function setze(x: Item, status: string, prev: string, undo: boolean) {
+      x.s = status; pending.add(x.idx); render();
+      try {
+        const res = await fetch('/sinahamala/api', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: x.key, idx: x.idx, status }),
+        });
+        const j = await res.json().catch(() => ({}));
+        if (res.status === 401) { location.reload(); return; }
+        if (!res.ok) throw new Error(j.fehler || 'Speichern fehlgeschlagen.');
+        last = undo ? null : { item: x, prev };
+        zeige(`<b>${esc(x.t)}, ${kurz(x)}</b> ist jetzt ${status === 'ausverkauft' ? '<b>ausverkauft</b>' : '<b>wieder buchbar</b>'}.<small>Gespeichert · auf der Website in ca. 2 Minuten sichtbar</small>`, !undo);
+      } catch (e) {
+        x.s = prev;
+        zeige(`<b>Nicht gespeichert.</b><small>${esc((e as Error).message)}</small>`, false, true);
+      } finally {
+        pending.delete(x.idx); render();
+      }
+    }
+
+    out.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.sw');
+      if (!b || b.disabled) return;
+      const x = items.find((i) => i.idx === Number(b.dataset.idx));
+      if (!x) return;
+      setze(x, x.s === 'ausverkauft' ? 'verfuegbar' : 'ausverkauft', x.s, false);
+    });
+    undoBtn.addEventListener('click', () => {
+      if (!last) return;
+      const { item, prev } = last; last = null;
+      toast.classList.remove('show');
+      setze(item, prev, item.s, true);
+    });
+    document.querySelectorAll<HTMLButtonElement>('.chip').forEach((c) => c.addEventListener('click', () => {
+      filter = c.dataset.f!;
+      document.querySelectorAll('.chip').forEach((o) => o.setAttribute('aria-pressed', String(o === c)));
+      render();
+    }));
+    document.getElementById('q')!.addEventListener('input', (e) => { query = (e.target as HTMLInputElement).value.trim().toLowerCase(); render(); });
+    render();
+  }
+</script>
+
+<style is:global>
+  :root {
+    --wine: #421531; --wine-deep: #2c0d20; --wine-soft: #54203f; --row: #3a1229;
+    --amber: #f4a14d; --amber-bright: #ffbd73;
+    --cream: #f7ece0; --cream-dim: #d8c4b8; --line: rgba(247, 236, 224, .14);
+    --sold: #e0525f; --sold-bg: rgba(224, 82, 95, .16); --ok: #6fcf97; --ok-bg: rgba(111, 207, 151, .13);
+    --display: "Fraunces Variable", "Fraunces", Georgia, serif;
+    --body: "Libre Franklin Variable", "Libre Franklin", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background: var(--wine-deep); color: var(--cream); font-family: var(--body); font-size: 15px; -webkit-font-smoothing: antialiased; }
+  [hidden] { display: none !important; }
+  .kick { display: block; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--amber); font-weight: 700; }
+  h1 { font-family: var(--display); font-weight: 800; font-size: 26px; margin: 2px 0 0; line-height: 1.1; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .err { color: #ffb3ba; background: var(--sold-bg); border: 1px solid rgba(224, 82, 95, .45); border-radius: 10px; padding: 10px 12px; font-size: 14px; margin: 0; }
+  .err.big { margin-top: 16px; }
+
+  /* Login */
+  .login { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px max(16px, env(safe-area-inset-left)); }
+  .login-box { width: min(380px, 100%); display: grid; gap: 12px; background: var(--wine); border: 1px solid var(--line); border-radius: 18px; padding: 28px 22px; }
+  .login-box h1 { margin-bottom: 10px; }
+  .login-box label { font-size: 13px; font-weight: 600; color: var(--cream-dim); }
+  .login-box input { font: inherit; font-size: 17px; color: var(--cream); background: var(--wine-deep); border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; }
+  .login-box button { font: inherit; font-weight: 700; font-size: 16px; color: var(--wine-deep); background: var(--amber); border: 0; border-radius: 12px; padding: 13px; cursor: pointer; margin-top: 4px; }
+
+  /* Liste */
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-right)) 120px max(16px, env(safe-area-inset-left)); }
+  header { position: sticky; top: 0; z-index: 5; background: var(--wine-deep); padding: calc(16px + env(safe-area-inset-top)) 0 12px; border-bottom: 1px solid var(--line); display: grid; gap: 12px; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .logout { font: inherit; font-size: 13px; font-weight: 600; color: var(--cream-dim); background: transparent; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+  .search { width: 100%; font: inherit; font-size: 16px; color: var(--cream); background: var(--wine); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .search::placeholder { color: var(--cream-dim); opacity: .7; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .chip { flex: none; font: inherit; font-size: 13px; font-weight: 600; color: var(--cream-dim); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+  .chip[aria-pressed="true"] { color: var(--wine-deep); background: var(--amber); border-color: var(--amber); }
+  .month { font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--amber-bright); margin: 26px 0 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .month span { font-family: var(--body); font-size: 12px; color: var(--cream-dim); font-weight: 500; }
+  .list { display: grid; gap: 8px; }
+  .row { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; background: var(--row); border: 1px solid var(--line); border-radius: 14px; padding: 12px; transition: background .2s, border-color .2s, opacity .2s; }
+  .row.is-sold { background: var(--sold-bg); border-color: rgba(224, 82, 95, .45); }
+  .row.is-busy { opacity: .6; }
+  .date { text-align: center; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .date .wd { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--cream-dim); }
+  .date .d { font-family: var(--display); font-weight: 800; font-size: 24px; }
+  .date .t { font-size: 12px; color: var(--amber); font-weight: 600; margin-top: 2px; }
+  .info { min-width: 0; }
+  .info b { display: block; font-weight: 600; font-size: 15px; line-height: 1.3; }
+  .info .o { font-size: 13px; color: var(--cream-dim); margin-top: 3px; line-height: 1.35; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 6px; padding: 2px 6px; margin-right: 6px; background: var(--wine-soft); color: var(--amber-bright); vertical-align: 1px; }
+  .sw { font: inherit; cursor: pointer; border: 0; border-radius: 12px; min-width: 104px; padding: 10px; font-size: 13px; font-weight: 700; display: grid; justify-items: center; gap: 6px; background: var(--ok-bg); color: var(--ok); }
+  .sw:disabled { cursor: progress; }
+  .sw .track { width: 46px; height: 26px; border-radius: 999px; background: rgba(111, 207, 151, .35); position: relative; transition: background .2s; }
+  .sw .track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--cream); transition: transform .2s; }
+  .sw[aria-checked="true"] { background: var(--sold); color: #fff; }
+  .sw[aria-checked="true"] .track { background: rgba(0, 0, 0, .25); }
+  .sw[aria-checked="true"] .track::after { transform: translateX(20px); }
+  .empty, .hint { color: var(--cream-dim); text-align: center; }
+  .empty { padding: 40px 0; }
+  .hint { font-size: 12.5px; margin-top: 28px; }
+  .toast { position: fixed; left: 50%; transform: translate(-50%, 20px); bottom: calc(18px + env(safe-area-inset-bottom)); width: min(560px, calc(100% - 32px)); background: var(--cream); color: var(--wine-deep); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; justify-content: space-between; box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .7); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  .toast.is-err { background: #ffd9dc; }
+  .toast p { margin: 0; font-size: 14px; line-height: 1.35; min-width: 0; }
+  .toast p small { display: block; color: #6b4a5c; font-size: 12px; }
+  .toast button { flex: none; font: inherit; font-weight: 700; font-size: 13px; background: var(--wine); color: var(--cream); border: 0; border-radius: 10px; padding: 9px 12px; cursor: pointer; }
+  @media (max-width: 420px) {
+    .row { grid-template-columns: 46px 1fr; }
+    .sw { grid-column: 1 / -1; grid-template-columns: auto 1fr; justify-items: start; align-items: center; min-width: 0; padding: 10px 14px; }
+    .sw .label { justify-self: end; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
