@@ -67,7 +67,7 @@ const langDatum = (iso: string) =>
 ---
 
 <BaseLayout
-  title="Spielplan & Tickets — Komödie Leipzig"
+  title="Spielplan & Tickets | Komödie Leipzig"
   description="Alle Termine der Komödie Leipzig: Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren Partner-Hotels. Jetzt Karten bestellen."
 >
   <section class="block" id="buchung">
@@ -82,7 +82,7 @@ const langDatum = (iso: string) =>
       <p class="b-intro">
         Theaterabende in der Kleinen Komödie Reuden und Dinner-Shows in unseren
         Partner-Häusern. Wählen Sie eine Vorstellung aus und senden Sie uns Ihre
-        Kartenbestellung — Sie erhalten von uns eine Bestätigung mit allen Details
+        Kartenbestellung. Sie erhalten von uns eine Bestätigung mit allen Details
         zur Bezahlung. Die Tickets schicken wir Ihnen anschließend per Post zu.
         Tickets für unsere Veranstaltungen in der Kleinen Komödie Reuden 34,– €,
         bei Gastspielen/Lesungen ab 24,– €. Unsere Dinnerveranstaltungen ab 74,– €.
@@ -150,7 +150,7 @@ const langDatum = (iso: string) =>
                     <div class="m">{dp.month}</div>
                   </div>
                   <div class="info">
-                    <div class="t" set:html={`${t.titel} — ${t.untertitel}`} />
+                    <div class="t" set:html={`${t.titel}: ${t.untertitel}`} />
                     <div class="meta">
                       <span class={`badge ${ausverkauft ? 'sold' : badge.cls}`}>{ausverkauft ? 'Ausverkauft' : badge.label}</span>
                       <span>{t.uhrzeit} Uhr · {zusatz(t.typ)}</span>
@@ -164,7 +164,7 @@ const langDatum = (iso: string) =>
                       <button
                         type="button"
                         class="btn btn-amber b-reserve"
-                        data-titel={`${t.titel} — ${t.untertitel}`}
+                        data-titel={`${t.titel}: ${t.untertitel}`}
                         data-datum={langDatum(t.datum)}
                         data-uhrzeit={t.uhrzeit}
                         data-ort={t.ort}
@@ -228,7 +228,7 @@ const langDatum = (iso: string) =>
 
               <div class="b-submit">
                 <button type="submit" class="btn btn-amber" id="f-send" disabled>Karten verbindlich bestellen →</button>
-                <p class="b-privacy">Ihre Bestellung wird per E-Mail an uns gesendet — keine Weitergabe an Dritte.</p>
+                <p class="b-privacy">Ihre Bestellung wird per E-Mail an uns gesendet. Keine Weitergabe an Dritte.</p>
               </div>
             </form>
           </dialog>
@@ -492,13 +492,13 @@ const langDatum = (iso: string) =>
         `Stück: ${fStueck.value}\n` +
         `Datum: ${fDatum.value}\n` +
         `Uhrzeit: ${fUhrzeit.value} Uhr\n` +
-        `Spielort: ${fOrt.value || '—'}\n` +
+        `Spielort: ${fOrt.value || '-'}\n` +
         `Anzahl Tickets: ${anzahl}\n\n` +
         `Name: ${name}\n` +
         `E-Mail: ${mail}\n` +
-        `Telefon: ${tel || '—'}\n\n` +
+        `Telefon: ${tel || '-'}\n\n` +
         `Anschrift für den Ticketversand:\n${name}\n${strasse}\n${plz} ${stadt}\n\n` +
-        `Nachricht: ${msg || '—'}\n\n` +
+        `Nachricht: ${msg || '-'}\n\n` +
         `Mit freundlichen Grüßen\n${name}`;
 
       window.location.href =

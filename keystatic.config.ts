@@ -20,7 +20,7 @@ export default config({
   },
 
   collections: {
-    // PRODUKTIONEN — Programm / Inszenierungen
+    // PRODUKTIONEN: Programm / Inszenierungen
     produktionen: collection({
       label: 'Produktionen',
       slugField: 'titel',
@@ -67,7 +67,7 @@ export default config({
       },
     }),
 
-    // ENSEMBLE — Schauspielerinnen und Schauspieler
+    // ENSEMBLE: Schauspielerinnen und Schauspieler
     ensemble: collection({
       label: 'Ensemble',
       slugField: 'name',
@@ -100,7 +100,7 @@ export default config({
   },
 
   singletons: {
-    // TERMINE — Spielplan (eine bearbeitbare Liste von Vorstellungen)
+    // TERMINE: Spielplan (eine bearbeitbare Liste von Vorstellungen)
     termine: singleton({
       label: 'Termine (Spielplan)',
       path: 'src/data/termine',
@@ -140,7 +140,7 @@ export default config({
           {
             label: 'Vorstellungen',
             itemLabel: (props) =>
-              `${props.fields.datum.value ?? '—'} · ${props.fields.produktion.value ?? ''} · ${props.fields.ort.value ?? ''}`,
+              `${props.fields.datum.value ?? '-'} · ${props.fields.produktion.value ?? ''} · ${props.fields.ort.value ?? ''}`,
           }
         ),
       },

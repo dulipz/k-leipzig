@@ -26,7 +26,7 @@ const ausverkauft = status === 'ausverkauft';
     <div class="m">{dp.month}</div>
   </div>
   <div class="info">
-    <div class="t">{titel} — {untertitel}</div>
+    <div class="t">{titel}: {untertitel}</div>
     <div class="meta">
       <span class={`badge ${ausverkauft ? 'sold' : badge.cls}`}>{ausverkauft ? 'Ausverkauft' : badge.label}</span>
       <span>{uhrzeit} Uhr · {zusatz(typ)}</span>

@@ -101,7 +101,7 @@ const betraege = [34, 50, 68, 100];
     <div class="g-submit g-full">
       <div class="g-total" id="g-total">Gesamt: 50,00 €</div>
       <button type="submit" class="btn btn-amber">Gutschein anfragen →</button>
-      <p class="g-privacy">Ihre Anfrage wird per E-Mail an uns gesendet — keine Weitergabe an Dritte.</p>
+      <p class="g-privacy">Ihre Anfrage wird per E-Mail an uns gesendet. Keine Weitergabe an Dritte.</p>
     </div>
   </form>
 </dialog>
@@ -280,13 +280,13 @@ const betraege = [34, 50, 68, 100];
         `Anzahl: ${n}\n` +
         `Gesamtbetrag: ${euro.format(b * n)}\n` +
         `Zustellung: ${zustellung.value}\n\n` +
-        `Für: ${fuer || '—'}\n` +
-        `Von: ${von || '—'}\n` +
-        `Wunsch-/Glückwunschtext:\n${text.value.trim() || '—'}\n\n` +
-        `— Meine Kontaktdaten —\n` +
+        `Für: ${fuer || '-'}\n` +
+        `Von: ${von || '-'}\n` +
+        `Wunsch-/Glückwunschtext:\n${text.value.trim() || '-'}\n\n` +
+        `--- Meine Kontaktdaten ---\n` +
         `Name: ${name}\n` +
         `E-Mail: ${mail}\n` +
-        `Telefon: ${tel || '—'}\n` +
+        `Telefon: ${tel || '-'}\n` +
         (perPost() ? `Anschrift: ${strasse.value.trim()}, ${ort.value.trim()}\n` : '') +
         `\nMit freundlichen Grüßen\n${name}`;
 

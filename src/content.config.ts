@@ -10,7 +10,7 @@ const termineQuelle = fs.existsSync('src/data/termine/index.json')
   : 'src/data/termine.json';
 
 /**
- * PRODUKTIONEN — der Katalog der Inszenierungen ("das Was").
+ * PRODUKTIONEN: der Katalog der Inszenierungen ("das Was").
  * Eine Markdoc-Datei pro Stück unter src/content/produktionen/ (von Keystatic gepflegt).
  * Speist die Programm-Karten und die Show-Detailseiten.
  */
@@ -33,7 +33,7 @@ const produktionen = defineCollection({
 });
 
 /**
- * TERMINE — der Spielplan ("das Wann").
+ * TERMINE: der Spielplan ("das Wann").
  * Liegt in src/data/termine.json und wird von Keystatic als bearbeitbare Liste gepflegt.
  * Der Parser akzeptiert sowohl ein einfaches Array (Altbestand) als auch das
  * Keystatic-Format { "termine": [ ... ] } und vergibt je Eintrag eine stabile id.
@@ -65,7 +65,7 @@ const termine = defineCollection({
 });
 
 /**
- * ENSEMBLE — die Schauspielerinnen und Schauspieler.
+ * ENSEMBLE: die Schauspielerinnen und Schauspieler.
  * Eine YAML-Datei pro Person unter src/content/ensemble/ (von Keystatic gepflegt).
  * Fotos liegen unter /public/images/ensemble.
  */
