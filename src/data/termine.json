@@ -877,7 +877,7 @@
       "ort": "Hotel Hallescher Anger, Naumburg",
       "art": "dinner",
       "preis": 95.0,
-      "status": "verfuegbar",
+      "status": "ausverkauft",
       "ticketUrl": null
     },
     {
