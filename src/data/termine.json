@@ -267,7 +267,7 @@
       "ort": "Restaurant Auszeit, Neukieritzsch",
       "art": "dinner",
       "preis": 84.9,
-      "status": "verfuegbar",
+      "status": "ausverkauft",
       "ticketUrl": null
     },
     {
