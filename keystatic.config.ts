@@ -63,6 +63,12 @@ export default config({
           description: 'z. B. Aufführungsrechte, Fotograf, Premiere',
           multiline: true,
         }),
+        plakat: fields.image({
+          label: 'Plakat',
+          description: 'Hochformat (3:4), mind. 750 px breit.',
+          directory: 'public/images/produktionen',
+          publicPath: '/images/produktionen/',
+        }),
         beschreibung: fields.markdoc({ label: 'Beschreibung' }),
       },
     }),

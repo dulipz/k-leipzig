@@ -4,7 +4,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Galerie from '../../components/Galerie.astro';
 import TerminRow from '../../components/TerminRow.astro';
-import { plakate, galerien } from '../../lib/produktion-medien';
+import { plakatVon, galerien } from '../../lib/produktion-medien';
 import { typBadge, type Typ } from '../../lib/format';
 
 export async function getStaticPaths() {
@@ -17,7 +17,7 @@ const { Content } = await render(produktion);
 const d = produktion.data;
 const id = produktion.id;
 const titelText = d.titel.replace(/<[^>]+>/g, '');
-const plakat = plakate[id];
+const plakat = plakatVon(id, d);
 const galerie = galerien[id];
 const badge = d.typ === 'theater' ? null : typBadge(d.typ);
 const istGastspiel = d.reihenfolge >= 20;
@@ -142,7 +142,7 @@ const weitere = (await getCollection('produktionen'))
             <a href={`/programm/${p.id}`} class="w-item">
               <span
                 class="w-bild"
-                style={plakate[p.id] ? `background-image:url('${plakate[p.id]}')` : undefined}
+                style={plakatVon(p.id, p.data) ? `background-image:url('${plakatVon(p.id, p.data)}')` : undefined}
               ></span>
               <span class="w-titel" set:html={p.data.titel} />
               <span class="w-unter">{p.data.untertitel}</span>

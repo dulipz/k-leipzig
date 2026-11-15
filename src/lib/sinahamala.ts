@@ -142,7 +142,7 @@ export class SpeicherFehler extends Error {
   }
 }
 
-export async function termineLesen(env: Env): Promise<{ termine: Termin[]; sha: string | null; text: string }> {
+export async function termineLesen(env: Env, stand?: string): Promise<{ termine: Termin[]; sha: string | null; text: string }> {
   if (!env.GITHUB_TOKEN) {
     if (import.meta.env.DEV) {
       const fs = await import('node:fs/promises');
@@ -152,7 +152,7 @@ export async function termineLesen(env: Env): Promise<{ termine: Termin[]; sha: 
     throw new SpeicherFehler('GITHUB_TOKEN fehlt in den Cloudflare-Einstellungen.');
   }
   const res = await fetch(
-    `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${FILE_PATH}?ref=${encodeURIComponent(env.GITHUB_BRANCH!)}`,
+    `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${FILE_PATH}?ref=${encodeURIComponent(stand ?? env.GITHUB_BRANCH!)}`,
     { headers: ghHeaders(env), cache: 'no-store' } as RequestInit
   );
   if (!res.ok) throw new SpeicherFehler(`Spielplan konnte nicht geladen werden (GitHub ${res.status}).`);
@@ -186,4 +186,233 @@ function ghHeaders(env: Env): Record<string, string> {
     'X-GitHub-Api-Version': '2022-11-28',
     'User-Agent': 'komoedie-leipzig-sinahamala',
   };
+}
+
+// ---------- Neue Stücke & Termine (Tabs „Neues Stück“ / „Termine eintragen“) ----------
+
+/** Termine dürfen höchstens so weit im Voraus eingetragen werden. */
+export const VORLAUF_JAHRE = 1;
+
+/** Spätestes erlaubtes Datum (YYYY-MM-DD): heute + 1 Jahr (Berlin). */
+export function maxDatum(heute = heuteBerlin()): string {
+  const [y, m, d] = heute.split('-').map(Number);
+  const dt = new Date(Date.UTC(y + VORLAUF_JAHRE, m - 1, d));
+  // 29.02. → 28.02. statt 01.03.
+  if (dt.getUTCMonth() !== m - 1) dt.setUTCDate(0);
+  return dt.toISOString().slice(0, 10);
+}
+
+/** "Die Feuerzangenbowle" → "die-feuerzangenbowle" (wie die bestehenden Dateinamen) */
+export function slugify(s: string): string {
+  return s
+    .replace(/<[^>]*>/g, ' ')
+    .toLowerCase()
+    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+}
+
+export const PRODUKTION_DIR = 'src/content/produktionen';
+export const PLAKAT_DIR = 'public/images/produktionen';
+
+const yamlStr = (s: string) => JSON.stringify(s); // JSON-Strings sind gültiges YAML
+
+export function produktionMdoc(p: {
+  titel: string; untertitel: string; typ: string; preisAb: number; reihenfolge: number; plakat?: string | null; beschreibung?: string;
+}): string {
+  const zeilen = [
+    '---',
+    `titel: ${yamlStr(p.titel)}`,
+    `untertitel: ${yamlStr(p.untertitel)}`,
+    `typ: ${yamlStr(p.typ)}`,
+    `preisAb: ${p.preisAb}`,
+    `reihenfolge: ${p.reihenfolge}`,
+  ];
+  if (p.plakat) zeilen.push(`plakat: ${yamlStr(p.plakat)}`);
+  zeilen.push('---');
+  // Markdoc-Tags aus Freitext entschärfen, damit der Build nicht bricht
+  const text = (p.beschreibung ?? '').replace(/\r\n?/g, '\n').replace(/\{%/g, '{ %').trim();
+  return zeilen.join('\n') + '\n' + (text ? text + '\n' : '');
+}
+
+/** Hängt neue Termine an den Originaltext an (Rest der Datei bleibt unverändert). */
+export function termineAnhaengen(text: string, alt: Termin[], neu: Termin[]): string {
+  const block = neu
+    .map((t) => JSON.stringify(t, null, 2).split('\n').map((l) => '    ' + l).join('\n'))
+    .join(',\n');
+  const m = text.match(/\}\s*\]\s*\}\s*$/);
+  if (m && alt.length) {
+    const pos = m.index! + 1; // nach der letzten "}"
+    const kandidat = text.slice(0, pos) + ',\n' + block + text.slice(pos);
+    try {
+      const probe = parse(kandidat);
+      if (probe.length === alt.length + neu.length) return kandidat;
+    } catch { /* Fallback unten */ }
+  }
+  return serialisieren([...alt, ...neu]);
+}
+
+export async function dateiExistiert(env: Env, pfad: string, stand?: string): Promise<boolean> {
+  if (!env.GITHUB_TOKEN) {
+    if (import.meta.env.DEV) {
+      const fs = await import('node:fs');
+      return fs.existsSync(pfad);
+    }
+    throw new SpeicherFehler('GITHUB_TOKEN fehlt in den Cloudflare-Einstellungen.');
+  }
+  const res = await fetch(
+    `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${pfad}?ref=${encodeURIComponent(stand ?? env.GITHUB_BRANCH!)}`,
+    { method: 'HEAD', headers: ghHeaders(env), cache: 'no-store' } as RequestInit
+  );
+  if (res.status === 404) return false;
+  if (!res.ok) throw new SpeicherFehler(`GitHub nicht erreichbar (${res.status}).`);
+  return true;
+}
+
+/**
+ * Schreibt mehrere Dateien in EINEM Commit (Stück + Plakat zusammen →
+ * nur ein Neubau bei Cloudflare). content ist Base64.
+ */
+export type Aenderung = { pfad: string; base64: string } | { pfad: string; loeschen: true };
+
+/** Aktueller Commit des Branches (null im lokalen Modus). */
+export async function aktuellerStand(env: Env): Promise<string | null> {
+  if (!env.GITHUB_TOKEN) return null;
+  const r = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/git/ref/heads/${encodeURIComponent(env.GITHUB_BRANCH!)}`, {
+    headers: ghHeaders(env), cache: 'no-store',
+  } as RequestInit);
+  if (!r.ok) throw new SpeicherFehler(`GitHub nicht erreichbar (${r.status}).`);
+  return ((await r.json()) as any).object.sha;
+}
+
+/**
+ * basis: Commit, auf dem die Änderungen berechnet wurden. Hat sich der Branch
+ * inzwischen bewegt, schlägt das Speichern als Konflikt fehl (→ neu versuchen).
+ */
+export async function dateienCommitten(env: Env, dateien: Aenderung[], nachricht: string, basis?: string | null) {
+  if (!env.GITHUB_TOKEN) {
+    if (import.meta.env.DEV) {
+      const fs = await import('node:fs/promises');
+      const path = await import('node:path');
+      for (const d of dateien) {
+        if ('loeschen' in d) { await fs.rm(d.pfad, { force: true }); continue; }
+        await fs.mkdir(path.dirname(d.pfad), { recursive: true });
+        await fs.writeFile(d.pfad, Uint8Array.from(atob(d.base64), (c) => c.charCodeAt(0)));
+      }
+      return;
+    }
+    throw new SpeicherFehler('GITHUB_TOKEN fehlt in den Cloudflare-Einstellungen.');
+  }
+  const api = `https://api.github.com/repos/${env.GITHUB_REPO}/git`;
+  const h = { ...ghHeaders(env), 'Content-Type': 'application/json' };
+  const gh = async (url: string, init?: RequestInit) => {
+    const r = await fetch(url, { headers: h, cache: 'no-store', ...init } as RequestInit);
+    if (r.status === 409 || r.status === 422) throw new SpeicherFehler('Konflikt', true);
+    if (!r.ok) throw new SpeicherFehler(`Speichern fehlgeschlagen (GitHub ${r.status}).`);
+    return r.json() as Promise<any>;
+  };
+  const parent = basis ?? ((await gh(`${api}/ref/heads/${encodeURIComponent(env.GITHUB_BRANCH!)}`)).object.sha as string);
+  const commit = await gh(`${api}/commits/${parent}`);
+  const blobs = await Promise.all(
+    dateien.map((d) =>
+      'loeschen' in d ? null : gh(`${api}/blobs`, { method: 'POST', body: JSON.stringify({ content: d.base64, encoding: 'base64' }) })
+    )
+  );
+  const tree = await gh(`${api}/trees`, {
+    method: 'POST',
+    body: JSON.stringify({
+      base_tree: commit.tree.sha,
+      tree: dateien.map((d, i) => ({ path: d.pfad, mode: '100644', type: 'blob', sha: 'loeschen' in d ? null : blobs[i].sha })),
+    }),
+  });
+  const neu = await gh(`${api}/commits`, {
+    method: 'POST',
+    body: JSON.stringify({ message: nachricht, tree: tree.sha, parents: [parent] }),
+  });
+  await gh(`${api}/refs/heads/${encodeURIComponent(env.GITHUB_BRANCH!)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ sha: neu.sha, force: false }),
+  });
+}
+
+export const textZuBase64 = (text: string) => b64encode(text);
+
+export const TERMINE_PFAD = FILE_PATH;
+export const termineOhne = (termine: Termin[], produktion: string) => {
+  const rest = termine.filter((t) => t.produktion !== produktion);
+  return { rest, text: serialisieren(rest) };
+};
+
+/** Liest eine Textdatei aus dem Repo (oder lokal). null = gibt es nicht. */
+export async function dateiLesen(env: Env, pfad: string, stand?: string | null): Promise<string | null> {
+  if (!env.GITHUB_TOKEN) {
+    if (import.meta.env.DEV) {
+      const fs = await import('node:fs/promises');
+      return fs.readFile(pfad, 'utf-8').catch(() => null);
+    }
+    throw new SpeicherFehler('GITHUB_TOKEN fehlt in den Cloudflare-Einstellungen.');
+  }
+  const res = await fetch(
+    `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${pfad}?ref=${encodeURIComponent(stand ?? env.GITHUB_BRANCH!)}`,
+    { headers: ghHeaders(env), cache: 'no-store' } as RequestInit
+  );
+  if (res.status === 404) return null;
+  if (!res.ok) throw new SpeicherFehler(`GitHub nicht erreichbar (${res.status}).`);
+  return b64decode(((await res.json()) as any).content);
+}
+
+/** Frontmatter-Wert (einzeilig) lesen, z. B. plakat oder reihenfolge. */
+export function fmWert(text: string, key: string): string | null {
+  const fm = text.match(/^---\n([\s\S]*?)\n---/);
+  const m = fm?.[1].match(new RegExp(`^${key}:\\s*(.*)$`, 'm'));
+  if (!m) return null;
+  const v = m[1].trim();
+  try { return v.startsWith('"') ? JSON.parse(v) : v; } catch { return v.replace(/^"|"$/g, ''); }
+}
+
+/**
+ * Ändert nur die angegebenen einzeiligen Frontmatter-Felder (Regie, Besetzung,
+ * Hinweise usw. bleiben unangetastet) und ersetzt optional die Beschreibung.
+ * Wert null = Feld entfernen.
+ */
+export function mdocBearbeiten(text: string, felder: Record<string, string | number | null>, beschreibung?: string): string {
+  const m = text.replace(/\r\n?/g, '\n').match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!m) throw new SpeicherFehler('Die Datei des Stücks hat ein unerwartetes Format – bitte in Keystatic bearbeiten.');
+  let zeilen = m[1].split('\n');
+  for (const [key, wert] of Object.entries(felder)) {
+    const neu = wert === null ? null : `${key}: ${typeof wert === 'number' ? wert : yamlStr(wert)}`;
+    const i = zeilen.findIndex((z) => z.startsWith(`${key}:`));
+    if (i >= 0) {
+      if (neu === null) zeilen.splice(i, 1); else zeilen[i] = neu;
+    } else if (neu !== null) {
+      zeilen.push(neu);
+    }
+  }
+  let body = m[2];
+  if (beschreibung !== undefined) {
+    const t = beschreibung.replace(/\r\n?/g, '\n').replace(/\{%/g, '{ %').trim();
+    body = t ? t + '\n' : '';
+  }
+  return `---\n${zeilen.join('\n')}\n---\n${body}`;
+}
+
+/** Plakat-Dateiname mit Version, damit Browser kein altes Bild aus dem Cache zeigen. */
+export const plakatDatei = (slug: string) => `${PLAKAT_DIR}/${slug}-${Date.now().toString(36)}.jpg`;
+
+/** Hochgeladenes Plakat (unter /images/produktionen/<slug>…) → Repo-Pfad zum Löschen, sonst null. */
+export function eigenesPlakat(slug: string, plakat: string | null): string | null {
+  if (!plakat || !plakat.startsWith(`/images/produktionen/${slug}`)) return null;
+  return 'public' + plakat;
+}
+
+/** Base64-JPEG aus dem Browser prüfen. Gibt reines Base64 zurück oder wirft. */
+export function bildPruefen(roh: unknown): string {
+  const bild = String(roh ?? '').replace(/^data:[^,]+,/, '');
+  if (bild.length * 0.75 > 4 * 1024 * 1024) throw new SpeicherFehler('Das Bild ist zu groß.');
+  let kopf = '';
+  try { kopf = atob(bild.slice(0, 8)); } catch { throw new SpeicherFehler('Das Bild konnte nicht gelesen werden.'); }
+  if (kopf.charCodeAt(0) !== 0xff || kopf.charCodeAt(1) !== 0xd8) throw new SpeicherFehler('Bitte ein JPG- oder PNG-Bild wählen.');
+  return bild;
 }

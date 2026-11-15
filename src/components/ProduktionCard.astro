@@ -1,6 +1,6 @@
 ---
 import { typBadge, type Typ } from '../lib/format';
-import { plakate, galerien } from '../lib/produktion-medien';
+import { plakatVon, galerien } from '../lib/produktion-medien';
 
 interface Props {
   id: string;
@@ -8,12 +8,13 @@ interface Props {
   untertitel: string;
   typ: Typ;
   preisAb: number;
+  plakat?: string | null;
 }
 const { id, titel, untertitel, typ, preisAb } = Astro.props;
 // „Theater“ steht nicht mehr auf den Plakaten (wir spielen ohnehin nur Theater) –
 // nur abweichende Arten wie Familienstück oder Dinner bekommen ein Etikett.
 const badge = typ === 'theater' ? null : typBadge(typ);
-const plakat = plakate[id];
+const plakat = plakatVon(id, { plakat: Astro.props.plakat });
 const hatFotos = Boolean(galerien[id]);
 const href = `/programm/${id}`;
 ---

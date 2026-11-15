@@ -29,6 +29,13 @@ const produktionen = defineCollection({
       .array(z.object({ rolle: z.string(), name: z.string() }))
       .default([]),
     hinweise: z.string().nullish(),
+    // Plakat (über /sinahamala oder Keystatic hochgeladen) – öffentlicher Pfad
+    plakat: z
+      .string()
+      .nullish()
+      .transform((v) =>
+        !v ? v : v.startsWith('/') || v.startsWith('http') ? v : `/images/produktionen/${v}`
+      ),
   }),
 });
 

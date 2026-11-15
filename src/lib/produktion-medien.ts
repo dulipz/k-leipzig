@@ -14,6 +14,10 @@ export const plakate: Record<string, string> = {
   'eine-weihnachtsgeschichte': '/images/produktionen/weihnachtsgeschichte.jpg',
 };
 
+/** Plakat einer Produktion: hochgeladenes Plakat (Feld „plakat“) vor der festen Zuordnung oben. */
+export const plakatVon = (id: string, data?: { plakat?: string | null }) =>
+  data?.plakat || plakate[id] || undefined;
+
 export const galerien: Record<string, string> = {
   'mit-66-jahren': 'mit-66-jahren',
   'go-trabi-go': 'go-trabi-go',

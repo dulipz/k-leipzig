@@ -94,6 +94,29 @@ gespeichert (nur die eine Status-Zeile) → Cloudflare baut neu → nach ca. 2 M
 
 Passwort ändern = Secret ändern → alle Geräte sind abgemeldet.
 
+**Weitere Tabs auf derselben Seite:**
+
+- **Termine eintragen:** Stück wählen, Spielort (Vorschläge aus bisherigen Orten), Art, Preis,
+  dann beliebig viele Datum/Uhrzeit-Zeilen. Erlaubt sind nur Termine **von heute bis max. 1 Jahr
+  im Voraus** – wird im Browser *und* auf dem Server geprüft. Bereits vorhandene Termine
+  (gleiches Stück, Datum, Uhrzeit, Ort) werden übersprungen. Neue Termine werden ans Ende von
+  `src/data/termine.json` angehängt (Status „Karten frei“).
+- **Stücke:** Liste aller Stücke mit **Bearbeiten** und **Löschen** sowie „+ Neues Stück“.
+  - **Bearbeiten** ändert nur Titel, Genre-Zeile, Art, Preis, Startseite, Beschreibung und Plakat –
+    Regie, Besetzung und Hinweise bleiben unverändert. Die Adresse `/programm/<slug>` bleibt gleich.
+    Ein neues Plakat ersetzt das alte (Dateiname mit Version, damit kein altes Bild im Cache hängt).
+  - **Löschen** (mit Rückfrage) entfernt in einem Commit das Stück, sein hochgeladenes Plakat und
+    **alle seine Termine** – sonst würde der Website-Build an Terminen ohne Stück scheitern.
+    Fest verdrahtete Plakate aus `src/lib/produktion-medien.ts` und Szenenfotos bleiben liegen.
+- **Neues Stück:** Titel, Genre-Zeile, Art, Preis ab, optional Beschreibung und **ein Plakat vom
+  Computer** (JPG/PNG/WebP, wird im Browser auf max. 1000 px Breite als JPEG verkleinert).
+  Speichert `src/content/produktionen/<slug>.mdoc` und `public/images/produktionen/<slug>.jpg`
+  in **einem** Commit. Mit Häkchen „Startseite“ kommt das Stück ans Ende von „Was bei uns
+  gespielt wird“ (Reihenfolge < 20), sonst nur in den Spielplan. Regie/Besetzung danach in
+  Keystatic ergänzen. Das Plakat steht im neuen Feld `plakat` (auch in Keystatic änderbar).
+
+Der vorhandene `GITHUB_TOKEN` (Contents: Read and write) reicht auch dafür.
+
 **Lokal testen:** `.dev.vars` mit `SINAHAMALA_PASSWORD=...` anlegen (nicht committen),
 `npm run dev`, dann http://localhost:4321/sinahamala. Ohne `GITHUB_TOKEN` wird lokal
 direkt die Datei geändert.
