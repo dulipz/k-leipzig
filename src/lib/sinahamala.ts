@@ -190,17 +190,12 @@ function ghHeaders(env: Env): Record<string, string> {
 
 // ---------- Neue Stücke & Termine (Tabs „Neues Stück“ / „Termine eintragen“) ----------
 
-/** Termine dürfen höchstens so weit im Voraus eingetragen werden. */
-export const VORLAUF_JAHRE = 1;
-
-/** Spätestes erlaubtes Datum (YYYY-MM-DD): heute + 1 Jahr (Berlin). */
-export function maxDatum(heute = heuteBerlin()): string {
-  const [y, m, d] = heute.split('-').map(Number);
-  const dt = new Date(Date.UTC(y + VORLAUF_JAHRE, m - 1, d));
-  // 29.02. → 28.02. statt 01.03.
-  if (dt.getUTCMonth() !== m - 1) dt.setUTCDate(0);
-  return dt.toISOString().slice(0, 10);
-}
+/**
+ * Termine haben kein Vorlauf-Limit (Wunsch der Komödie). Nur unsinnige Jahre
+ * (Tippfehler wie 20277) werden abgelehnt; ab WARNUNG_JAHRE fragt die Seite nach.
+ */
+export const SPAETESTES_DATUM = '2099-12-31';
+export const WARNUNG_JAHRE = 2;
 
 /** "Die Feuerzangenbowle" → "die-feuerzangenbowle" (wie die bestehenden Dateinamen) */
 export function slugify(s: string): string {

@@ -97,8 +97,8 @@ Passwort ändern = Secret ändern → alle Geräte sind abgemeldet.
 **Weitere Tabs auf derselben Seite:**
 
 - **Termine eintragen:** Stück wählen, Spielort (Vorschläge aus bisherigen Orten), Art, Preis,
-  dann beliebig viele Datum/Uhrzeit-Zeilen. Erlaubt sind nur Termine **von heute bis max. 1 Jahr
-  im Voraus** – wird im Browser *und* auf dem Server geprüft. Bereits vorhandene Termine
+  dann beliebig viele Datum/Uhrzeit-Zeilen. Termine ab heute, **ohne Vorlauf-Limit**. Liegt ein Datum mehr als
+  2 Jahre in der Zukunft, fragt die Seite zur Sicherheit nach („Ist das Jahr richtig?“). Bereits vorhandene Termine
   (gleiches Stück, Datum, Uhrzeit, Ort) werden übersprungen. Neue Termine werden ans Ende von
   `src/data/termine.json` angehängt (Status „Karten frei“).
 - **Stücke:** Liste aller Stücke mit **Bearbeiten** und **Löschen** sowie „+ Neues Stück“.

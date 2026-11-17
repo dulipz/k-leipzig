@@ -4,7 +4,7 @@
 import '@fontsource-variable/fraunces/opsz.css';
 import '@fontsource-variable/libre-franklin/index.css';
 import { getCollection } from 'astro:content';
-import { COOKIE, getEnv, sessionGueltig, termineLesen, terminKey, heuteBerlin, maxDatum } from '../../lib/sinahamala';
+import { COOKIE, getEnv, sessionGueltig, termineLesen, terminKey, heuteBerlin, SPAETESTES_DATUM, WARNUNG_JAHRE } from '../../lib/sinahamala';
 import { plakatVon } from '../../lib/produktion-medien';
 
 export const prerender = false;
@@ -54,7 +54,7 @@ if (angemeldet) {
     ladeFehler = e instanceof Error ? e.message : 'Spielplan konnte nicht geladen werden.';
   }
 }
-const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: maxDatum(), stuecke, orte }).replace(/</g, '\\u003c');
+const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATUM, warnJahre: WARNUNG_JAHRE, stuecke, orte }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="de">
@@ -111,7 +111,7 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: maxDatum(), stu
         <!-- TERMINE EINTRAGEN -->
         <form id="f-termine" class="panel" data-panel="termine" hidden novalidate>
           <h2>Neue Vorstellungen eintragen</h2>
-          <p class="lead">Termine können von heute bis höchstens <b id="bis-text"></b> eingetragen werden (1 Jahr im Voraus).</p>
+          <p class="lead">Termine können ab heute beliebig weit im Voraus eingetragen werden.</p>
           <label class="fld"><span>Stück</span>
             <select id="t-stueck" required></select>
           </label>
@@ -307,7 +307,7 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: maxDatum(), stu
   const dataEl = document.getElementById('sh-data');
   if (dataEl) {
     type Stueck = { id: string; t: string; typ: string; p: number };
-    const D = JSON.parse(dataEl.textContent || '{}') as { heute: string; bis: string; stuecke: any[]; orte: string[] };
+    const D = JSON.parse(dataEl.textContent || '{}') as { heute: string; bis: string; warnJahre: number; stuecke: any[]; orte: string[] };
     const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
     const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
     const de = (iso: string) => { const [y, m, d] = iso.split('-'); return `${d}.${m}.${y}`; };
@@ -333,7 +333,8 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: maxDatum(), stu
     }
     stueckOptionen();
     $('orte').innerHTML = D.orte.map((o) => `<option value="${esc(o)}"></option>`).join('');
-    $('bis-text').textContent = de(D.bis);
+    // Ab hier nachfragen (Tippfehler beim Jahr abfangen), aber nicht blockieren
+    const warnAb = (() => { const [y, m, d] = D.heute.split('-'); return `${Number(y) + D.warnJahre}-${m}-${d}`; })();
     sel.addEventListener('change', () => {
       const s = D.stuecke.find((x) => x.id === sel.value);
       if (s) $<HTMLSelectElement>('t-art').value = s.typ === 'dinner' ? 'dinner' : 'theater';
@@ -377,10 +378,12 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: maxDatum(), stu
         if (!d && rows.children.length > 1) continue; // leere Zusatzzeilen ignorieren
         if (!d) return fehlerT('Bitte ein Datum eintragen.');
         if (d < D.heute) return fehlerT(`Der ${de(d)} liegt in der Vergangenheit.`);
-        if (d > D.bis) return fehlerT(`Der ${de(d)} ist zu weit weg. Termine nur bis ${de(D.bis)} (1 Jahr im Voraus).`);
+        if (d > D.bis) return fehlerT(`Der ${de(d)} kann nicht stimmen – bitte das Jahr prüfen.`);
         if (!u) return fehlerT(`Bitte eine Uhrzeit für den ${de(d)} eintragen.`);
         termine.push({ datum: d, uhrzeit: u });
       }
+      const weit = termine.filter((t) => t.datum > warnAb);
+      if (weit.length && !confirm(`${weit.map((t) => de(t.datum)).join(', ')} – mehr als ${D.warnJahre} Jahre im Voraus. Ist das Jahr richtig?`)) return;
       const btn = $<HTMLButtonElement>('t-save');
       btn.disabled = true; btn.textContent = 'Wird gespeichert …';
       try {

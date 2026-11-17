@@ -59,35 +59,13 @@ const vermietungMail =
     'Anlass: \nWunschdatum: \nUngefähre Gästezahl: \nBesondere Wünsche: \n\nName: \nTelefon: \n\nViele Grüße'
   );
 
-// --- Hero-Bilder (liegen in /public/images/hero, Quelle: images/hero_v2 – 001 zuerst, dann nach Nummer) ---
-const heroBilder = [
-  '/images/hero/hero_01.jpg',
-  '/images/hero/hero_02.jpg',
-  '/images/hero/hero_03.jpg',
-  '/images/hero/hero_04.jpg',
-  '/images/hero/hero_05.jpg',
-  '/images/hero/hero_06.jpg',
-  '/images/hero/hero_07.jpg',
-  '/images/hero/hero_08.jpg',
-  '/images/hero/hero_09.jpg',
-  '/images/hero/hero_10.jpg',
-  '/images/hero/hero_11.jpg',
-  '/images/hero/hero_12.jpg',
-];
-
-// Mobile Hero-Bilder (Hochformat-Ausschnitte) – Reihenfolge wie vom Kunden vorgegeben.
-// Vollbild (cover); 'pos' = horizontaler Bildausschnitt, damit die Darsteller im Hochformat im Bild bleiben.
-const heroBilderMobil = [
-  { src: '/images/hero/mobile/hero_m_01.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_02.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_03.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_04.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_05.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_06.jpg', pos: '42%' },
-  { src: '/images/hero/mobile/hero_m_07.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_08.jpg', pos: '50%' },
-  { src: '/images/hero/mobile/hero_m_09.jpg', pos: '42%' },
-];
+// --- Hero-Bilder (Quelle: images/neue Bilder_11_2026/new_hero_11_2026_final, Stand 11/2026) ---
+// Desktop: 1920×1200 (16:10), Mobil: Hochformat 1:2, je Bild auf die Gesichter zentriert.
+// „TB 290“ zuerst (Kundenwunsch), danach abwechselnd nach Stücken gemischt.
+const ANZAHL_HERO = 20;
+const nr = (i: number) => String(i + 1).padStart(2, '0');
+const heroBilder = Array.from({ length: ANZAHL_HERO }, (_, i) => `/images/hero/hero_${nr(i)}.jpg`);
+const heroBilderMobil = Array.from({ length: ANZAHL_HERO }, (_, i) => ({ src: `/images/hero/mobile/hero_m_${nr(i)}.jpg`, pos: '50%' }));
 ---
 
 <BaseLayout heroHeader>
@@ -97,7 +75,8 @@ const heroBilderMobil = [
       {heroBilder.map((src, i) => (
         <div
           class:list={["hero-slide", { "is-active": i === 0 }]}
-          style={`background-image:url('${src}')`}
+          style={i === 0 ? `background-image:url('${src}')` : undefined}
+          data-bg={i === 0 ? undefined : `background-image:url('${src}')`}
         />
       ))}
     </div>
@@ -105,7 +84,8 @@ const heroBilderMobil = [
       {heroBilderMobil.map((b, i) => (
         <div
           class:list={["hero-slide", { "is-active": i === 0 }]}
-          style={`--img:url('${b.src}');--pos:${b.pos}`}
+          style={i === 0 ? `--img:url('${b.src}');--pos:${b.pos}` : undefined}
+          data-bg={i === 0 ? undefined : `--img:url('${b.src}');--pos:${b.pos}`}
         />
       ))}
     </div>
@@ -409,13 +389,27 @@ const heroBilderMobil = [
     mob: Array.from(document.querySelectorAll('.hero-mob .hero-slide')),
   };
   const idx = { desk: 0, mob: 0 };
+  // Bilder erst laden, wenn sie gebraucht werden (spart auf dem Handy mehrere MB)
+  const laden = (el?: Element) => {
+    const bg = (el as HTMLElement | undefined)?.dataset.bg;
+    if (bg) { el!.setAttribute('style', bg); delete (el as HTMLElement).dataset.bg; }
+  };
+  const vorladen = () => {
+    const key = mq.matches ? 'mob' : 'desk';
+    const slides = sets[key];
+    laden(slides[(idx[key] + 1) % slides.length]);
+  };
+  // nach dem Laden der Seite schon das zweite Bild holen
+  if (document.readyState === 'complete') vorladen(); else window.addEventListener('load', vorladen);
   setInterval(() => {
     const key = mq.matches ? 'mob' : 'desk';
     const slides = sets[key];
     if (slides.length < 2) return;
     slides[idx[key]].classList.remove('is-active');
     idx[key] = (idx[key] + 1) % slides.length;
+    laden(slides[idx[key]]);
     slides[idx[key]].classList.add('is-active');
+    vorladen();
   }, 5000);
 
 </script>
