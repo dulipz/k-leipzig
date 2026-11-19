@@ -5,7 +5,7 @@
 
 export const plakate: Record<string, string> = {
   'go-trabi-go': '/images/produktionen/gotrabigo.jpg',
-  'die-olsenbande-2': '/images/produktionen/olsenbande2.jpg',
+  'die-olsenbande-schlaegt-wieder-zu': '/images/produktionen/olsenbande-schlaegt-wieder-zu.jpg',
   'die-feuerzangenbowle': '/images/produktionen/feuerzangenbowle.jpg',
   'drei-haselnuesse': '/images/produktionen/aschen.jpg',
   'mit-66-jahren': '/images/produktionen/Mit66Jahren.png',
@@ -22,6 +22,8 @@ export const galerien: Record<string, string> = {
   'mit-66-jahren': 'mit-66-jahren',
   'go-trabi-go': 'go-trabi-go',
   'drei-haselnuesse': 'aschenbroedel',
-  'die-olsenbande-2': 'olsenbande-2',
+  'die-olsenbande-schlaegt-wieder-zu': 'olsenbande',
+  'hasch-mich': 'hasch-mich',
+  'die-feuerzangenbowle': 'feuerzangenbowle',
   'eine-weihnachtsgeschichte': 'weihnachtsgeschichte',
 };

@@ -195,7 +195,7 @@ const weitere = (await getCollection('produktionen'))
 
   .weitere { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
   .w-item { display: flex; flex-direction: column; gap: 4px; }
-  .w-bild { display: block; aspect-ratio: 3 / 4; border-radius: 12px; border: 1px solid var(--line); background: linear-gradient(160deg, var(--wine-soft), var(--wine-deep)) center / cover; margin-bottom: 6px; transition: transform .2s, border-color .2s; }
+  .w-bild { display: block; aspect-ratio: 3 / 4; border-radius: 12px; border: 1px solid var(--line); background: linear-gradient(160deg, var(--wine-soft), var(--wine-deep)) center top / cover; margin-bottom: 6px; transition: transform .2s, border-color .2s; }
   .w-item:hover .w-bild { transform: translateY(-4px); border-color: rgba(244, 161, 77, .5); }
   .w-titel { font-family: var(--display); font-weight: 700; font-size: 16px; line-height: 1.15; }
   .w-unter { font-size: 13px; color: var(--cream-dim); }
