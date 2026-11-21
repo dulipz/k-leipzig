@@ -18,6 +18,8 @@ const betraege = [34, 50, 68, 100];
   </p>
 
   <form id="g-form" class="g-form" novalidate>
+    <!-- Spam-Falle: für Menschen unsichtbar -->
+    <div class="g-hp" aria-hidden="true"><label>Website <input type="text" id="g-website" tabindex="-1" autocomplete="off" /></label></div>
     <!-- BETRAG -->
     <fieldset class="g-full g-set">
       <legend>Gutscheinwert *</legend>
@@ -100,13 +102,32 @@ const betraege = [34, 50, 68, 100];
 
     <div class="g-submit g-full">
       <div class="g-total" id="g-total">Gesamt: 50,00 €</div>
-      <button type="submit" class="btn btn-amber">Gutschein anfragen →</button>
+      <button type="submit" class="btn btn-amber" id="g-send">Gutschein anfragen →</button>
       <p class="g-privacy">Ihre Anfrage wird per E-Mail an uns gesendet. Keine Weitergabe an Dritte.</p>
     </div>
   </form>
+
+  <div class="g-danke" id="g-danke" hidden>
+    <div class="g-danke-icon" aria-hidden="true">✓</div>
+    <h4>Vielen Dank! Ihre Anfrage wurde gesendet.</h4>
+    <p>Eine Bestätigung ist unterwegs an <b id="g-danke-mail"></b>. Wir melden uns in Kürze mit allen Details zur Bezahlung bei Ihnen.</p>
+    <p class="g-danke-klein">Keine E-Mail erhalten? Bitte auch im Spam-Ordner nachsehen oder rufen Sie uns an: <a href="tel:+491791437331">0179 1437331</a>.</p>
+    <button type="button" class="btn btn-amber" data-g-close>Schließen</button>
+  </div>
 </dialog>
 
 <style>
+  .g-form[hidden], .g-intro[hidden], .g-hinweis[hidden], .g-danke[hidden] { display: none !important; }
+  .g-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .g-danke { text-align: center; padding: 18px 4px 6px; }
+  .g-danke-icon { width: 56px; height: 56px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font-size: 28px; font-weight: 800; color: var(--wine-deep); background: var(--amber); }
+  .g-danke h4 { font-family: var(--display); font-weight: 900; font-size: 22px; margin-bottom: 10px; }
+  .g-danke p { color: var(--cream-dim); margin: 0 auto 10px; max-width: 440px; }
+  .g-danke p b { color: var(--cream); }
+  .g-danke .g-danke-klein { font-size: 14px; }
+  .g-danke .g-danke-klein a { color: var(--amber); }
+  .g-danke .btn { margin-top: 10px; }
+  .g-error a { color: inherit; text-decoration: underline; }
   .g-hinweis {
     font-size: 14.5px; line-height: 1.5; color: var(--cream); margin: 0 0 20px;
     padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(244,161,77,.5); background: rgba(244,161,77,.1);
@@ -230,7 +251,16 @@ const betraege = [34, 50, 68, 100];
     function schliessen() {
       if (typeof modal!.close === 'function') modal!.close(); else modal!.removeAttribute('open');
     }
-    modal.addEventListener('close', () => { document.body.style.overflow = ''; });
+    modal.addEventListener('close', () => {
+      document.body.style.overflow = '';
+      const danke = $('g-danke');
+      if (!danke.hidden) {
+        danke.hidden = true;
+        form.hidden = false;
+        modal!.querySelectorAll<HTMLElement>('.g-intro, .g-hinweis').forEach((el) => (el.hidden = false));
+        aktualisieren();
+      }
+    });
     modal.addEventListener('click', (e) => {
       if (e.target !== modal) return;
       const r = modal.getBoundingClientRect();
@@ -272,26 +302,34 @@ const betraege = [34, 50, 68, 100];
       }
       errorEl.hidden = true;
 
-      const subject = `Gutschein-Anfrage: ${n} × ${euro.format(b)}`;
-      const body =
-        `Hallo Komödie Leipzig,\n\n` +
-        `ich möchte folgenden Gutschein für die Kleine Komödie Reuden bestellen:\n\n` +
-        `Gutscheinwert: ${euro.format(b)}\n` +
-        `Anzahl: ${n}\n` +
-        `Gesamtbetrag: ${euro.format(b * n)}\n` +
-        `Zustellung: ${zustellung.value}\n\n` +
-        `Für: ${fuer || '-'}\n` +
-        `Von: ${von || '-'}\n` +
-        `Wunsch-/Glückwunschtext:\n${text.value.trim() || '-'}\n\n` +
-        `--- Meine Kontaktdaten ---\n` +
-        `Name: ${name}\n` +
-        `E-Mail: ${mail}\n` +
-        `Telefon: ${tel || '-'}\n` +
-        (perPost() ? `Anschrift: ${strasse.value.trim()}, ${ort.value.trim()}\n` : '') +
-        `\nMit freundlichen Grüßen\n${name}`;
-
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setTimeout(schliessen, 600);
+      const sendBtn = $('g-send') as HTMLButtonElement;
+      const btnText = sendBtn.textContent;
+      sendBtn.disabled = true; sendBtn.textContent = 'Wird gesendet …';
+      fetch('/api/anfrage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          typ: 'gutschein',
+          betrag: euro.format(b), anzahl: String(n), gesamt: euro.format(b * n), zustellung: zustellung.value,
+          fuer, von, text: text.value.trim(), name, email: mail, tel,
+          strasse: perPost() ? strasse.value.trim() : '', ort: perPost() ? ort.value.trim() : '',
+          website: ($('g-website') as HTMLInputElement).value,
+        }),
+      })
+        .then(async (res) => {
+          const j = await res.json().catch(() => ({}));
+          if (!res.ok || !j.ok) throw new Error(j.fehler || 'Die Anfrage konnte nicht gesendet werden.');
+          form.hidden = true;
+          modal!.querySelectorAll<HTMLElement>('.g-intro, .g-hinweis').forEach((el) => (el.hidden = true));
+          $('g-danke-mail').textContent = mail;
+          $('g-danke').hidden = false;
+          form.reset();
+        })
+        .catch((err) => {
+          errorEl.innerHTML = `${err.message} Bitte versuchen Sie es noch einmal oder schreiben Sie uns an <a href="mailto:${email}">${email}</a>.`;
+          errorEl.hidden = false;
+        })
+        .finally(() => { sendBtn.disabled = false; sendBtn.textContent = btnText; });
     });
   }
 </script>

@@ -120,3 +120,31 @@ Der vorhandene `GITHUB_TOKEN` (Contents: Read and write) reicht auch dafür.
 **Lokal testen:** `.dev.vars` mit `SINAHAMALA_PASSWORD=...` anlegen (nicht committen),
 `npm run dev`, dann http://localhost:4321/sinahamala. Ohne `GITHUB_TOKEN` wird lokal
 direkt die Datei geändert.
+
+---
+
+## Kartenbestellung & Gutschein-Anfrage (E-Mail-Versand)
+
+Beide Formulare schicken ihre Daten an `/api/anfrage`. Der Server versendet dann über den
+SMTP-Server von one.com (Postfach `kontakt@komoedie-leipzig.de`) zwei E-Mails:
+
+1. an **kontakt@komoedie-leipzig.de** – „Antworten“ geht direkt an den Kunden,
+2. an den **Kunden** – Eingangsbestätigung mit allen Angaben.
+
+Danach zeigt die Website „Vielen Dank! Ihre Bestellung wurde gesendet.“
+
+**Einrichtung (Cloudflare → Workers & Pages → `k-leipzig` → Settings → Variables and Secrets):**
+
+| Name | Typ | Wert |
+|---|---|---|
+| `SMTP_PASSWORD` | Secret | Passwort des Postfachs kontakt@komoedie-leipzig.de |
+| `SMTP_USER` | Text (optional) | Standard `kontakt@komoedie-leipzig.de` |
+| `SMTP_HOST` | Text (optional) | Standard `send.one.com` |
+| `SMTP_PORT` | Text (optional) | Standard `465` (SSL); alternativ `587` |
+| `MAIL_TO` | Text (optional) | Empfänger der Bestellungen, Standard `kontakt@komoedie-leipzig.de` |
+
+Wird das Postfach-Passwort bei one.com geändert, muss `SMTP_PASSWORD` hier ebenfalls
+geändert werden – sonst schlagen Bestellungen fehl (die Website zeigt dann eine Fehlermeldung
+mit Telefonnummer und E-Mail-Adresse als Ausweg).
+
+Lokal (`npm run dev`) ohne `SMTP_PASSWORD` werden die Mails nur in der Konsole ausgegeben.

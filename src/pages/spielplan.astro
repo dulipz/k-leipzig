@@ -188,6 +188,8 @@ const langDatum = (iso: string) =>
               <input type="hidden" id="f-stueck" />
               <input type="hidden" id="f-datum" />
               <input type="hidden" id="f-uhrzeit" />
+              <!-- Spam-Falle: für Menschen unsichtbar -->
+              <div class="b-hp" aria-hidden="true"><label>Website <input type="text" id="f-website" tabindex="-1" autocomplete="off" /></label></div>
 
               <div class="b-field">
                 <label for="f-anzahl">Anzahl Tickets</label>
@@ -227,10 +229,19 @@ const langDatum = (iso: string) =>
               </div>
 
               <div class="b-submit">
+                <p class="b-fehler" id="f-fehler" role="alert" hidden></p>
                 <button type="submit" class="btn btn-amber" id="f-send" disabled>Karten verbindlich bestellen →</button>
                 <p class="b-privacy">Ihre Bestellung wird per E-Mail an uns gesendet. Keine Weitergabe an Dritte.</p>
               </div>
             </form>
+
+            <div class="b-danke" id="b-danke" hidden>
+              <div class="b-danke-icon" aria-hidden="true">✓</div>
+              <h4>Vielen Dank! Ihre Bestellung wurde gesendet.</h4>
+              <p>Eine Bestätigung ist unterwegs an <b id="b-danke-mail"></b>. Wir melden uns in Kürze mit allen Details zur Bezahlung bei Ihnen.</p>
+              <p class="b-danke-klein">Keine E-Mail erhalten? Bitte auch im Spam-Ordner nachsehen oder rufen Sie uns an: <a href="tel:+491791437331">0179 1437331</a>.</p>
+              <button type="button" class="btn btn-amber" id="b-danke-ok">Schließen</button>
+            </div>
           </dialog>
         </>
       )}
@@ -314,6 +325,18 @@ const langDatum = (iso: string) =>
   }
   .b-chosen[data-empty="true"] { color: var(--cream-dim); background: rgba(0,0,0,.18); border-color: var(--line); font-weight: 500; }
   .b-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .b-form[hidden], .b-chosen[hidden], .b-danke[hidden] { display: none !important; }
+  .b-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .b-fehler { color: #ffb3ba; background: rgba(224, 82, 95, .16); border: 1px solid rgba(224, 82, 95, .45); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; margin-bottom: 14px; }
+  .b-fehler a { color: inherit; text-decoration: underline; }
+  .b-danke { text-align: center; padding: 18px 4px 6px; }
+  .b-danke-icon { width: 56px; height: 56px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font-size: 28px; font-weight: 800; color: var(--wine-deep); background: var(--amber); }
+  .b-danke h4 { font-family: var(--display); font-weight: 900; font-size: 22px; margin-bottom: 10px; }
+  .b-danke p { color: var(--cream-dim); margin: 0 auto 10px; max-width: 460px; }
+  .b-danke p b { color: var(--cream); }
+  .b-danke .b-danke-klein { font-size: 14px; }
+  .b-danke .b-danke-klein a { color: var(--amber); }
+  .b-danke .btn { margin-top: 10px; }
   .b-field { display: flex; flex-direction: column; gap: 7px; }
   .b-field-full { grid-column: 1 / -1; }
   .b-field label { font-size: 14px; font-weight: 600; color: var(--cream); }
@@ -438,6 +461,15 @@ const langDatum = (iso: string) =>
   }
   const closeBtn = document.getElementById('b-close');
   if (closeBtn) closeBtn.addEventListener('click', schliessen);
+  document.getElementById('b-danke-ok')?.addEventListener('click', schliessen);
+  if (modal) modal.addEventListener('close', () => {
+    const danke = document.getElementById('b-danke');
+    if (danke && !danke.hidden) {
+      danke.hidden = true;
+      if (form) form.hidden = false;
+      if (chosen) chosen.hidden = false;
+    }
+  });
 
   // Vorstellung auswählen
   document.querySelectorAll('.b-reserve').forEach((btn) => {
@@ -485,25 +517,42 @@ const langDatum = (iso: string) =>
       const tel = (document.getElementById('f-tel')).value.trim();
       const msg = (document.getElementById('f-msg')).value.trim();
 
-      const subject = `Kartenbestellung: ${fStueck.value} am ${fDatum.value}`;
-      const body =
-        `Hallo Komödie Leipzig,\n\n` +
-        `ich bestelle hiermit Karten für folgende Vorstellung:\n\n` +
-        `Stück: ${fStueck.value}\n` +
-        `Datum: ${fDatum.value}\n` +
-        `Uhrzeit: ${fUhrzeit.value} Uhr\n` +
-        `Spielort: ${fOrt.value || '-'}\n` +
-        `Anzahl Tickets: ${anzahl}\n\n` +
-        `Name: ${name}\n` +
-        `E-Mail: ${mail}\n` +
-        `Telefon: ${tel || '-'}\n\n` +
-        `Anschrift für den Ticketversand:\n${name}\n${strasse}\n${plz} ${stadt}\n\n` +
-        `Nachricht: ${msg || '-'}\n\n` +
-        `Mit freundlichen Grüßen\n${name}`;
+      const fehlerEl = document.getElementById('f-fehler');
+      const danke = document.getElementById('b-danke');
+      const btnText = sendBtn ? sendBtn.textContent : '';
+      if (fehlerEl) fehlerEl.hidden = true;
+      if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = 'Wird gesendet …'; }
 
-      window.location.href =
-        `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      setTimeout(schliessen, 600);
+      fetch('/api/anfrage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          typ: 'karten',
+          stueck: fStueck.value, datum: fDatum.value, uhrzeit: fUhrzeit.value, ort: fOrt.value,
+          anzahl, name, email: mail, tel, strasse, plz, stadt: stadt, msg,
+          website: (document.getElementById('f-website')).value,
+        }),
+      })
+        .then(async (res) => {
+          const j = await res.json().catch(() => ({}));
+          if (!res.ok || !j.ok) throw new Error(j.fehler || 'Die Bestellung konnte nicht gesendet werden.');
+          // Danke-Ansicht zeigen
+          form.hidden = true;
+          if (chosen) chosen.hidden = true;
+          const dm = document.getElementById('b-danke-mail');
+          if (dm) dm.textContent = mail;
+          if (danke) danke.hidden = false;
+          form.reset();
+        })
+        .catch((err) => {
+          if (fehlerEl) {
+            fehlerEl.innerHTML = `${err.message} Bitte versuchen Sie es noch einmal oder bestellen Sie telefonisch unter <a href="tel:+491791437331">0179 1437331</a> bzw. per E-Mail an <a href="mailto:${email}">${email}</a>.`;
+            fehlerEl.hidden = false;
+          }
+        })
+        .finally(() => {
+          if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = btnText; }
+        });
     });
   }
 </script>
