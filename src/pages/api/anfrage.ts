@@ -6,8 +6,6 @@ export const prerender = false;
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
 
-const TEL = '0179 1437331';
-const GRUSS = `Herzliche Grüße\nIhre Komödie Leipzig\n\nKleine Komödie Reuden · Dorfstraße 23 · 06766 Reuden an der Fuhne\nkontakt@komoedie-leipzig.de · ${TEL}\nhttps://www.komoedie-leipzig.de`;
 
 /** Text bereinigen und kürzen (keine Zeilenumbrüche in einzeiligen Feldern) */
 const f = (v: unknown, max = 120) => String(v ?? '').replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
@@ -16,8 +14,8 @@ const mailOk = (m: string) => /^[^\s@<>()",;]+@[^\s@<>()",;]+\.[a-z]{2,}$/i.test
 
 /**
  * Kartenbestellung und Gutschein-Anfrage.
- * Schickt die Anfrage an kontakt@ (Antworten gehen direkt an den Kunden)
- * und eine Eingangsbestätigung an den Kunden.
+ * Schickt die Anfrage nur an kontakt@ („Antworten“ geht direkt an den Kunden).
+ * Die Bestätigung an den Kunden verschickt die Komödie selbst.
  */
 export const POST: APIRoute = async ({ request, locals }) => {
   const origin = request.headers.get('origin');
@@ -36,7 +34,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   if (!mailOk(email)) return json({ fehler: 'Bitte geben Sie eine gültige E-Mail-Adresse an.' }, 400);
 
   const env = mailEnv(locals);
-  let anUns: Mail, anKunde: Mail;
+  let anUns: Mail;
 
   if (b?.typ === 'karten') {
     const stueck = f(b.stueck), datum = f(b.datum, 60), uhrzeit = f(b.uhrzeit, 10), ort = f(b.ort, 120);
@@ -56,15 +54,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       subject: `Kartenbestellung: ${stueck} am ${datum} (${anzahl} × ${name})`,
       text: `Neue Kartenbestellung über die Website:\n\n${details}\n\n– „Antworten“ geht direkt an ${email}.`,
     };
-    anKunde = {
-      to: email,
-      replyTo: env.MAIL_TO,
-      subject: `Ihre Kartenbestellung: ${stueck} am ${datum}`,
-      text:
-        `Guten Tag ${name},\n\nvielen Dank für Ihre Kartenbestellung! Folgende Angaben haben wir erhalten:\n\n${details}\n\n` +
-        `Wir melden uns in Kürze mit der Bestätigung und den Details zur Bezahlung bei Ihnen.\n` +
-        `Bei Fragen antworten Sie einfach auf diese E-Mail oder rufen Sie uns an: ${TEL}.\n\n${GRUSS}`,
-    };
   } else if (b?.typ === 'gutschein') {
     const betrag = f(b.betrag, 20), anzahl = f(b.anzahl, 10), gesamt = f(b.gesamt, 30), zustellung = f(b.zustellung, 80);
     const fuer = f(b.fuer, 80), von = f(b.von, 80), text = lang(b.text, 300);
@@ -83,21 +72,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       subject: `Gutschein-Anfrage: ${anzahl} × ${betrag} (${name})`,
       text: `Neue Gutschein-Anfrage über die Website:\n\n${details}\n\n– „Antworten“ geht direkt an ${email}.`,
     };
-    anKunde = {
-      to: email,
-      replyTo: env.MAIL_TO,
-      subject: 'Ihre Gutschein-Anfrage bei der Komödie Leipzig',
-      text:
-        `Guten Tag ${name},\n\nvielen Dank für Ihre Gutschein-Anfrage! Folgende Angaben haben wir erhalten:\n\n${details}\n\n` +
-        `Wir melden uns in Kürze mit der Bestätigung und den Details zur Bezahlung bei Ihnen.\n` +
-        `Bei Fragen antworten Sie einfach auf diese E-Mail oder rufen Sie uns an: ${TEL}.\n\n${GRUSS}`,
-    };
   } else {
     return json({ fehler: 'Ungültige Anfrage.' }, 400);
   }
 
   try {
-    await mailsSenden(env, [anUns, anKunde]);
+    await mailsSenden(env, [anUns]);
     return json({ ok: true });
   } catch (e) {
     console.error('Mailversand fehlgeschlagen:', e);

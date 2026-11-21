@@ -126,10 +126,9 @@ direkt die Datei geändert.
 ## Kartenbestellung & Gutschein-Anfrage (E-Mail-Versand)
 
 Beide Formulare schicken ihre Daten an `/api/anfrage`. Der Server versendet dann über den
-SMTP-Server von one.com (Postfach `kontakt@komoedie-leipzig.de`) zwei E-Mails:
-
-1. an **kontakt@komoedie-leipzig.de** – „Antworten“ geht direkt an den Kunden,
-2. an den **Kunden** – Eingangsbestätigung mit allen Angaben.
+SMTP-Server von one.com (Postfach `kontakt@komoedie-leipzig.de`) eine E-Mail an
+**kontakt@komoedie-leipzig.de** – „Antworten“ geht direkt an den Kunden. Der Kunde bekommt
+**keine** automatische E-Mail; die Bestätigung verschickt die Komödie selbst.
 
 Danach zeigt die Website „Vielen Dank! Ihre Bestellung wurde gesendet.“
 
