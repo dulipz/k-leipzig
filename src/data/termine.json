@@ -747,7 +747,8 @@
       "art": "dinner",
       "preis": 84.9,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 10
     },
     {
       "produktion": "mit-66-jahren",
