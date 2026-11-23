@@ -921,7 +921,8 @@
       "art": "theater",
       "preis": 34,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 28
     },
     {
       "produktion": "drei-haselnuesse",
