@@ -126,8 +126,8 @@ direkt die Datei geändert.
 ## Kartenbestellung & Gutschein-Anfrage (E-Mail-Versand)
 
 Beide Formulare schicken ihre Daten an `/api/anfrage`. Der Server versendet dann über den
-SMTP-Server von one.com (Postfach `kontakt@komoedie-leipzig.de`) eine E-Mail an
-**kontakt@komoedie-leipzig.de** – „Antworten“ geht direkt an den Kunden. Der Kunde bekommt
+SMTP-Server von one.com (Postfach `shop@komoedie-leipzig.de`) eine E-Mail an
+**shop@komoedie-leipzig.de** – „Antworten“ geht direkt an den Kunden. Der Kunde bekommt
 **keine** automatische E-Mail; die Bestätigung verschickt die Komödie selbst.
 
 Danach zeigt die Website „Vielen Dank! Ihre Bestellung wurde gesendet.“
@@ -136,11 +136,11 @@ Danach zeigt die Website „Vielen Dank! Ihre Bestellung wurde gesendet.“
 
 | Name | Typ | Wert |
 |---|---|---|
-| `SMTP_PASSWORD` | Secret | Passwort des Postfachs kontakt@komoedie-leipzig.de |
-| `SMTP_USER` | Text (optional) | Standard `kontakt@komoedie-leipzig.de` |
+| `SMTP_PASSWORD` | Secret | Passwort des Postfachs shop@komoedie-leipzig.de |
+| `SMTP_USER` | in `wrangler.jsonc` | `shop@komoedie-leipzig.de` (Absender & Login) |
 | `SMTP_HOST` | Text (optional) | Standard `send.one.com` |
 | `SMTP_PORT` | Text (optional) | Standard `465` (SSL); alternativ `587` |
-| `MAIL_TO` | Text (optional) | Empfänger der Bestellungen, Standard `kontakt@komoedie-leipzig.de` |
+| `MAIL_TO` | in `wrangler.jsonc` | Empfänger der Bestellungen: `shop@komoedie-leipzig.de` |
 
 Wird das Postfach-Passwort bei one.com geändert, muss `SMTP_PASSWORD` hier ebenfalls
 geändert werden – sonst schlagen Bestellungen fehl (die Website zeigt dann eine Fehlermeldung

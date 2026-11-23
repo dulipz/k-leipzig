@@ -8,5 +8,10 @@
     "binding": "ASSETS",
     "directory": "dist"
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // E-Mail-Versand der Bestellformulare (Passwort als Secret SMTP_PASSWORD im Dashboard)
+  "vars": {
+    "SMTP_USER": "shop@komoedie-leipzig.de",
+    "MAIL_TO": "shop@komoedie-leipzig.de"
+  }
 }
