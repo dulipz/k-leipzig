@@ -589,7 +589,8 @@
       "art": "theater",
       "preis": 34,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 50
     },
     {
       "produktion": "mit-66-jahren",
