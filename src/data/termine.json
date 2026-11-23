@@ -811,7 +811,8 @@
       "art": "dinner",
       "preis": 89,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 10
     },
     {
       "produktion": "eine-weihnachtsgeschichte",
