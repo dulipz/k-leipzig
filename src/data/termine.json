@@ -328,7 +328,8 @@
       "art": "dinner",
       "preis": 95,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 10
     },
     {
       "produktion": "drei-haselnuesse",
