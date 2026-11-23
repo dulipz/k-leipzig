@@ -47,6 +47,7 @@ if (angemeldet) {
         o: t.ort ?? '',
         a: t.art ?? 'theater',
         s: t.status ?? 'verfuegbar',
+        p: typeof t.plaetze === 'number' ? t.plaetze : null,
       }))
       .filter((x) => x.d >= heute)
       .sort((a, b) => (a.d + a.u).localeCompare(b.d + b.u));
@@ -105,7 +106,7 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
         {ladeFehler && <p class="err big">{ladeFehler}</p>}
         <div data-panel="schalter">
           <main id="out"></main>
-          <p class="hint">Änderungen sind sofort gespeichert und erscheinen nach ca. 2 Minuten auf der Website.</p>
+          <p class="hint"><b>Freie Plätze:</b> Zahl eintragen und bei jeder Bestellung mit − verringern. Bei 0 wird die Vorstellung automatisch ausverkauft. Leer lassen = nicht zählen.<br />Änderungen werden nach 2 Sekunden gespeichert und erscheinen nach ca. 2 Minuten auf der Website.</p>
         </div>
 
         <!-- TERMINE EINTRAGEN -->
@@ -195,7 +196,7 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
 <script>
   const el = document.getElementById('sh-data');
   if (el) {
-    type Item = { idx: number; key: string; d: string; u: string; t: string; o: string; a: string; s: string };
+    type Item = { idx: number; key: string; d: string; u: string; t: string; o: string; a: string; s: string; p: number | null };
     const { items, heute } = JSON.parse(el.textContent || '{}') as { items: Item[]; heute: string };
     (window as any).__zeige = (html: string, fehler = false) => zeige(html, false, fehler);
     const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
@@ -241,7 +242,13 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
             const d = dt(x.d), on = x.s === 'ausverkauft';
             return `<div class="row${on ? ' is-sold' : ''}${pending.has(x.idx) ? ' is-busy' : ''}">
               <div class="date"><div class="wd">${WD[d.getDay()]}</div><div class="d">${d.getDate()}.</div><div class="t">${x.u}</div></div>
-              <div class="info"><b>${esc(x.t)}</b><div class="o"><span class="tag">${x.a === 'dinner' ? 'Dinner' : 'Theater'}</span>${esc(x.o)}</div></div>
+              <div class="info"><b>${esc(x.t)}</b><div class="o"><span class="tag">${x.a === 'dinner' ? 'Dinner' : 'Theater'}</span>${esc(x.o)}</div>
+                <div class="cnt${x.p === 0 ? ' is-null' : ''}" data-idx="${x.idx}">
+                  <button type="button" class="cm" data-idx="${x.idx}" aria-label="Ein Platz weniger" ${x.p === null || x.p === 0 ? 'disabled' : ''}>−</button>
+                  <input class="cv" type="number" inputmode="numeric" min="0" max="9999" placeholder="–" value="${x.p ?? ''}" data-idx="${x.idx}" aria-label="Freie Plätze ${esc(x.t)} am ${kurz(x)}" />
+                  <button type="button" class="cp" data-idx="${x.idx}" aria-label="Ein Platz mehr">+</button>
+                  <span class="cl">freie Plätze</span><span class="cs" data-idx="${x.idx}"></span>
+                </div></div>
               <button class="sw" role="switch" aria-checked="${on}" data-idx="${x.idx}" ${pending.has(x.idx) ? 'disabled' : ''} aria-label="${esc(x.t)} am ${kurz(x)} ausverkauft">
                 <span class="track"></span><span class="label">${on ? 'Ausverkauft' : 'Karten frei'}</span>
               </button></div>`;
@@ -278,6 +285,79 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
         pending.delete(x.idx); render();
       }
     }
+
+    // ---- Ticket-Zähler: Klicks sammeln, 2 s nach dem letzten Klick einmal speichern ----
+    const zTimer = new Map<number, number>();
+    const gespeichert = new Map<number, number | null>(items.map((x) => [x.idx, x.p]));
+    const zeile = (idx: number) => out.querySelector<HTMLElement>(`.cnt[data-idx="${idx}"]`);
+    function zAnzeigen(x: Item, hinweis = '') {
+      const c = zeile(x.idx);
+      if (!c) return;
+      const inp = c.querySelector<HTMLInputElement>('.cv')!;
+      if (document.activeElement !== inp) inp.value = x.p === null ? '' : String(x.p);
+      c.querySelector<HTMLButtonElement>('.cm')!.disabled = x.p === null || x.p === 0;
+      c.classList.toggle('is-null', x.p === 0);
+      c.querySelector<HTMLElement>('.cs')!.textContent = hinweis;
+    }
+    function zPlanen(x: Item) {
+      clearTimeout(zTimer.get(x.idx));
+      zAnzeigen(x, x.p === gespeichert.get(x.idx) ? '' : '…');
+      zTimer.set(x.idx, window.setTimeout(() => zSpeichern(x), 2000));
+    }
+    async function zSpeichern(x: Item) {
+      zTimer.delete(x.idx);
+      const wert = x.p;
+      if (wert === gespeichert.get(x.idx)) { zAnzeigen(x); return; }
+      zAnzeigen(x, 'speichert …');
+      try {
+        const res = await fetch('/sinahamala/plaetze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: x.key, idx: x.idx, plaetze: wert }),
+        });
+        const j = await res.json().catch(() => ({}));
+        if (res.status === 401) { location.reload(); return; }
+        if (!res.ok) throw new Error(j.fehler || 'Speichern fehlgeschlagen.');
+        gespeichert.set(x.idx, wert);
+        const statusAlt = x.s;
+        x.s = j.status || x.s;
+        if (x.s !== statusAlt) {
+          render();
+          zeige(`<b>${esc(x.t)}, ${kurz(x)}</b> ist jetzt ${x.s === 'ausverkauft' ? '<b>ausverkauft</b> (0 Plätze)' : '<b>wieder buchbar</b>'}.<small>Gespeichert · auf der Website in ca. 2 Minuten sichtbar</small>`, false);
+        } else if (x.p === wert) {
+          zAnzeigen(x, '✓');
+          window.setTimeout(() => { if (x.p === wert) zAnzeigen(x); }, 2500);
+        }
+      } catch (e) {
+        zAnzeigen(x, '');
+        zeige(`<b>Plätze nicht gespeichert.</b><small>${esc((e as Error).message)}</small>`, false, true);
+      }
+    }
+    out.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.cm, .cp');
+      if (!btn) return;
+      const x = items.find((i) => i.idx === Number(btn.dataset.idx));
+      if (!x) return;
+      const plus = btn.classList.contains('cp');
+      x.p = plus ? (x.p ?? 0) + 1 : Math.max(0, (x.p ?? 0) - 1);
+      zPlanen(x);
+    });
+    out.addEventListener('input', (e) => {
+      const inp = e.target as HTMLInputElement;
+      if (!inp.classList.contains('cv')) return;
+      const x = items.find((i) => i.idx === Number(inp.dataset.idx));
+      if (!x) return;
+      const v = inp.value.trim();
+      const n = Math.round(Number(v));
+      x.p = v === '' ? null : Number.isFinite(n) ? Math.min(9999, Math.max(0, n)) : x.p;
+      zPlanen(x);
+    });
+    out.addEventListener('focusout', (e) => {
+      const inp = e.target as HTMLInputElement;
+      if (!inp.classList?.contains('cv')) return;
+      const x = items.find((i) => i.idx === Number(inp.dataset.idx));
+      if (x) zAnzeigen(x, zTimer.has(x.idx) ? '…' : '');
+    });
 
     out.addEventListener('click', (e) => {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.sw');
@@ -662,6 +742,16 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
   .info b { display: block; font-weight: 600; font-size: 15px; line-height: 1.3; }
   .info .o { font-size: 13px; color: var(--cream-dim); margin-top: 3px; line-height: 1.35; }
   .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 6px; padding: 2px 6px; margin-right: 6px; background: var(--wine-soft); color: var(--amber-bright); vertical-align: 1px; }
+  /* Ticket-Zähler */
+  .cnt { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .cnt button { font: inherit; font-size: 18px; font-weight: 700; line-height: 1; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--wine-soft); color: var(--cream); cursor: pointer; display: grid; place-items: center; padding: 0; }
+  .cnt button:disabled { opacity: .35; cursor: default; }
+  .cnt .cv { width: 62px; height: 34px; font: inherit; font-size: 16px; font-weight: 700; text-align: center; color: var(--cream); background: var(--wine-deep); border: 1px solid var(--line); border-radius: 10px; padding: 0 4px; -moz-appearance: textfield; }
+  .cnt .cv::-webkit-outer-spin-button, .cnt .cv::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .cnt .cv::placeholder { color: var(--cream-dim); opacity: .6; }
+  .cnt.is-null .cv { color: #ffb3ba; border-color: rgba(224, 82, 95, .55); }
+  .cnt .cl { font-size: 12px; color: var(--cream-dim); }
+  .cnt .cs { font-size: 12px; color: var(--amber); min-width: 1em; }
   .sw { font: inherit; cursor: pointer; border: 0; border-radius: 12px; min-width: 104px; padding: 10px; font-size: 13px; font-weight: 700; display: grid; justify-items: center; gap: 6px; background: var(--ok-bg); color: var(--ok); }
   .sw:disabled { cursor: progress; }
   .sw .track { width: 46px; height: 26px; border-radius: 999px; background: rgba(111, 207, 151, .35); position: relative; transition: background .2s; }

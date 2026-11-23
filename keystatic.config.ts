@@ -141,6 +141,11 @@ export default config({
               ],
               defaultValue: 'verfuegbar',
             }),
+            plaetze: fields.integer({
+              label: 'Freie Plätze',
+              description: 'Optional – wird im Ausverkauft-Schalter (/sinahamala) mit + / − gepflegt. Bei 0 automatisch ausverkauft.',
+              validation: { min: 0 },
+            }),
             ticketUrl: fields.url({ label: 'Ticket-Link (optional)' }),
           }),
           {

@@ -94,6 +94,12 @@ gespeichert (nur die eine Status-Zeile) → Cloudflare baut neu → nach ca. 2 M
 
 Passwort ändern = Secret ändern → alle Geräte sind abgemeldet.
 
+**Ticket-Zähler (freie Plätze):** In jeder Zeile `− [Zahl] +`. Zahl einmal eintragen und bei
+jeder Bestellung mit − verringern. Mehrere Klicks werden gesammelt und 2 Sekunden nach dem letzten
+Klick als **ein** Commit gespeichert (Feld `plaetze` in `termine.json`, auch in Keystatic sichtbar).
+Bei **0** wird die Vorstellung automatisch **ausverkauft**, geht der Zähler wieder hoch, wieder
+**buchbar**. Leeres Feld = Zähler aus.
+
 **Weitere Tabs auf derselben Seite:**
 
 - **Termine eintragen:** Stück wählen, Spielort (Vorschläge aus bisherigen Orten), Art, Preis,

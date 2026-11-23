@@ -67,6 +67,8 @@ const termine = defineCollection({
     // Preis pro Person in € (leer = auf Anfrage)
     preis: z.number().nullish(),
     status: z.enum(['verfuegbar', 'ausverkauft']).default('verfuegbar'),
+    // Freie Plätze (Zähler im Ausverkauft-Schalter /sinahamala); leer = nicht gezählt
+    plaetze: z.number().int().min(0).nullish(),
     ticketUrl: z.string().nullish(),
   }),
 });

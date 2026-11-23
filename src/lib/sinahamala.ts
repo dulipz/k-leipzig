@@ -23,6 +23,7 @@ export interface Termin {
   ort?: string | null;
   art?: string | null;
   status?: Status;
+  plaetze?: number | null;
   [k: string]: unknown;
 }
 interface Env {
@@ -410,4 +411,20 @@ export function bildPruefen(roh: unknown): string {
   try { kopf = atob(bild.slice(0, 8)); } catch { throw new SpeicherFehler('Das Bild konnte nicht gelesen werden.'); }
   if (kopf.charCodeAt(0) !== 0xff || kopf.charCodeAt(1) !== 0xd8) throw new SpeicherFehler('Bitte ein JPG- oder PNG-Bild wählen.');
   return bild;
+}
+
+// ---------- Ticket-Zähler (freie Plätze) ----------
+
+/**
+ * Setzt die freien Plätze einer Vorstellung. 0 → automatisch ausverkauft,
+ * von 0 wieder hoch → automatisch wieder buchbar. null = Zähler aus.
+ */
+export function plaetzeSetzen(termine: Termin[], idx: number, plaetze: number | null): { text: string; status: Status } {
+  const kopie = termine.map((t) => ({ ...t }));
+  const t = kopie[idx];
+  const vorher = typeof t.plaetze === 'number' ? t.plaetze : null;
+  if (plaetze === null) delete t.plaetze; else t.plaetze = plaetze;
+  if (plaetze === 0) t.status = 'ausverkauft';
+  else if (plaetze !== null && plaetze > 0 && vorher === 0) t.status = 'verfuegbar';
+  return { text: serialisieren(kopie), status: (t.status ?? 'verfuegbar') as Status };
 }
