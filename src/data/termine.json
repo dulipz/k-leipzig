@@ -2822,6 +2822,16 @@
       "preis": 34,
       "status": "verfuegbar",
       "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-10-23",
+      "uhrzeit": "19:30",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34,
+      "status": "verfuegbar",
+      "ticketUrl": null
     }
   ]
 }
