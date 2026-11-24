@@ -2792,6 +2792,16 @@
       "preis": 112,
       "status": "verfuegbar",
       "ticketUrl": null
+    },
+    {
+      "produktion": "mit-66-jahren",
+      "datum": "2027-09-19",
+      "uhrzeit": "18:00",
+      "ort": "Kleine Komödie, Reuden an der Fuhne",
+      "art": "theater",
+      "preis": 34,
+      "status": "verfuegbar",
+      "ticketUrl": null
     }
   ]
 }
