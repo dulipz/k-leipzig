@@ -1231,7 +1231,8 @@
       "art": "dinner",
       "preis": 89,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 20
     },
     {
       "produktion": "gastspiel-lesung-wechseljahre",
