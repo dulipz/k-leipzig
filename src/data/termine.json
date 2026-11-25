@@ -1951,7 +1951,8 @@
       "art": "dinner",
       "preis": 115,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 20
     },
     {
       "produktion": "go-trabi-go",
