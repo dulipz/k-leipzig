@@ -1544,16 +1544,6 @@
       "ticketUrl": null
     },
     {
-      "produktion": "go-trabi-go",
-      "datum": "2027-04-11",
-      "uhrzeit": "18:30",
-      "ort": "Schlossrestaurant Hundisburg",
-      "art": "dinner",
-      "preis": 94,
-      "status": "verfuegbar",
-      "ticketUrl": null
-    },
-    {
       "produktion": "die-hexe-baba-jaga",
       "datum": "2027-04-16",
       "uhrzeit": "18:00",
