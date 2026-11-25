@@ -48,6 +48,8 @@ if (angemeldet) {
         a: t.art ?? 'theater',
         s: t.status ?? 'verfuegbar',
         p: typeof t.plaetze === 'number' ? t.plaetze : null,
+        pid: t.produktion,
+        pr: typeof t.preis === 'number' ? t.preis : null,
       }))
       .filter((x) => x.d >= heute)
       .sort((a, b) => (a.d + a.u).localeCompare(b.d + b.u));
@@ -196,8 +198,9 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
 <script>
   const el = document.getElementById('sh-data');
   if (el) {
-    type Item = { idx: number; key: string; d: string; u: string; t: string; o: string; a: string; s: string; p: number | null };
-    const { items, heute } = JSON.parse(el.textContent || '{}') as { items: Item[]; heute: string };
+    type Item = { idx: number; key: string; d: string; u: string; t: string; o: string; a: string; s: string; p: number | null; pid: string; pr: number | null };
+    const { items, heute, stuecke: alleStuecke, bis: spaetestens } = JSON.parse(el.textContent || '{}') as { items: Item[]; heute: string; stuecke: { id: string; t: string }[]; bis: string };
+    let editIdx: number | null = null;
     (window as any).__zeige = (html: string, fehler = false) => zeige(html, false, fehler);
     const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
     const MON = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
@@ -227,6 +230,48 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
       return true;
     }
 
+    function editForm(x: Item) {
+      const opt = (alleStuecke || []).map((st) => `<option value="${esc(st.id)}"${st.id === x.pid ? ' selected' : ''}>${esc(st.t)}</option>`).join('');
+      return `<form class="edit" data-idx="${x.idx}" novalidate>
+        <label class="ef ef-full"><span>Stück</span><select name="produktion">${opt}</select></label>
+        <label class="ef"><span>Datum</span><input name="datum" type="date" min="${heute}" max="${spaetestens}" value="${x.d}" required /></label>
+        <label class="ef"><span>Uhrzeit</span><input name="uhrzeit" type="time" step="300" value="${x.u}" required /></label>
+        <label class="ef ef-full"><span>Spielort</span><input name="ort" list="orte" value="${esc(x.o)}" required autocomplete="off" /></label>
+        <label class="ef"><span>Art</span><select name="art"><option value="theater"${x.a !== 'dinner' ? ' selected' : ''}>Theaterabend</option><option value="dinner"${x.a === 'dinner' ? ' selected' : ''}>Dinner-Show</option></select></label>
+        <label class="ef"><span>Preis (€)</span><input name="preis" type="number" min="0" max="999" step="0.5" inputmode="decimal" placeholder="auf Anfrage" value="${x.pr ?? ''}" /></label>
+        <p class="ef-err ef-full" hidden></p>
+        <div class="ef-btns ef-full">
+          <button type="submit" class="ef-save">Speichern</button>
+          <button type="button" class="ef-cancel">Abbrechen</button>
+          <button type="button" class="ef-del">Termin löschen</button>
+        </div>
+        <div class="ef-confirm ef-full" hidden>
+          <p><b>Diese Vorstellung wirklich löschen?</b> ${esc(x.t)}, ${kurz(x)} ${x.u} Uhr – das kann hier nicht rückgängig gemacht werden.</p>
+          <div class="ef-btns"><button type="button" class="ef-del-no">Abbrechen</button><button type="button" class="ef-del-ok">Endgültig löschen</button></div>
+        </div>
+      </form>`;
+    }
+
+    async function terminAktion(x: Item, form: HTMLFormElement, body: Record<string, unknown>) {
+      const err = form.querySelector<HTMLElement>('.ef-err')!;
+      err.hidden = true;
+      form.querySelectorAll('button').forEach((b) => (b.disabled = true));
+      try {
+        const res = await fetch('/sinahamala/termin', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: x.key, idx: x.idx, ...body }),
+        });
+        const j = await res.json().catch(() => ({}));
+        if (res.status === 401) { location.reload(); return null; }
+        if (!res.ok) throw new Error(j.fehler || 'Speichern fehlgeschlagen.');
+        return j;
+      } catch (e) {
+        err.textContent = (e as Error).message; err.hidden = false;
+        form.querySelectorAll('button').forEach((b) => (b.disabled = false));
+        return null;
+      }
+    }
+
     function render() {
       const list = items.filter(visible);
       if (!list.length) {
@@ -248,7 +293,9 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
                   <input class="cv" type="number" inputmode="numeric" min="0" max="9999" placeholder="–" value="${x.p ?? ''}" data-idx="${x.idx}" aria-label="Freie Plätze ${esc(x.t)} am ${kurz(x)}" />
                   <button type="button" class="cp" data-idx="${x.idx}" aria-label="Ein Platz mehr">+</button>
                   <span class="cl">freie Plätze</span><span class="cs" data-idx="${x.idx}"></span>
+                  <button type="button" class="ed" data-idx="${x.idx}" aria-expanded="${editIdx === x.idx}">${editIdx === x.idx ? 'Schließen' : '✎ Bearbeiten'}</button>
                 </div></div>
+              ${editIdx === x.idx ? editForm(x) : ''}
               <button class="sw" role="switch" aria-checked="${on}" data-idx="${x.idx}" ${pending.has(x.idx) ? 'disabled' : ''} aria-label="${esc(x.t)} am ${kurz(x)} ausverkauft">
                 <span class="track"></span><span class="label">${on ? 'Ausverkauft' : 'Karten frei'}</span>
               </button></div>`;
@@ -333,6 +380,54 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
         zeige(`<b>Plätze nicht gespeichert.</b><small>${esc((e as Error).message)}</small>`, false, true);
       }
     }
+    // ---- Termin bearbeiten / löschen ----
+    out.addEventListener('click', async (e) => {
+      const t = e.target as HTMLElement;
+      const ed = t.closest<HTMLButtonElement>('.ed');
+      if (ed) {
+        const idx = Number(ed.dataset.idx);
+        editIdx = editIdx === idx ? null : idx;
+        render();
+        if (editIdx !== null) out.querySelector<HTMLElement>(`.edit[data-idx="${idx}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        return;
+      }
+      const form = t.closest<HTMLFormElement>('.edit');
+      if (!form) return;
+      const x = items.find((i) => i.idx === Number(form.dataset.idx));
+      if (!x) return;
+      const conf = form.querySelector<HTMLElement>('.ef-confirm')!;
+      if (t.closest('.ef-cancel')) { editIdx = null; render(); return; }
+      if (t.closest('.ef-del')) { conf.hidden = false; return; }
+      if (t.closest('.ef-del-no')) { conf.hidden = true; return; }
+      if (t.closest('.ef-del-ok')) {
+        const j = await terminAktion(x, form, { aktion: 'loeschen' });
+        if (!j) return;
+        items.splice(items.indexOf(x), 1);
+        editIdx = null; render();
+        zeige(`<b>${esc(x.t)}, ${kurz(x)}</b> wurde gelöscht.<small>Auf der Website in ca. 2 Minuten verschwunden</small>`, false);
+      }
+    });
+    out.addEventListener('submit', async (e) => {
+      const form = (e.target as HTMLElement).closest<HTMLFormElement>('.edit');
+      if (!form) return;
+      e.preventDefault();
+      const x = items.find((i) => i.idx === Number(form.dataset.idx));
+      if (!x) return;
+      const v = (n: string) => (form.elements.namedItem(n) as HTMLInputElement).value.trim();
+      const neu = { produktion: v('produktion'), datum: v('datum'), uhrzeit: v('uhrzeit'), ort: v('ort'), art: v('art'), preis: v('preis') };
+      const err = form.querySelector<HTMLElement>('.ef-err')!;
+      if (!neu.datum || !neu.uhrzeit || !neu.ort) { err.textContent = 'Bitte Datum, Uhrzeit und Spielort ausfüllen.'; err.hidden = false; return; }
+      const j = await terminAktion(x, form, { aktion: 'bearbeiten', ...neu });
+      if (!j) return;
+      Object.assign(x, {
+        key: j.key, pid: neu.produktion, t: String(j.titel || x.t).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
+        d: neu.datum, u: neu.uhrzeit, o: neu.ort, a: neu.art, pr: neu.preis === '' ? null : Number(neu.preis),
+      });
+      items.sort((a, b) => (a.d + a.u).localeCompare(b.d + b.u));
+      editIdx = null; render();
+      zeige(`<b>${esc(x.t)}, ${kurz(x)} ${x.u} Uhr</b> gespeichert.<small>Auf der Website in ca. 2 Minuten sichtbar</small>`, false);
+    });
+
     out.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.cm, .cp');
       if (!btn) return;
@@ -742,6 +837,26 @@ const daten = JSON.stringify({ items, heute: heuteBerlin(), bis: SPAETESTES_DATU
   .info b { display: block; font-weight: 600; font-size: 15px; line-height: 1.3; }
   .info .o { font-size: 13px; color: var(--cream-dim); margin-top: 3px; line-height: 1.35; }
   .tag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 6px; padding: 2px 6px; margin-right: 6px; background: var(--wine-soft); color: var(--amber-bright); vertical-align: 1px; }
+  /* Termin bearbeiten */
+  .cnt .ed { width: auto; height: 34px; padding: 0 12px; margin-left: auto; font-size: 13px; font-weight: 600; color: var(--cream-dim); background: transparent; }
+  .cnt .ed[aria-expanded="true"] { color: var(--wine-deep); background: var(--amber); border-color: var(--amber); }
+  .edit { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 4px; padding: 14px; border-radius: 12px; background: var(--wine-deep); border: 1px solid var(--line); }
+  .ef { display: grid; gap: 4px; min-width: 0; }
+  .ef > span { font-size: 12px; font-weight: 600; color: var(--cream-dim); }
+  .ef input, .ef select { font: inherit; font-size: 15px; color: var(--cream); background: var(--row); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; width: 100%; min-width: 0; }
+  .ef input::-webkit-calendar-picker-indicator { filter: invert(.85); }
+  .ef-full { grid-column: 1 / -1; }
+  .ef-err { margin: 0; color: #ffb3ba; background: var(--sold-bg); border: 1px solid rgba(224, 82, 95, .45); border-radius: 10px; padding: 8px 10px; font-size: 13.5px; }
+  .ef-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ef-btns button { font: inherit; font-size: 14px; font-weight: 700; border-radius: 10px; padding: 9px 14px; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--cream-dim); }
+  .ef-btns .ef-save { background: var(--amber); color: var(--wine-deep); border-color: var(--amber); }
+  .ef-btns .ef-del { margin-left: auto; color: #ffb3ba; border-color: rgba(224, 82, 95, .5); }
+  .ef-btns .ef-del-ok { background: var(--sold); color: #fff; border-color: var(--sold); }
+  .ef-btns button:disabled { opacity: .55; cursor: progress; }
+  .ef-confirm { background: var(--sold-bg); border: 1px solid rgba(224, 82, 95, .45); border-radius: 10px; padding: 10px 12px; }
+  .ef-confirm p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+  .ef-confirm[hidden], .ef-err[hidden] { display: none; }
+  @media (max-width: 420px) { .edit { grid-template-columns: 1fr; } .ef-btns .ef-del { margin-left: 0; } }
   /* Ticket-Zähler */
   .cnt { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
   .cnt button { font: inherit; font-size: 18px; font-weight: 700; line-height: 1; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--wine-soft); color: var(--cream); cursor: pointer; display: grid; place-items: center; padding: 0; }

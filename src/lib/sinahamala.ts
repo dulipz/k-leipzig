@@ -428,3 +428,20 @@ export function plaetzeSetzen(termine: Termin[], idx: number, plaetze: number | 
   else if (plaetze !== null && plaetze > 0 && vorher === 0) t.status = 'verfuegbar';
   return { text: serialisieren(kopie), status: (t.status ?? 'verfuegbar') as Status };
 }
+
+// ---------- Einzelnen Termin bearbeiten / löschen ----------
+
+/** Ersetzt die Felder eines Termins (Status, Plätze usw. bleiben erhalten). */
+export function terminAendern(
+  termine: Termin[], idx: number,
+  f: { produktion: string; datum: string; uhrzeit: string; ort: string; art: string; preis: number | null }
+): string {
+  const kopie = termine.map((t) => ({ ...t }));
+  kopie[idx] = { ...kopie[idx], ...f };
+  return serialisieren(kopie);
+}
+
+/** Entfernt einen Termin. */
+export function terminLoeschen(termine: Termin[], idx: number): string {
+  return serialisieren(termine.filter((_, i) => i !== idx));
+}
