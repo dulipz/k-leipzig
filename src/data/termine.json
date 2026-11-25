@@ -1092,7 +1092,8 @@
       "art": "dinner",
       "preis": 95,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 20
     },
     {
       "produktion": "die-feuerzangenbowle",
