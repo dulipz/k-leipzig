@@ -2144,7 +2144,8 @@
       "art": "dinner",
       "preis": 112,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 76
     },
     {
       "produktion": "die-hexe-baba-jaga",
