@@ -1208,7 +1208,8 @@
       "art": "theater",
       "preis": 34,
       "status": "verfuegbar",
-      "ticketUrl": null
+      "ticketUrl": null,
+      "plaetze": 44
     },
     {
       "produktion": "go-trabi-go",
